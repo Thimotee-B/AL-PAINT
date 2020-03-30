@@ -1,0 +1,3 @@
+rotation + group/ungroup (sujet td)
+memento/originator/caretake a faire (pattern memento) pour undo/redo
+check le cloning pcq jsuis pas sûr 
