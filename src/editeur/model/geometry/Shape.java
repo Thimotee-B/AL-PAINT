@@ -19,9 +19,9 @@ public abstract class Shape implements IShape {
 
 
     public Shape(int x, int y, Point rotationCenter, Point translationCenter) {
-        this.position		   = new Point(x, y);
+        this.position          = new Point(x, y);
         this.translationCenter = translationCenter;
-        this.rotationCenter	   = rotationCenter;
+        this.rotationCenter    = rotationCenter;
         
         this.rotation = 0.0;
         
