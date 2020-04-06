@@ -1,4 +1,4 @@
-package editeur;
+package editeur.model.geometry.memento;
 
 public interface Originator {
 	Memento save();

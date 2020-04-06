@@ -1,8 +1,11 @@
-package editeur;
+package editeur.model.geometry;
 
 import java.io.Serializable;
 
-public interface IComponent extends Cloneable, Originator, Serializable {
+import editeur.model.geometry.base.Point;
+import editeur.model.geometry.memento.Originator;
+
+public interface IShape extends Cloneable, Originator, Serializable {
 	
 	public int getColorR();
 
@@ -24,12 +27,12 @@ public interface IComponent extends Cloneable, Originator, Serializable {
 
 	double getRotation();
 
-	void setRotation(double rotation);
+	void rotate(double rotation);
 	
 	Point getTranslationCenter();
 
 	Point getRotationCenter();
 
-	public Component clone();
+	public Shape clone();
 
 }

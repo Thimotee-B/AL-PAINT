@@ -1,34 +1,42 @@
-package editeur;
+package editeur.model.geometry;
 
-import java.util.List;
 
-public abstract class Component implements IComponent {
 
+import editeur.model.geometry.base.Point;
+import editeur.model.geometry.memento.Memento;
+
+public abstract class Shape implements IShape {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6832490922368244161L;
 	private Point position;
 	private double rotation;
 	private Point rotationCenter;
 	private Point translationCenter;
-	private int colorR;
-	private int colorG;
-	private int colorB;
+	private int r, g, b, alpha;
 
 
-	public Component(int x, int y, Point rotationCenter, Point translationCenter) {
-		position=new Point(x, y);
-		this.rotationCenter = rotationCenter;
+	public Shape(int x, int y, Point rotationCenter, Point translationCenter) {
+		this.position		   = new Point(x, y);
 		this.translationCenter = translationCenter;
-		colorR = 0;
-		colorG = 0;
-		colorB = 0;
-		rotation = 0.0;
+		this.rotationCenter	   = rotationCenter;
+		
+		this.rotation = 0.0;
+		
+		this.r     = 0;
+		this.g     = 0;
+		this.b     = 0;
+		this.alpha = 255;
+		
 	}
 	
 	@Override
 	public void changeColor(int r, int g, int b) {
-		this.colorR=r;
-		this.colorG=g;
-		this.colorB=b;
-		return;
+		this.r = r;
+		this.g = g;
+		this.b = b;
 	}
 	
 	@Override
@@ -50,8 +58,8 @@ public abstract class Component implements IComponent {
 	}
 	
 	public void translate(int dx, int dy) {
-		this.position = new Point(position.getX() + dx, position.getY() + dy);
-		this.rotationCenter = new Point(this.rotationCenter.getX() + dx, this.rotationCenter.getY() + dy);
+		this.position 		   = new Point(position.getX() + dx, position.getY() + dy);
+		this.rotationCenter    = new Point(this.rotationCenter.getX() + dx, this.rotationCenter.getY() + dy);
 		this.translationCenter = new Point(this.translationCenter.getX() + dx, this.translationCenter.getY() + dy);
 	}
 	
@@ -68,7 +76,7 @@ public abstract class Component implements IComponent {
 	
 	
 	@Override
-	public void setRotation(double rotation) {
+	public void rotate(double rotation) {
 		this.rotation = rotation;
 	}
 	
@@ -79,35 +87,38 @@ public abstract class Component implements IComponent {
 
 	@Override
 	public int getColorR() {
-		return this.colorR;
+		return this.r;
 	}
 	
 	@Override
 	public int getColorG() {
-		return this.colorG;
+		return this.g;
 	}
 	
 	@Override
 	public int getColorB() {
-		return this.colorB;
+		return this.b;
 	}
 	
+	public void setAlpha(int alpha) {
+		this.alpha = 255;
+	}
 
 
 	@Override
-	public Component clone() {
-		Component clone = null;
+	public Shape clone() {
+		Shape clone = null;
 		try {
-			clone = (Component) super.clone();
+			clone = (Shape) super.clone();
 		} catch (CloneNotSupportedException e) {
 			//catch to do
 		}
 		return clone;
 	}
 
-	public void createMemento(Memento memento) {
+	public void save(Memento memento) {
 	}
 	
-	public void restoreMemento(Memento memento){
+	public void restore(Memento memento){
 	}
 }

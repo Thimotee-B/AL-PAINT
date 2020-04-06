@@ -1,6 +1,6 @@
-package editeur;
+package editeur.model.commands;
 
 public interface ICommand {
-	public void reverse();
+	public void undo();
 	public void execute();
 }

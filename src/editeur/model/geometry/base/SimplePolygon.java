@@ -1,18 +1,19 @@
-package editeur;
+package editeur.model.geometry.base;
 
-import java.util.ArrayList;
-import java.util.List;
+import editeur.model.geometry.Shape;
+import editeur.model.geometry.memento.Memento;
 
-public class Polygon extends Component {
+public class SimplePolygon extends Shape {
 
 	
 	private int numberOfSides;
 	private float sideSize;
 	
-	public Polygon(int x, int y, int numberOfSides, float sideSize){
+	public SimplePolygon(int x, int y, int numberOfSides, float sideSize){
 		super(x, y, new Point(x,y), new Point(x,y));
+		
 		this.numberOfSides = numberOfSides;
-		this.sideSize = sideSize;
+		this.sideSize 	   = sideSize;
 	}
 	
 	public void setNumberOfSides(int numberOfSides){
@@ -22,6 +23,10 @@ public class Polygon extends Component {
 	public void setSideSize(float sideSize) {
 		this.sideSize = sideSize;
 	}
+	
+	public void setAlpha(int alpha) {
+		super.setAlpha(alpha);
+	}
 
 	@Override
 	public void move(int dx, int dy) {
@@ -29,21 +34,22 @@ public class Polygon extends Component {
 	}
 
 	@Override
-	public void rescale(double factor) {
+	public void scale(double factor) {
 		this.sideSize*=factor;
 	}
 
 	@Override
-	public Memento createMemento() {
+	public Memento save() {
+		return null;
 	}
 
 	@Override
-	public void restoreMemento(Memento memento) {
+	public void restore(Memento memento) {
 	}
 
 
 	@Override
-	public Component clone() {
+	public Shape clone() {
 		return super.clone();
 	}
 

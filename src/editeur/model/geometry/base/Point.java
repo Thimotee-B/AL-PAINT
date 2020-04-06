@@ -1,26 +1,29 @@
-package editeur;
+package editeur.model.geometry.base;
 
 import java.io.Serializable;
 
 public class Point implements Cloneable, Serializable{
-	private int x; 
-	private int y;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7069840385821410448L;
+	private int x, y;
 	
 	
 	public Point(int x, int y) {
-		this.x=x;
+		this.x = x;
 		this.y=y;
 	}
 	
 	
 	public void move(int x, int y) {
-		this.x=x;
-		this.y=y;
+		this.x = x;
+		this.y = y;
 	}
 	
 	public void translate(int dx, int dy) {
-		this.x+=dx;
-		this.y+=dy;
+		this.x += dx;
+		this.y += dy;
 	}
 	
 	public int getX() {
@@ -32,7 +35,7 @@ public class Point implements Cloneable, Serializable{
 	}
 
 	public boolean equals(Point p) {
-		return (this.x==p.getX() && this.y==p.getY());
+		return (this.x == p.getX() && this.y == p.getY());
 	}
 	
 	public Point clone() {
