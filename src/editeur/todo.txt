@@ -1,3 +1,7 @@
 rotation + group/ungroup (sujet td)
 memento/originator/caretake a faire (pattern memento) pour undo/redo
 check le cloning pcq jsuis pas sûr 
+
+ya moyen que faut Observer
+
+Facade,proxy? jsais pas si besoin c'pour faire joli
