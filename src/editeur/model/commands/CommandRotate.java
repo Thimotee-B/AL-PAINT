@@ -15,7 +15,8 @@ public class CommandRotate extends Command {
     @Override
     public void execute(){
         super.execute();
-        if(this.source instanceof IShape) ((IShape) this.source).rotate(this.factor);
+        if(this.source instanceof IShape)
+            ((IShape) this.source).rotate(this.factor);
     }
 
     @Override

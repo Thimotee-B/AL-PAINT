@@ -16,13 +16,15 @@ public class CommandDelete extends Command {
     @Override
     public void undo(){
         super.undo();
-        if (this.source instanceof Composite) ((Composite) this.source).add(toDelete);
+        if (this.source instanceof Composite) 
+            ((Composite) this.source).add(toDelete);
     }
     
     @Override
     public void execute(){
         super.execute();
-        if (this.source instanceof Composite) ((Composite) this.source).remove(toDelete);
+        if (this.source instanceof Composite) 
+            ((Composite) this.source).remove(toDelete);
     }
 
 }

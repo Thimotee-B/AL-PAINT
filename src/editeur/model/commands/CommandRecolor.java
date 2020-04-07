@@ -18,7 +18,8 @@ public class CommandRecolor extends Command{
     @Override
     public void execute(){
         super.execute();
-        if(this.source instanceof IShape) ((IShape) this.source).changeColor(this.r, this.g, this.b);
+        if(this.source instanceof IShape) 
+            ((IShape) this.source).changeColor(this.r, this.g, this.b);
     }
 
     @Override

@@ -16,13 +16,15 @@ public class CommandAdd extends Command {
     @Override
     public void undo(){
         super.undo();
-        if (this.source instanceof Composite) ((Composite) this.source).remove(toAdd);
+        if (this.source instanceof Composite)
+            ((Composite) this.source).remove(toAdd);
     }
     
     @Override
     public void execute(){
         super.execute();
-        if (this.source instanceof Composite) ((Composite) this.source).add(toAdd);
+        if (this.source instanceof Composite)
+            ((Composite) this.source).add(toAdd);
     }
 
 }

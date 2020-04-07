@@ -15,7 +15,8 @@ public class CommandRescale extends Command {
     @Override
     public void execute(){
         super.execute();
-        if(this.source instanceof IShape) ((IShape) this.source).scale(this.factor);
+        if(this.source instanceof IShape)
+            ((IShape) this.source).scale(this.factor);
         
     }
 
