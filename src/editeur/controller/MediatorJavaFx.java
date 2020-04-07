@@ -1,9 +1,8 @@
 package editeur.controller;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class MediatorJavaFx implements MouseListener, IMediator {
+
+public class MediatorJavaFx implements IMediator {
 	//On peut en faire un singleton si on veut
 	
 	@Override
@@ -37,36 +36,8 @@ public class MediatorJavaFx implements MouseListener, IMediator {
 	}
 	
 	
-	//Pas obligÈ mais Áa peut Ítre une solution pour la souris
 	
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	//Mouse events ? c'est un peu diff√©rent de java awt (la first gen javafx)
+	//donc je sais pas si on peut h√©riter en javafx d'une classe mouse listener
 
 }
