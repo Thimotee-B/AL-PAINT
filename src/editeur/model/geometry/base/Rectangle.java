@@ -3,10 +3,15 @@ package editeur.model.geometry.base;
 import editeur.model.geometry.Shape;
 import editeur.model.geometry.memento.Memento;
 import editeur.model.geometry.memento.MementoRectangle;
+import editeur.model.geometry.memento.MementoShape;
 
 public class Rectangle extends Shape{
 
-    private int length, width, roundHeight, roundWidth;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6361385559811152501L;
+	private int length, width, roundHeight, roundWidth;
     
     
     public Rectangle(int x, int y, int width, int length){
@@ -57,18 +62,37 @@ public class Rectangle extends Shape{
 
     @Override
     public Memento save(){
-        MementoRectangle mem = new MementoRectangle();
-        return mem;
+        MementoRectangle m = new MementoRectangle(length, width, roundHeight, roundWidth);
+        super.save(m);
+        return m;
     }
 
     @Override
     public void restore(Memento memento){
+    	this.restoreShape((MementoShape) memento);
+    }
+    
+    private void restoreShape(MementoShape mementoShape) {
+    	super.restore(mementoShape);
+    	MementoRectangle m = (MementoRectangle) mementoShape;
+    	
+    	this.length      = m.getLength();
+    	this.width       = m.getWidth();
+    	this.roundHeight = m.getRoundHeight();
+    	this.roundWidth  = m.getRoundWidth();
     }
     
     @Override
     public Shape clone(){
         return super.clone();
     }
+
+
+	@Override
+	public void draw(Object obj) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 

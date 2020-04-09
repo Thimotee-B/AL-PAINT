@@ -2,10 +2,11 @@ package editeur.model.geometry;
 
 import java.io.Serializable;
 
+import editeur.model.draw.Drawable;
 import editeur.model.geometry.base.Point;
 import editeur.model.geometry.memento.Originator;
 
-public interface IShape extends Cloneable, Originator, Serializable {
+public interface IShape extends Cloneable, Originator, Serializable, Drawable {
 	
 	public int getColorR();
 

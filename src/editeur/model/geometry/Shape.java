@@ -4,6 +4,7 @@ package editeur.model.geometry;
 
 import editeur.model.geometry.base.Point;
 import editeur.model.geometry.memento.Memento;
+import editeur.model.geometry.memento.MementoShape;
 
 public abstract class Shape implements IShape {
 
@@ -116,9 +117,20 @@ public abstract class Shape implements IShape {
         return clone;
     }
 
-    public void save(Memento memento) {
+    public void save(MementoShape memento) {
+    	memento.set(memento, position, rotationCenter, translationCenter, rotation, r, g, b, alpha);
     }
     
-    public void restore(Memento memento){
+    public void restore(MementoShape memento){
+        this.position          = new Point(memento.getPosition().getX(), memento.getPosition().getY());
+        this.translationCenter = new Point(memento.getTranslationCenter().getX(), memento.getTranslationCenter().getY());
+        this.rotationCenter    = new Point(memento.getRotationCenter().getX(), memento.getRotationCenter().getY());
+        
+        this.rotation = memento.getRotation();
+        
+        this.r     = memento.getR();
+        this.g     = memento.getG();
+        this.b     = memento.getB();
+        this.alpha = memento.getAlpha();
     }
 }
