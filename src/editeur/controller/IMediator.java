@@ -11,4 +11,8 @@ public interface IMediator {
 	void ReScale();
 	
 	void rotate();
+	
+	void undo();
+	
+	void redo();
 }

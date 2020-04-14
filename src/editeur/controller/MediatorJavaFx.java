@@ -4,7 +4,7 @@ package editeur.controller;
 
 public class MediatorJavaFx implements IMediator {
 	//On peut en faire un singleton si on veut
-	
+    private static MediatorJavaFx instance = new MediatorJavaFx();
 	@Override
 	public void group() {
 		// TODO Auto-generated method stub
@@ -35,7 +35,21 @@ public class MediatorJavaFx implements IMediator {
 		
 	}
 	
-	
+	public static MediatorJavaFx getInstance() {
+	    return instance;
+	}
+
+    @Override
+    public void undo() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void redo() {
+        // TODO Auto-generated method stub
+        
+    }
 	
 	//Mouse events ? c'est un peu différent de java awt (la first gen javafx)
 	//donc je sais pas si on peut hériter en javafx d'une classe mouse listener
