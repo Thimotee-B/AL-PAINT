@@ -6,12 +6,13 @@ public abstract class MementoShape implements Memento{
 	
 	private Point position, rotationCenter, translationCenter;
 	private double rotation;
-	private int r, g, b, alpha;
+	private int r, g, b;
+	private double alpha;
 	
 	public MementoShape() {}
 	
 	public void set(MementoShape memento, Point position, Point rotationCenter, Point translationCenter,
-						double rotation, int r, int g, int b, int alpha) {
+						double rotation, int r, int g, int b, double alpha) {
 		
 		memento.position = position;
 		memento.rotation = rotation;
@@ -51,7 +52,7 @@ public abstract class MementoShape implements Memento{
 		return b;
 	}
 
-	public int getAlpha() {
+	public double getAlpha() {
 		return alpha;
 	}
 	

@@ -1,5 +1,8 @@
 package editeur.view;
 
+import editeur.model.draw.DrawBuilder;
+import editeur.model.draw.JavaFxDrawBuilder;
+import editeur.model.geometry.base.Rectangle;
 import javafx.application.Application;
 
 public abstract class AbstractApplication extends Application {
@@ -34,5 +37,14 @@ public abstract class AbstractApplication extends Application {
         this.trashButton = guiFactory.createButton("trash");
     }
     
+    public void start(DrawBuilder drawbuilder) {
+        //Test à enlever
+        //TODO: fonction add pour add les shapes dans mediator
+        Rectangle r = new Rectangle(20,50,100,100);
+        r.changeColor(255, 165, 0);
+        r.draw(drawbuilder, toolBar.get());
+        //r.changeColor(0, 0, 0);
+        //r.draw(drawbuilder, toolBar.get());
+    }
     
 }

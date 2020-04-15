@@ -1,13 +1,13 @@
 package editeur.view;
 
-import javafx.application.Application;
-import javafx.geometry.Pos;
+import editeur.model.draw.DrawBuilder;
+import editeur.model.draw.JavaFxDrawBuilder;
+import editeur.model.geometry.base.Rectangle;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -15,7 +15,7 @@ public class ApplicationFx extends AbstractApplication {
     
     private Scene scene;
     private BorderPane borderpane;
-    
+    private DrawBuilder drawbuilder = new JavaFxDrawBuilder();
     public ApplicationFx() {
         super("JAVAFX");
     }
@@ -26,14 +26,16 @@ public class ApplicationFx extends AbstractApplication {
         super.initFactoryElements();
     }
 
-
+    public void start(DrawBuilder builder) {
+        super.start(builder);
+    }
     
     @Override
     public void init() throws Exception {
         StackPane    toolbar  = (StackPane)   this.toolBar.get();
         StackPane whiteboard  = (StackPane)   this.whiteBoard.get();
         ToolBar      topbar   = (ToolBar)     this.topBar.get();
-
+        
         this.borderpane       = new BorderPane();
         this.scene            = new Scene(borderpane);
         borderpane.setLeft(toolbar);
@@ -47,7 +49,8 @@ public class ApplicationFx extends AbstractApplication {
                 new Separator(),
                 (Button)this.undoButton.get(),(Button) this.redoButton.get(),
                 new Separator());
-
+        this.start(drawbuilder);
+        
         
     }
 

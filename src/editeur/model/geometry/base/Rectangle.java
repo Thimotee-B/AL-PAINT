@@ -1,5 +1,6 @@
 package editeur.model.geometry.base;
 
+import editeur.model.draw.DrawBuilder;
 import editeur.model.geometry.Shape;
 import editeur.model.geometry.memento.Memento;
 import editeur.model.geometry.memento.MementoRectangle;
@@ -31,6 +32,28 @@ public class Rectangle extends Shape{
         this.roundWidth  = 0;
     }
     
+    
+    
+    public int getRoundHeight() {
+        return roundHeight;
+    }
+
+
+    public void setRoundHeight(int roundHeight) {
+        this.roundHeight = roundHeight;
+    }
+
+
+    public int getRoundWidth() {
+        return roundWidth;
+    }
+
+
+    public void setRoundWidth(int roundWidth) {
+        this.roundWidth = roundWidth;
+    }
+
+
     public void setHeight(int length){
         this.length = length;
     }
@@ -89,9 +112,8 @@ public class Rectangle extends Shape{
 
 
 	@Override
-	public void draw(Object obj) {
-		// TODO Auto-generated method stub
-		
+	public void draw(DrawBuilder db, Object drawSurface) {
+		db.drawRectangle(drawSurface, this);
 	}
 
 

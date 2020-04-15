@@ -16,7 +16,8 @@ public abstract class Shape implements IShape {
     private double rotation;
     private Point rotationCenter;
     private Point translationCenter;
-    private int r, g, b, alpha;
+    private int r, g, b;
+    private double alpha;
 
 
     public Shape(int x, int y, Point rotationCenter, Point translationCenter) {
@@ -29,7 +30,7 @@ public abstract class Shape implements IShape {
         this.r     = 0;
         this.g     = 0;
         this.b     = 0;
-        this.alpha = 255;
+        this.alpha = 1;
         
     }
     
@@ -102,9 +103,13 @@ public abstract class Shape implements IShape {
     }
     
     public void setAlpha(int alpha) {
-        this.alpha = 255;
+        this.alpha = alpha;
     }
 
+
+    public double getAlpha() {
+        return alpha;
+    }
 
     @Override
     public Shape clone() {

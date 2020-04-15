@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
+import editeur.model.draw.DrawBuilder;
 import editeur.model.geometry.base.Point;
 import editeur.model.geometry.memento.Memento;
 import editeur.model.geometry.memento.MementoComposite;
@@ -126,7 +127,7 @@ public class Composite extends Shape {
     }
 
     @Override
-    public void draw(Object obj) {
+    public void draw(DrawBuilder db, Object drawSurface) {
         // TODO Auto-generated method stub
         
     }
