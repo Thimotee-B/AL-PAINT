@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 
-public class JavaFxDrawBuilder implements DrawBuilder {
+public class JavaFxDrawBridge implements DrawBridge {
     private HashMap<Rectangle,javafx.scene.shape.Rectangle> map = 
             new HashMap<Rectangle,javafx.scene.shape.Rectangle>();
     @Override
@@ -15,6 +15,9 @@ public class JavaFxDrawBuilder implements DrawBuilder {
         if(rect == null) 
             rect = new javafx.scene.shape.Rectangle(r.getWidth(),r.getHeight());
         
+        rect.setWidth(r.getWidth());
+        rect.setHeight(r.getHeight());
+            
         rect.setArcHeight(r.getRoundHeight());
         rect.setArcWidth(r.getRoundWidth());
         
@@ -26,9 +29,8 @@ public class JavaFxDrawBuilder implements DrawBuilder {
                           r.getRotationCenter().getY());
         
         rect.getTransforms().add(rotation);
-        
+
         this.map.put(r, rect);
-        
         this.fillRectangle(drawSurface, r);
         
     }

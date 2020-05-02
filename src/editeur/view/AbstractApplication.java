@@ -1,7 +1,8 @@
 package editeur.view;
 
-import editeur.model.draw.DrawBuilder;
-import editeur.model.draw.JavaFxDrawBuilder;
+import editeur.controller.IMediator;
+import editeur.controller.Mediator;
+import editeur.model.draw.DrawBridge;
 import editeur.model.geometry.base.Rectangle;
 import javafx.application.Application;
 
@@ -9,11 +10,13 @@ public abstract class AbstractApplication extends Application {
     
     private static volatile AbstractApplication instance = null;
     private   GUIFactory        guiFactory;
-    protected GenericToolBar    toolBar;
-    protected GenericTopBar     topBar;
-    protected GenericWhiteBoard whiteBoard;
-    protected GenericButton     saveButton, loadButton, undoButton, redoButton, trashButton;
-    protected GenericTopBar    trashBar;
+    private   GenericToolBar    toolBar;
+    private   GenericTopBar     topBar;
+    private   GenericWhiteBoard whiteBoard;
+    private   GenericButton     saveButton, loadButton, undoButton, redoButton, trashButton;
+    private   GenericTopBar    trashBar;
+    private   DrawBridge drawbridge;
+    private   IMediator   mediator;
     
     public AbstractApplication(String Gui) {
         synchronized(AbstractApplication.class) {
@@ -21,6 +24,7 @@ public abstract class AbstractApplication extends Application {
                 instance   = this;
                 this.guiFactory = ApplicationConfigurator.selectFactory(Gui);
                 this.initFactoryElements();
+                this.mediator = new Mediator(instance);
             }
                 
         }
@@ -37,14 +41,95 @@ public abstract class AbstractApplication extends Application {
         this.trashButton = guiFactory.createButton("trash");
     }
     
-    public void start(DrawBuilder drawbuilder) {
-        //Test à enlever
-        //TODO: fonction add pour add les shapes dans mediator
-        Rectangle r = new Rectangle(20,50,100,100);
-        r.changeColor(255, 165, 0);
-        r.draw(drawbuilder, toolBar.get());
-        //r.changeColor(0, 0, 0);
-        //r.draw(drawbuilder, toolBar.get());
+    public void start() {
+       this.mediator.start();
+       System.out.println(toolBar.getShape(0));
+       this.mediator.ReScale(toolBar.getShape(0), 40);
     }
+
+    /** Getters & Setters **/
+    public GenericToolBar getToolBar() {
+        return toolBar;
+    }
+
+    public void setToolBar(GenericToolBar toolBar) {
+        this.toolBar = toolBar;
+    }
+
+    public GenericTopBar getTopBar() {
+        return topBar;
+    }
+
+    public void setTopBar(GenericTopBar topBar) {
+        this.topBar = topBar;
+    }
+
+    public GenericWhiteBoard getWhiteBoard() {
+        return whiteBoard;
+    }
+
+    public void setWhiteBoard(GenericWhiteBoard whiteBoard) {
+        this.whiteBoard = whiteBoard;
+    }
+
+    public GenericButton getSaveButton() {
+        return saveButton;
+    }
+
+    public void setSaveButton(GenericButton saveButton) {
+        this.saveButton = saveButton;
+    }
+
+    public GenericButton getUndoButton() {
+        return undoButton;
+    }
+
+    public void setUndoButton(GenericButton undoButton) {
+        this.undoButton = undoButton;
+    }
+
+    public GenericButton getRedoButton() {
+        return redoButton;
+    }
+
+    public void setRedoButton(GenericButton redoButton) {
+        this.redoButton = redoButton;
+    }
+
+    public GenericButton getTrashButton() {
+        return trashButton;
+    }
+
+    public void setTrashButton(GenericButton trashButton) {
+        this.trashButton = trashButton;
+    }
+
+    public GenericTopBar getTrashBar() {
+        return trashBar;
+    }
+
+    public void setTrashBar(GenericTopBar trashBar) {
+        this.trashBar = trashBar;
+    }
+
+    public DrawBridge getDrawBridge() {
+        return drawbridge;
+    }
+
+    public void setDrawBridge(DrawBridge drawbridge) {
+        this.drawbridge = drawbridge;
+    }
+
+    public GenericButton getLoadButton() {
+        return loadButton;
+    }
+
+    public void setLoadButton(GenericButton loadButton) {
+        this.loadButton = loadButton;
+    }
+    
+    
+
+    
     
 }

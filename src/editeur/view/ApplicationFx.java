@@ -1,7 +1,7 @@
 package editeur.view;
 
-import editeur.model.draw.DrawBuilder;
-import editeur.model.draw.JavaFxDrawBuilder;
+import editeur.model.draw.DrawBridge;
+import editeur.model.draw.JavaFxDrawBridge;
 import editeur.model.geometry.base.Rectangle;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,9 +15,9 @@ public class ApplicationFx extends AbstractApplication {
     
     private Scene scene;
     private BorderPane borderpane;
-    private DrawBuilder drawbuilder = new JavaFxDrawBuilder();
     public ApplicationFx() {
         super("JAVAFX");
+        this.setDrawBridge(new JavaFxDrawBridge());
     }
     
     
@@ -26,30 +26,30 @@ public class ApplicationFx extends AbstractApplication {
         super.initFactoryElements();
     }
 
-    public void start(DrawBuilder builder) {
-        super.start(builder);
+    public void start() {
+        super.start();
     }
     
     @Override
     public void init() throws Exception {
-        StackPane    toolbar  = (StackPane)   this.toolBar.get();
-        StackPane whiteboard  = (StackPane)   this.whiteBoard.get();
-        ToolBar      topbar   = (ToolBar)     this.topBar.get();
+        StackPane    toolbar  = (StackPane)   this.getToolBar().get();
+        StackPane whiteboard  = (StackPane)   this.getWhiteBoard().get();
+        ToolBar      topbar   = (ToolBar)     this.getTopBar().get();
         
         this.borderpane       = new BorderPane();
         this.scene            = new Scene(borderpane);
         borderpane.setLeft(toolbar);
         borderpane.setCenter(whiteboard);
         borderpane.setTop(topbar);
-        borderpane.setBottom((Button)this.trashButton.get());
+        borderpane.setBottom((Button)this.getTrashButton().get());
         //toolbar.setAlignment((Button)this.trashButton.get(), Pos.BOTTOM_CENTER);
         //toolbar.getChildren().add((Button)this.trashButton.get());
         topbar.getItems().addAll(new Separator(),
-                (Button)this.saveButton.get(), (Button)this.loadButton.get() ,
+                (Button)this.getSaveButton().get(), (Button)this.getLoadButton().get() ,
                 new Separator(),
-                (Button)this.undoButton.get(),(Button) this.redoButton.get(),
+                (Button)this.getUndoButton().get(),(Button) this.getRedoButton().get(),
                 new Separator());
-        this.start(drawbuilder);
+        this.start();
         
         
     }

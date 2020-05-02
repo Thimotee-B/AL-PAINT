@@ -1,6 +1,6 @@
 package editeur.model.geometry.base;
 
-import editeur.model.draw.DrawBuilder;
+import editeur.model.draw.DrawBridge;
 import editeur.model.geometry.Shape;
 import editeur.model.geometry.memento.Memento;
 import editeur.model.geometry.memento.MementoSimplePolygon;
@@ -67,7 +67,7 @@ public class SimplePolygon extends Shape {
     }
 
 	@Override
-	public void draw(DrawBuilder db, Object drawSurface) {
+	public void draw(DrawBridge db, Object drawSurface) {
 		// TODO Auto-generated method stub
 		
 	}

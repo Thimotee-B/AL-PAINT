@@ -4,7 +4,7 @@ package editeur.view;
 import java.io.File;
 import java.util.HashMap;
 
-import editeur.controller.MediatorJavaFx;
+import editeur.controller.Mediator;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -118,13 +118,13 @@ public class JavaFxFactory implements GUIFactory {
     }
     
     private void handle_undo(ActionEvent event) {
-        MediatorJavaFx.getInstance().undo();
+        Mediator.getInstance().undo();
         //TODO: Penser à desactiver les boutons si action plus possible undo,redo
         event.consume();
     }
     
     private void handle_redo(ActionEvent event) {
-        MediatorJavaFx.getInstance().redo();
+        Mediator.getInstance().redo();
         //TODO: Penser à desactiver les boutons si action plus possible undo,redo
         event.consume();
     }

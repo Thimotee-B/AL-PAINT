@@ -1,5 +1,8 @@
 package editeur.view;
 
+import editeur.controller.IMediator;
+import editeur.controller.Mediator;
+
 public class ApplicationConfigurator {
     
     public static GUIFactory selectFactory(String config) {
@@ -10,4 +13,6 @@ public class ApplicationConfigurator {
         
         return null;
     }
+    
+
 }
