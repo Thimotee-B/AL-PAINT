@@ -4,7 +4,11 @@ import java.util.Vector;
 
 import editeur.model.commands.CareTaker;
 import editeur.model.commands.Command;
+import editeur.model.commands.CommandAdd;
+import editeur.model.commands.CommandDelete;
+import editeur.model.commands.CommandMove;
 import editeur.model.commands.CommandRescale;
+import editeur.model.commands.CommandRotate;
 import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Rectangle;
 import editeur.view.AbstractApplication;
@@ -28,8 +32,16 @@ public class Mediator implements IMediator {
     public void start() {
         Rectangle r = new Rectangle(20,50,100,100);
         r.changeColor(255, 165, 0);
-        r.draw(app.getDrawBridge(), app.getToolBar().get()); // a changer avec observer et observ�
+        r.draw(app.getDrawBridge(), app.getToolBar().get()); // TODO:a changer avec observer et observer
         app.getToolBar().addShape(r);
+    }
+    
+    @Override
+    public void move(IShape shape, int dx, int dy) {
+        Command cmd = new CommandMove(shape, dx, dy);
+        cmd.execute();
+        careTaker.add(cmd);
+        shape.draw(app.getDrawBridge(), app.getToolBar().get());//TODO: Draw avec observer
     }
     
 	@Override
@@ -54,13 +66,15 @@ public class Mediator implements IMediator {
 		Command cmd = new CommandRescale(shape, factor);
 		cmd.execute();
 		careTaker.add(cmd);
-		shape.draw(app.getDrawBridge(), app.getToolBar().get());//Draw avec observer
+		shape.draw(app.getDrawBridge(), app.getToolBar().get());//TODO:Draw avec observer
 	}
 
 	@Override
-	public void rotate() {
-		// TODO Auto-generated method stub
-		
+	public void rotate(IShape shape, double factor) {
+	      Command cmd = new CommandRotate(shape, factor);
+	      cmd.execute();
+	      careTaker.add(cmd);
+	      //TODO: redraw observer
 	}
 	
 	public static Mediator getInstance() {
@@ -69,15 +83,36 @@ public class Mediator implements IMediator {
 
     @Override
     public void undo() {
-        // TODO Auto-generated method stub
+        careTaker.undo();
+        //TODO: tout redraw
         
     }
 
     @Override
     public void redo() {
-        // TODO Auto-generated method stub
+        careTaker.redo();
+       //TODO: Tout redraw;
         
     }
+
+    @Override
+    public void add(IShape shapes, IShape toAdd) {
+        Command cmd = new CommandAdd(shapes, toAdd);
+        cmd.execute();
+        careTaker.add(cmd);
+        //TODO: update shapes observer
+        
+    }
+    @Override
+    public void delete(IShape shapes, IShape toDelete) {
+        Command cmd = new CommandDelete(shapes, toDelete);
+        cmd.execute();
+        careTaker.add(cmd);
+        //TODO: update shapes observer
+    }
+
+
+   
 
 	
 	//Mouse events ? c'est un peu différent de java awt (la first gen javafx)

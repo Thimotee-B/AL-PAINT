@@ -1,8 +1,5 @@
 package editeur.view;
 
-import editeur.model.draw.DrawBridge;
-import editeur.model.draw.JavaFxDrawBridge;
-import editeur.model.geometry.base.Rectangle;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
@@ -17,7 +14,6 @@ public class ApplicationFx extends AbstractApplication {
     private BorderPane borderpane;
     public ApplicationFx() {
         super("JAVAFX");
-        this.setDrawBridge(new JavaFxDrawBridge());
     }
     
     

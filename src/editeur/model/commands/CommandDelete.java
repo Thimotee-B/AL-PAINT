@@ -1,14 +1,14 @@
 package editeur.model.commands;
 
-import editeur.model.geometry.Shape;
 import editeur.model.geometry.Composite;
+import editeur.model.geometry.IShape;
 import editeur.model.geometry.memento.Originator;
 
 public class CommandDelete extends Command {
     
-    private Shape toDelete;
+    private IShape toDelete;
     
-    public CommandDelete(Originator source, Shape toDelete){
+    public CommandDelete(Originator source, IShape toDelete){
         super(source);
         this.toDelete = toDelete;
     }

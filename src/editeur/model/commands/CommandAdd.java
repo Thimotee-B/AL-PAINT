@@ -1,14 +1,14 @@
 package editeur.model.commands;
 
-import editeur.model.geometry.Shape;
+import editeur.model.geometry.IShape;
 import editeur.model.geometry.Composite;
 import editeur.model.geometry.memento.Originator;
 
 public class CommandAdd extends Command {
     
-    private Shape toAdd;
+    private IShape toAdd;
     
-    public CommandAdd(Originator source, Shape toAdd){
+    public CommandAdd(Originator source, IShape toAdd){
         super(source);
         this.toAdd = toAdd;
     }

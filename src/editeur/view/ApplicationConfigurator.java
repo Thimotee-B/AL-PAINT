@@ -1,7 +1,7 @@
 package editeur.view;
 
-import editeur.controller.IMediator;
-import editeur.controller.Mediator;
+import editeur.model.draw.DrawBridge;
+import editeur.model.draw.JavaFxDrawBridge;
 
 public class ApplicationConfigurator {
     
@@ -13,6 +13,16 @@ public class ApplicationConfigurator {
         
         return null;
     }
+    
+    public static DrawBridge selectDrawBridgeImpl(String config) {
+        if (config.compareToIgnoreCase("JavaFx") == 0)
+            return new JavaFxDrawBridge();
+        else
+            System.out.println("You have selected a Bridge Implementation who doesn't exist");
+        
+        return null;
+    }
+    
     
 
 }

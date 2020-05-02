@@ -24,7 +24,8 @@ public abstract class AbstractApplication extends Application {
                 instance   = this;
                 this.guiFactory = ApplicationConfigurator.selectFactory(Gui);
                 this.initFactoryElements();
-                this.mediator = new Mediator(instance);
+                this.mediator   = new Mediator(instance);
+                this.drawbridge = ApplicationConfigurator.selectDrawBridgeImpl(Gui);
             }
                 
         }
@@ -44,7 +45,8 @@ public abstract class AbstractApplication extends Application {
     public void start() {
        this.mediator.start();
        System.out.println(toolBar.getShape(0));
-       this.mediator.ReScale(toolBar.getShape(0), 40);
+       //this.mediator.ReScale(toolBar.getShape(0), 40);
+       //this.mediator.move(toolBar.getShape(0), 100, 100);
     }
 
     /** Getters & Setters **/
