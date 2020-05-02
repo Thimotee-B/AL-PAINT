@@ -4,12 +4,7 @@
 *.tar.gz
 *.rar
 .project
-/bin/
-
-out/production/paint-ksos/.gitkeep
-
-out/production/paint-ksos/
-
+bin/
+out/
 paint-ksos.iml
-
 .idea/
