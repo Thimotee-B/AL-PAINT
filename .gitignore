@@ -5,3 +5,11 @@
 *.rar
 .project
 /bin/
+
+out/production/paint-ksos/.gitkeep
+
+out/production/paint-ksos/
+
+paint-ksos.iml
+
+.idea/
