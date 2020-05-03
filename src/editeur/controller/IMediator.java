@@ -35,13 +35,6 @@ public interface IMediator extends SubjectObserve {
 	void MouseDraggedEvent(boolean fromToolbar ,int clickSide,Point old, Point to);
 	void MouseClickEventAddTool(boolean fromToolbar ,int clickSide,Point old, Point to);
 
-	@Override
-	void Attach(GraphicalObjectObserver observer);
 
-	@Override
-	void Detach(GraphicalObjectObserver observer);
-
-	@Override
-	void Notify();
 
 }
