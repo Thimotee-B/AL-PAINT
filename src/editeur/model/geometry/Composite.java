@@ -138,7 +138,7 @@ public class Composite extends Shape {
     @Override
     public void draw(DrawBridge db, Object drawSurface) {
         for (IShape s : components)
-            if( s!= null) s.draw(db, drawSurface);
+            if( s != null) s.draw(db, drawSurface);
         
     }
 
