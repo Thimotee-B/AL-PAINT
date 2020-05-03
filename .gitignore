@@ -4,4 +4,7 @@
 *.tar.gz
 *.rar
 .project
-/bin/
+bin/
+out/
+paint-ksos.iml
+.idea/
