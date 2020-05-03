@@ -56,12 +56,12 @@ public class GenericWhiteBoard implements  GraphicalObjectObserver{
         int newY = (int)(y - boundY);
         return new Point(newX, newY);
     }
-    public boolean inWhiteBoard(int marginX, int x , int y) {
-        return width >= x && height >= y && x >= marginX;
+    public boolean inWhiteBoard(int x , int y) {
+        return width >= x && height >= y;
     }
-    public boolean inWhiteBoard(int marginX,Point point) {
+    public boolean inWhiteBoard(Point point) {
         if (point == null) return false;
-        return width >= point.getX() && height >= point.getY() && point.getX() >= marginX;
+        return width >= point.getX() && height >= point.getY();
     }
 
     public Object get() {
