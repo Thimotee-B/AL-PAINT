@@ -16,7 +16,7 @@ public abstract class AbstractApplication extends Application {
     private   GenericButton     saveButton, loadButton, undoButton, redoButton, trashButton;
     private   GenericTopBar    trashBar;
     private   DrawBridge drawbridge;
-    private   IMediator   mediator;
+    protected IMediator   mediator;
     
     public AbstractApplication(String Gui) {
         synchronized(AbstractApplication.class) {
@@ -42,12 +42,18 @@ public abstract class AbstractApplication extends Application {
         this.trashButton = guiFactory.createButton("trash");
     }
     
-    public void start() {
-       this.mediator.start();
-       System.out.println(toolBar.getShape(0));
-       //this.mediator.ReScale(toolBar.getShape(0), 40);
-       //this.mediator.move(toolBar.getShape(0), 100, 100);
+    public void start(){
+        toolBar.setDrawBridge(drawbridge);
+        whiteBoard.setDrawBridge(drawbridge);
+        this.mediator.Attach(toolBar);
+        this.mediator.Attach(whiteBoard);
+        this.mediator.start();
+        System.out.println(toolBar.getShape(0));
+        //this.mediator.ReScale(toolBar.getShape(0), 40);
+        //this.mediator.move(toolBar.getShape(0), 100, 100);
     }
+    
+
 
     /** Getters & Setters **/
     public GenericToolBar getToolBar() {

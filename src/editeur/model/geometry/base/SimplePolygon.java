@@ -35,6 +35,12 @@ public class SimplePolygon extends Shape {
     }
 
     @Override
+    public boolean isInside(Point p) {
+        //TODO:
+        return false;
+    }
+
+    @Override
     public void move(int dx, int dy) {
         translate(dx,dy);
     }

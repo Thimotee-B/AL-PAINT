@@ -106,6 +106,8 @@ public abstract class Shape implements IShape {
         this.alpha = alpha;
     }
 
+    @Override
+    public abstract boolean isInside(Point p);
 
     public double getAlpha() {
         return alpha;
@@ -116,10 +118,11 @@ public abstract class Shape implements IShape {
         Shape clone = null;
         try {
             clone = (Shape) super.clone();
+            return clone;
         } catch (CloneNotSupportedException e) {
             //catch to do
         }
-        return clone;
+        return null;
     }
 
     public void save(MementoShape memento) {

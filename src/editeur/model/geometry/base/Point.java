@@ -15,6 +15,11 @@ public class Point implements Cloneable, Serializable{
         this.y = y;
     }
     
+    public Point(Point p) {
+        this.x = p.getX();
+        this.y = p.getY();
+    }
+    
     
     public void move(int x, int y) {
         this.x = x;

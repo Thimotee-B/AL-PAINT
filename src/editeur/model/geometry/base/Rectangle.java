@@ -110,10 +110,17 @@ public class Rectangle extends Shape{
         return super.clone();
     }
 
+    @Override
+    public boolean isInside(Point p){
+        Point p2 = this.getPosition();
+        if (p.getX() >= p2.getX() && p.getX() <= p2.getX() + getWidth())
+            return (p.getY() >= p2.getY() && p.getY() <= p2.getY() + getHeight());
+        return false;
+    }
 
 	@Override
 	public void draw(DrawBridge db, Object drawSurface) {
-		db.drawRectangle(drawSurface, this);
+        db.drawRectangle(drawSurface, this);
 	}
 
 

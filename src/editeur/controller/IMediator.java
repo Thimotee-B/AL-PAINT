@@ -1,12 +1,15 @@
 package editeur.controller;
 
 import editeur.model.geometry.IShape;
+import editeur.model.geometry.base.Point;
+import editeur.view.GraphicalObjectObserver;
 
-public interface IMediator {
-	
+public interface IMediator extends SubjectObserve {
+    public static final int LEFT  = 0; 
+    public static final int RIGHT = 1;
+    
     void start();
-    
-    
+
 	void group();
 	
 	void unGroup();
@@ -27,4 +30,18 @@ public interface IMediator {
 	void undo();
 	
 	void redo();
+	
+	void MouseClickEvent(boolean fromToolbar ,int clickSide,Point old, Point to);
+	void MouseDraggedEvent(boolean fromToolbar ,int clickSide,Point old, Point to);
+	void MouseClickEventAddTool(boolean fromToolbar ,int clickSide,Point old, Point to);
+
+	@Override
+	void Attach(GraphicalObjectObserver observer);
+
+	@Override
+	void Detach(GraphicalObjectObserver observer);
+
+	@Override
+	void Notify();
+
 }

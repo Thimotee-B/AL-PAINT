@@ -113,19 +113,19 @@ public class JavaFxFactory implements GUIFactory {
     
     private void handle_trash(ActionEvent event) {
         //MediatorJavaFx.getInstance().erase();
-        //TODO: Penser à desactiver les boutons si action plus possible undo,redo
+        //TODO: Penser ï¿½ desactiver les boutons si action plus possible undo,redo
         event.consume();
     }
     
     private void handle_undo(ActionEvent event) {
         Mediator.getInstance().undo();
-        //TODO: Penser à desactiver les boutons si action plus possible undo,redo
+        //TODO: Penser ï¿½ desactiver les boutons si action plus possible undo,redo
         event.consume();
     }
     
     private void handle_redo(ActionEvent event) {
         Mediator.getInstance().redo();
-        //TODO: Penser à desactiver les boutons si action plus possible undo,redo
+        //TODO: Penser ï¿½ desactiver les boutons si action plus possible undo,redo
         event.consume();
     }
     

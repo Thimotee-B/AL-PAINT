@@ -56,7 +56,16 @@ public class Composite extends Shape {
         super.setAlpha(alpha);
         for(IShape shape : components) shape.setAlpha(alpha);	
     }
-    
+
+    @Override
+    public boolean isInside(Point p) {
+        for(IShape shape : components) {
+            if(shape.isInside(p))
+                return true;
+        }
+        return false;
+    }
+
     @Override
     public void changeColor(int r, int g, int b) {
         super.changeColor(r, g, b);
@@ -128,7 +137,8 @@ public class Composite extends Shape {
 
     @Override
     public void draw(DrawBridge db, Object drawSurface) {
-        // TODO Auto-generated method stub
+        for (IShape s : components)
+            if( s!= null) s.draw(db, drawSurface);
         
     }
 

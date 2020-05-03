@@ -36,4 +36,7 @@ public interface IShape extends Cloneable, Originator, Serializable, Drawable {
 
 	public Shape clone();
 
+	public boolean isInside(Point p);
+
 }
+
