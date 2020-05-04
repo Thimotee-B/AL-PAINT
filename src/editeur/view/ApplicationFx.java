@@ -76,15 +76,28 @@ public class ApplicationFx extends AbstractApplication {
         return this.getWhiteBoard().localPoint(b.getMinX(), b.getMinY(),e.getSceneX(), e.getSceneY());
     }
 
-    
+    private boolean inElement(int x , int y,StackPane element) {
+        Bounds b = element.localToScene(element.getBoundsInLocal());
+        if ((x > b.getMinX() && x < b.getMinX() + element.getWidth())
+                && (y > b.getMinY() && y < b.getMinY() + element.getHeight())) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+
+
     public void addEvents() {
         
         
         scene.setOnMouseDragged(
                 e ->{
                    if (e.getButton() == MouseButton.PRIMARY) {
-                       boolean inToolbar    = getToolBar().inToolBar( (int) e.getSceneX(), (int) e.getSceneY());
-                       boolean inWhiteBoard = getWhiteBoard().inWhiteBoard( (int) e.getSceneX(), (int) e.getSceneY());
+                       boolean inToolbar    = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getToolBar().get());
+                       boolean inWhiteBoard = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getWhiteBoard().get());
                        Point p = null;
                        if(inToolbar) 
                            p = this.getToolBarPoint(e);
@@ -100,8 +113,8 @@ public class ApplicationFx extends AbstractApplication {
         scene.setOnMouseReleased(
                 e ->{
                    Point p = new Point((int) e.getSceneX(),(int) e.getSceneY());
-                   boolean inToolbar    = getToolBar().inToolBar(p);
-                   boolean inWhiteBoard = getWhiteBoard().inWhiteBoard(p);
+                   boolean inToolbar    = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getToolBar().get());
+                   boolean inWhiteBoard = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getWhiteBoard().get());
                    int clickSide = (e.getButton() == MouseButton.PRIMARY) ? Mediator.LEFT : Mediator.RIGHT;
 
                    if(inToolbar && getWhiteBoard().inWhiteBoard(old))

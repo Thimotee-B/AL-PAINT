@@ -14,7 +14,10 @@ public class JavaFxDrawBridge implements DrawBridge {
         javafx.scene.shape.Rectangle rect = this.map.get(r);
         if(rect == null) 
             rect = new javafx.scene.shape.Rectangle(r.getWidth(),r.getHeight());
-        
+
+        rect.setX(r.getPosition().getX());
+        rect.setY(r.getPosition().getY());
+
         rect.setWidth(r.getWidth());
         rect.setHeight(r.getHeight());
             

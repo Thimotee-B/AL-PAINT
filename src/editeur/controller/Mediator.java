@@ -190,6 +190,7 @@ public class Mediator implements IMediator {
                     IShape tool  = s.clone();
                     //Todo: Scale si trop grand pour l'appli
                     tool.setPosition(p.getX(), p.getY());
+                    this.Notify();
                     if(app.getToolBar().inToolBar(to))
                         this.add(app.getToolBar().getShapeVector(), tool);
                 }
@@ -209,6 +210,7 @@ public class Mediator implements IMediator {
                     IShape tool  = s.clone();
                     tool.setPosition(p.getX(), p.getY());
                     System.out.println("coucou");
+                    this.Notify();
                     if(app.getWhiteBoard().inWhiteBoard(p))
                         this.add(app.getWhiteBoard().getShapeVector(), tool);
                 }

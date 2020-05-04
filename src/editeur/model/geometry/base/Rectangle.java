@@ -72,7 +72,7 @@ public class Rectangle extends Shape{
     
     @Override
     public void move(int newx, int newy){
-        translate(newx, newy);
+        super.move(newx, newy);
     }
 
     @Override
