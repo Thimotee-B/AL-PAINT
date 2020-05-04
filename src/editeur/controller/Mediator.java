@@ -14,8 +14,10 @@ import editeur.model.commands.CommandRotate;
 import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Point;
 import editeur.model.geometry.base.Rectangle;
+import editeur.model.geometry.base.SimplePolygon;
 import editeur.view.AbstractApplication;
 
+import editeur.view.GenericToolBar;
 import editeur.view.GraphicalObjectObserver;
 
 
@@ -26,14 +28,14 @@ public class Mediator implements IMediator {
     private static Mediator instance = new Mediator(null);
     private AbstractApplication app;
     private CareTaker           careTaker;
-    private Vector<Integer>     selectedShapes;
+    private Vector<IShape>     selectedShapes;
     private Vector<GraphicalObjectObserver> observers;
 
 
     public  Mediator(AbstractApplication app) {
         this.app            = app;
         this.careTaker      = new CareTaker();
-        this.selectedShapes = new Vector<Integer>();
+        this.selectedShapes = new Vector<IShape>();
         this.observers      = new Vector<GraphicalObjectObserver>();
     }
 
@@ -62,7 +64,13 @@ public class Mediator implements IMediator {
     public void start() {
         Rectangle r = new Rectangle(20,50,100,100);
         r.changeColor(255, 165, 0);
+        SimplePolygon p = new SimplePolygon(20,300,6,40);
+        p.changeColor(50,50,0);
+        SimplePolygon p2 = new SimplePolygon(20,500,5,50);
+        p.changeColor(50,150,80);
         app.getToolBar().addShape(r);
+        app.getToolBar().addShape(p);
+        app.getToolBar().addShape(p2);
         this.Notify();
     }
     
@@ -142,7 +150,17 @@ public class Mediator implements IMediator {
     }
 
     private void AddToSelection(Point p1 , Point p2){
-        //TODO:
+        selectedShapes.removeAllElements();
+        int minX = Math.min(p1.getX(), p2.getX());
+        int maxX = Math.max(p1.getX(), p2.getX());
+        int minY = Math.min(p1.getY(), p2.getY());
+        int maxY = Math.max(p1.getY(), p2.getY());
+        for (int x = minX; x <= maxX ; x++)
+            for (int y = minY ; y <= maxY ; y++)
+                for (IShape s : app.getWhiteBoard().getShapeVector().getComponents())
+                    if( s.isInside(new Point(x,y)))
+                        selectedShapes.add(s);
+
     }
     
     private Point computeNewPos(IShape s, Point p1, Point p2) {
@@ -178,6 +196,24 @@ public class Mediator implements IMediator {
         }
         
     }
+    //TODO: A refactor autrement, surement avec une boite de collision dans Ishape,
+    //Ou méthode getwidth getheight pour tous, ou adaptator pour polygon whatever
+    private void scaleTool(IShape tool, GenericToolBar toolBar){
+        if (tool instanceof  Rectangle){
+            Rectangle r = (Rectangle) tool;
+            System.out.println(r.getWidth());
+            if (r.getWidth() > toolBar.getWidth() && toolBar.getWidth() > 0
+                    || r.getWidth() >= toolBar.getToolMaxSize() ){
+
+                    double factor = (double)toolBar.getToolMaxSize() / (double) r.getWidth();
+                    this.ReScale(tool, factor);
+                    //TODO: choisir un alignement ou osef?
+
+            }
+        }
+
+    }
+
 
     @Override
     public void MouseClickEventAddTool(boolean fromToolbar ,int clickSide,Point old, Point to) {
@@ -186,10 +222,12 @@ public class Mediator implements IMediator {
             if(!fromToolbar) {
                 s = this.app.getWhiteBoard().getShape(old);
                 if (s != null){
+                    System.out.println("cc");
                     Point  p     = computeNewPos(s, old, to);
                     IShape tool  = s.clone();
-                    //Todo: Scale si trop grand pour l'appli
+                    scaleTool(tool, this.app.getToolBar());
                     tool.setPosition(p.getX(), p.getY());
+                    //TODO: méthode intersect pour aligner les formes
                     this.Notify();
                     if(app.getToolBar().inToolBar(to))
                         this.add(app.getToolBar().getShapeVector(), tool);

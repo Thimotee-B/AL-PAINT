@@ -118,7 +118,7 @@ public class ApplicationFx extends AbstractApplication {
                    int clickSide = (e.getButton() == MouseButton.PRIMARY) ? Mediator.LEFT : Mediator.RIGHT;
 
                    if(inToolbar && getWhiteBoard().inWhiteBoard(old))
-                        this.mediator.MouseClickEventAddTool(true, clickSide, old, getWhiteBoardPoint(e));
+                        this.mediator.MouseClickEventAddTool(false, clickSide, old, getToolBarPoint(e));
                    if (inWhiteBoard && getWhiteBoard().inWhiteBoard(old))
                       this.mediator.MouseClickEvent(false, clickSide, old, getWhiteBoardPoint(e));
                    if(inToolbar && getToolBar().inToolBar(old))

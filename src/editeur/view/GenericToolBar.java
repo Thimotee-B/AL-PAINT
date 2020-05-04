@@ -11,6 +11,8 @@ public class GenericToolBar implements GraphicalObjectObserver {
     private Object toolBar;
     private final int width  = 150; 
     private final int height = 900;
+    private final int toolMaxSize = 75;
+
     private Composite shapeVector;
     private DrawBridge drawbridge;
     
@@ -71,6 +73,10 @@ public class GenericToolBar implements GraphicalObjectObserver {
 
     public void setDrawBridge (DrawBridge db){
         this.drawbridge = db;
+    }
+
+    public int getToolMaxSize(){
+        return toolMaxSize;
     }
 
     @Override

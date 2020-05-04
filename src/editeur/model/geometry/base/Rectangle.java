@@ -107,7 +107,8 @@ public class Rectangle extends Shape{
     
     @Override
     public Shape clone(){
-        return super.clone();
+        Shape clone = super.clone();
+        return clone;
     }
 
     @Override
