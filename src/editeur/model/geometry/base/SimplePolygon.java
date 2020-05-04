@@ -16,12 +16,14 @@ public class SimplePolygon extends Shape {
 	private static final long serialVersionUID = 7570243485311308601L;
 	private int numberOfSides;
     private float sideSize;
+    private double[] polygonPts;
     
     public SimplePolygon(int x, int y, int numberOfSides, float sideSize){
         super(x, y, new Point(x,y), new Point(x,y));
         
         this.numberOfSides = numberOfSides;
         this.sideSize 	   = sideSize;
+        this.polygonPts    = ProcessPolygonPoints();
     }
 
     public int getNumberOfSides() {
@@ -32,8 +34,11 @@ public class SimplePolygon extends Shape {
         return sideSize;
     }
 
+    public double[] getPolygonPoints() {
+        return polygonPts;
+    }
 
-    public double[] getPolygonPoints(){
+    public double[] ProcessPolygonPoints(){
         double pts[] = new double[numberOfSides * 2];
         double area  = 2 * Math.sin(Math.toRadians(180.0/numberOfSides));
         double radius = sideSize / area;
@@ -67,13 +72,35 @@ public class SimplePolygon extends Shape {
 
     @Override
     public boolean isInside(Point p) {
-        //TODO:
-        return false;
+        double pts[] = polygonPts;
+        Point pos = getPosition();
+        int x = pos.getX();
+        int y = pos.getY();
+
+        int px = p.getX();
+        int py = p.getY();
+        boolean check = false;
+        int i = 0,j =0;
+        for (i  = 0;  i < pts.length; i+=2)
+        {
+            j = pts.length - 2;
+            if(j==i) break;
+            int newX  =(int) pts[i] + x;
+            int newY  =(int) pts[i+1] + y;
+            int newX2 =(int) pts[j] + x;
+            int newY2 =(int) pts[j+1] + y;
+
+            if ((newY >= py) != (newY2 >= py))
+                if( px <= (newX2 - newX) * (py - newY ) / (newY2 - newY) + newX)
+                    check = !check;
+
+            }
+        return check;
     }
 
     @Override
     public void move(int dx, int dy) {
-        translate(dx,dy);
+        super.move(dx,dy);
     }
 
     @Override
