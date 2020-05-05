@@ -96,9 +96,11 @@ public class Rectangle extends Shape{
     }
     
     private void restoreShape(MementoShape mementoShape) {
+
     	super.restore(mementoShape);
+
     	MementoRectangle m = (MementoRectangle) mementoShape;
-    	
+
     	this.length      = m.getLength();
     	this.width       = m.getWidth();
     	this.roundHeight = m.getRoundHeight();

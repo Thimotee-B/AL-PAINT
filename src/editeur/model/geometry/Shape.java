@@ -140,5 +140,6 @@ public abstract class Shape implements IShape {
         this.g     = memento.getG();
         this.b     = memento.getB();
         this.alpha = memento.getAlpha();
+
     }
 }

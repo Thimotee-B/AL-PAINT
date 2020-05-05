@@ -120,10 +120,7 @@ public class Composite extends Shape {
     }
     
     public void restoreComponent(MementoComposite memento) {
-        Iterator<Map.Entry<IShape, Memento>> i = memento.getCompositeMapMemento().entrySet().iterator();
-        
-        while (i.hasNext()) {
-            IShape shape = (IShape) i.next();
+        for (IShape shape : this.components){
             this.add(shape);
             shape.restore(memento.getCompositeMapMemento().get(shape));
         }

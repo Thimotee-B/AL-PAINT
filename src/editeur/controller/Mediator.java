@@ -25,7 +25,7 @@ public class Mediator implements IMediator {
 
     
 	//On peut en faire un singleton si on veut
-    private static Mediator instance = new Mediator(null);
+    private static Mediator instance;
     private AbstractApplication app;
     private CareTaker           careTaker;
     private Vector<IShape>     selectedShapes;
@@ -37,6 +37,7 @@ public class Mediator implements IMediator {
         this.careTaker      = new CareTaker();
         this.selectedShapes = new Vector<IShape>();
         this.observers      = new Vector<GraphicalObjectObserver>();
+        instance            = this;
     }
 
     //Override SubjectObservee
@@ -118,6 +119,15 @@ public class Mediator implements IMediator {
 	public static Mediator getInstance() {
 	    return instance;
 	}
+
+	public void undoShapeAdd(IShape shape){
+        this.app.getDrawBridge().clearView
+                (
+                this.app.getWhiteBoard().get()
+                , this.app.getToolBar().get()
+                , shape
+                );
+    }
 
     @Override
     public void undo() {

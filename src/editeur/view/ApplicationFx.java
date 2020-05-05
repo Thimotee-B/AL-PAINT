@@ -30,7 +30,7 @@ public class ApplicationFx extends AbstractApplication {
     public void start() {
         super.start();
     }
-    
+
     @Override
     public void init() throws Exception {
         StackPane    toolbar  = (StackPane)   this.getToolBar().get();

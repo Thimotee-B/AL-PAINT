@@ -86,4 +86,13 @@ public class JavaFxDrawBridge implements DrawBridge {
         ((Pane)drawSurface).getChildren().add(shape);
     }
 
+    public void clearView(Object whiteboard, Object toolbar, IShape s){
+        javafx.scene.shape.Shape shape = map.get(s);
+
+        ((Pane)whiteboard).getChildren().remove(shape);
+        ((Pane)toolbar).getChildren().remove(shape);
+
+        map.remove(s);
+    }
+
 }

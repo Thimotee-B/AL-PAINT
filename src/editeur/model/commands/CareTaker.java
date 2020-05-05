@@ -13,16 +13,20 @@ public class CareTaker{
     
     public void undo() {
         int last      = undo.size() - 1;
-        ICommand cmd  = undo.remove(last);
-        cmd.undo();
-        redo.add(cmd);
+        if (undo.size() > 0) {
+            ICommand cmd = undo.remove(last);
+            cmd.undo();
+            redo.add(cmd);
+        }
     }
     
     public void redo() {
-        int last      = undo.size() - 1;
-        ICommand cmd  = redo.remove(last);
-        cmd.undo();
-        undo.add(cmd);
+        int last      = redo.size() - 1;
+        if(redo.size() > 0) {
+            ICommand cmd = redo.remove(last);
+            cmd.execute();
+            undo.add(cmd);
+        }
     }
     
     public void add (ICommand cmd) {
