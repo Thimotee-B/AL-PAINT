@@ -247,7 +247,6 @@ public class Mediator implements IMediator {
                     Point  p     = computeNewPos(s, old, to);
                     IShape tool  = s.clone();
                     tool.setPosition(p.getX(), p.getY());
-                    System.out.println("coucou");
                     this.Notify();
                     if(app.getWhiteBoard().inWhiteBoard(p))
                         this.add(app.getWhiteBoard().getShapeVector(), tool);

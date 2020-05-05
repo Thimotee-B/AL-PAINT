@@ -80,20 +80,19 @@ public class SimplePolygon extends Shape {
         int px = p.getX();
         int py = p.getY();
         boolean check = false;
-        int i = 0,j =0;
-        for (i  = 0;  i < pts.length; i+=2)
+        int i ,j;
+        for (i  = 0, j = pts.length - 2;  i < pts.length; j = i,  i+=2)
         {
-            j = pts.length - 2;
-            if(j==i) break;
+
             int newX  =(int) pts[i] + x;
             int newY  =(int) pts[i+1] + y;
             int newX2 =(int) pts[j] + x;
             int newY2 =(int) pts[j+1] + y;
 
             if ((newY >= py) != (newY2 >= py))
-                if( px <= (newX2 - newX) * (py - newY ) / (newY2 - newY) + newX)
+                if( px <= (newX2 - newX) * (py - newY ) / (newY2 - newY) + newX) {
                     check = !check;
-
+                }
             }
         return check;
     }
