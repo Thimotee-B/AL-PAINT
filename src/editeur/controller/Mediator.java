@@ -4,13 +4,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Vector;
 
-import editeur.model.commands.CareTaker;
-import editeur.model.commands.Command;
-import editeur.model.commands.CommandAdd;
-import editeur.model.commands.CommandDelete;
-import editeur.model.commands.CommandMove;
-import editeur.model.commands.CommandRescale;
-import editeur.model.commands.CommandRotate;
+import editeur.model.commands.*;
+import editeur.model.geometry.Composite;
 import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Point;
 import editeur.model.geometry.base.Rectangle;
@@ -19,6 +14,7 @@ import editeur.view.AbstractApplication;
 
 import editeur.view.GenericToolBar;
 import editeur.view.GraphicalObjectObserver;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 
 public class Mediator implements IMediator {
@@ -30,6 +26,7 @@ public class Mediator implements IMediator {
     private CareTaker           careTaker;
     private Vector<IShape>     selectedShapes;
     private Vector<GraphicalObjectObserver> observers;
+
 
 
     public  Mediator(AbstractApplication app) {
@@ -72,6 +69,7 @@ public class Mediator implements IMediator {
         app.getToolBar().addShape(r);
         app.getToolBar().addShape(p);
         app.getToolBar().addShape(p2);
+        this.app.getToolBar().setStartShapesIndices(3);
         this.Notify();
     }
     
@@ -84,8 +82,11 @@ public class Mediator implements IMediator {
     }
     
 	@Override
-	public void group() {
-		// TODO Auto-generated method stub
+	public void group(IShape s, int [] coordinates) {
+		Command cmd = new CommandGroup(s, selectedShapes, coordinates);
+		cmd.execute();
+		careTaker.add(cmd);
+		this.Notify();
 	}
 
 	@Override
@@ -159,7 +160,7 @@ public class Mediator implements IMediator {
         this.Notify();
     }
 
-    private void AddToSelection(Point p1 , Point p2){
+    private int[] AddToSelection(Point p1 , Point p2){
         selectedShapes.removeAllElements();
         int minX = Math.min(p1.getX(), p2.getX());
         int maxX = Math.max(p1.getX(), p2.getX());
@@ -168,9 +169,10 @@ public class Mediator implements IMediator {
         for (int x = minX; x <= maxX ; x++)
             for (int y = minY ; y <= maxY ; y++)
                 for (IShape s : app.getWhiteBoard().getShapeVector().getComponents())
-                    if( s.isInside(new Point(x,y)))
+                    if( s.isInside(new Point(x,y)) && !selectedShapes.contains(s))
                         selectedShapes.add(s);
-
+        int [] tab = { (minX + maxX) / 2 , (minY + maxY) / 2 , maxX - minX , maxY - minY};
+        return tab;
     }
     
     private Point computeNewPos(IShape s, Point p1, Point p2) {
@@ -183,6 +185,7 @@ public class Mediator implements IMediator {
     @Override
     public void MouseClickEvent(boolean fromToolbar ,int clickSide,Point old, Point to) {
         //test x et y sont la pos des clicks
+        selectedShapes.clear();
         if (clickSide == LEFT && old != null){
             IShape s;
             if(fromToolbar) {
@@ -199,8 +202,17 @@ public class Mediator implements IMediator {
                     Point p = computeNewPos(s, old, to);
                     this.move(s, p.getX(), p.getY());
                 }
-                else
-                    this.AddToSelection(old, to);
+                else {
+                    int [] coord =this.AddToSelection(old, to);
+                    if(selectedShapes.size() > 0) {
+                        this.group(app.getWhiteBoard().getShapeVector(), coord);
+                        for (IShape delete : selectedShapes)
+                            this.delete(app.getWhiteBoard().getShapeVector(),delete);
+                        System.out.println(app.getWhiteBoard().getShapeVector().getComponents().size());
+                        //System.out.println(selectedShapes.size());
+
+                    }
+                }
             }
 
         }
@@ -239,8 +251,9 @@ public class Mediator implements IMediator {
                     tool.setPosition(p.getX(), p.getY());
                     //TODO: méthode intersect pour aligner les formes
                     this.Notify();
-                    if(app.getToolBar().inToolBar(to))
+                    if(app.getToolBar().inToolBar(to)) {
                         this.add(app.getToolBar().getShapeVector(), tool);
+                    }
                 }
             }
 

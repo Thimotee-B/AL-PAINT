@@ -10,7 +10,7 @@ public interface IMediator extends SubjectObserve {
     
     void start();
 
-	void group();
+	void group(IShape s, int [] coordinates);
 	
 	void unGroup();
 	

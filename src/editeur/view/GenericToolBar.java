@@ -12,15 +12,23 @@ public class GenericToolBar implements GraphicalObjectObserver {
     private final int width  = 150; 
     private final int height = 900;
     private final int toolMaxSize = 75;
-
     private Composite shapeVector;
     private DrawBridge drawbridge;
-    
+    private int startShapesIndices = 0;
+
     public GenericToolBar(Object toolBar) {
         this.toolBar = toolBar;
         this.shapeVector = new Composite(0,0,0,0);
     }
-    
+
+    public int getStartShapesIndices() {
+        return startShapesIndices;
+    }
+
+    public void setStartShapesIndices(int startShapesIndices) {
+        this.startShapesIndices = startShapesIndices;
+    }
+
     public void addShape(IShape shape) {
         shapeVector.add(shape);
     }

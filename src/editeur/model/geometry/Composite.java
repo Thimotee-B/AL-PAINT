@@ -74,8 +74,16 @@ public class Composite extends Shape {
     
     @Override
     public void move(int dx, int dy) {
-        for(IShape shape : components) shape.move(dx,  dy);
-        translate(dx, dy);
+        int pasX = 0, pasY = 0;
+        int x = getPosition().getX(), y =getPosition().getY();
+        for(IShape shape : components){
+            int sX = shape.getPosition().getX() , sY = shape.getPosition().getY();
+            pasX = dx - x;
+            pasY = dy - y;
+            shape.move(sX + pasX , sY + pasY );
+        }
+        super.move(dx, dy);
+
     }
     
     public void add(IShape component) {

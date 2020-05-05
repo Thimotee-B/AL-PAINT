@@ -5,7 +5,7 @@ import editeur.model.geometry.memento.Originator;
 
 public abstract class Command implements ICommand{
     
-    private Memento memento;
+    protected  Memento memento;
     protected Originator source;
     
     public Command(Originator source){

@@ -3,7 +3,11 @@ package editeur.model.commands;
 import editeur.controller.Mediator;
 import editeur.model.geometry.IShape;
 import editeur.model.geometry.Composite;
+import editeur.model.geometry.memento.Memento;
+import editeur.model.geometry.memento.MementoComposite;
 import editeur.model.geometry.memento.Originator;
+
+import javax.print.attribute.standard.Media;
 
 public class CommandAdd extends Command {
     
@@ -16,11 +20,11 @@ public class CommandAdd extends Command {
     
     @Override
     public void undo(){
-        super.undo();
         if (this.source instanceof Composite) {
             ((Composite) this.source).remove(toAdd);
             Mediator.getInstance().undoShapeAdd(toAdd);
         }
+        super.undo();
     }
     
     @Override
