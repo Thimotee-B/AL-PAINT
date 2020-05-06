@@ -122,7 +122,13 @@ public class Mediator implements IMediator {
 	}
 
 	public void undoShapeAdd(IShape shape){
-        this.app.getDrawBridge().clearView
+        if (shape instanceof  Composite){
+            Composite c = (Composite) shape;
+            for (IShape s : c.getComponents())
+                undoShapeAdd(s);
+        }
+        else
+            this.app.getDrawBridge().clearView
                 (
                 this.app.getWhiteBoard().get()
                 , this.app.getToolBar().get()
@@ -234,6 +240,18 @@ public class Mediator implements IMediator {
             }
         }
 
+        if (tool instanceof  Composite){
+            Composite comp = (Composite) tool;
+            if (comp.getWidth() > toolBar.getWidth() && toolBar.getWidth() > 0
+                    || comp.getWidth() >= toolBar.getToolMaxSize() ){
+
+                double factor = (double)toolBar.getToolMaxSize() / (double) comp.getWidth();
+                this.ReScale(tool, factor);
+                //TODO: choisir un alignement ou osef?
+
+            }
+        }
+
     }
 
 
@@ -248,9 +266,8 @@ public class Mediator implements IMediator {
                     Point  p     = computeNewPos(s, old, to);
                     IShape tool  = s.clone();
                     scaleTool(tool, this.app.getToolBar());
-                    this.move(tool,p.getX(), p.getY());
+                    this.move(tool, p.getX(), p.getY());
                     //TODO: méthode intersect pour aligner les formes
-
                     if(app.getToolBar().inToolBar(to)) {
                         this.add(app.getToolBar().getShapeVector(), tool);
                     }
@@ -269,8 +286,7 @@ public class Mediator implements IMediator {
                 if (s != null){
                     Point  p     = computeNewPos(s, old, to);
                     IShape tool  = s.clone();
-                    tool.setPosition(p.getX(), p.getY());
-                    this.Notify();
+                    this.move(tool, p.getX(), p.getY());
                     if(app.getWhiteBoard().inWhiteBoard(p))
                         this.add(app.getWhiteBoard().getShapeVector(), tool);
                 }

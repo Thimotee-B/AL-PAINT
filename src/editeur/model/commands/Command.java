@@ -1,6 +1,10 @@
 package editeur.model.commands;
 
+import editeur.controller.Mediator;
+import editeur.model.geometry.Composite;
+import editeur.model.geometry.IShape;
 import editeur.model.geometry.memento.Memento;
+import editeur.model.geometry.memento.MementoComposite;
 import editeur.model.geometry.memento.Originator;
 
 public abstract class Command implements ICommand{
@@ -13,7 +17,12 @@ public abstract class Command implements ICommand{
     }
 
     @Override
-    public void undo(){
+    public void undo() {
+        if (this.source instanceof Composite)
+            for (IShape s : ((Composite)source).getComponents()) {
+                Mediator.getInstance().undoShapeAdd((IShape) s);
+            }
+
         this.source.restore(this.memento);
     }
     

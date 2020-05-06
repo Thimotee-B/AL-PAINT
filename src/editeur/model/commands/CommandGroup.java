@@ -22,8 +22,8 @@ public class CommandGroup extends Command {
     
     @Override
     public void undo(){
-        for (IShape s : group.getComponents())
-            group.remove(s);
+        /*for (IShape s : group.getComponents())
+            group.remove(s);*/
         super.undo();
     }
     

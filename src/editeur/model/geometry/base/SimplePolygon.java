@@ -105,6 +105,7 @@ public class SimplePolygon extends Shape {
     @Override
     public void scale(double factor) {
         this.sideSize *= factor;
+        this.polygonPts = ProcessPolygonPoints();
     }
 
     @Override

@@ -112,7 +112,7 @@ public class Composite extends Shape {
         
         m.setCompositeMapMemento(new HashMap<IShape,Memento>());
         m.saveCompositeComponents(components);
-        
+        m.set(m,this.getPosition(),this.getRotationCenter(),this.getTranslationCenter(),this.getRotation(),getColorR(),getColorG(),getColorB(),getAlpha());
         m.setHeight(this.height);
         m.setWidth(this.width);
         return m;
@@ -120,21 +120,28 @@ public class Composite extends Shape {
 
     @Override
     public void restore(Memento memento) {
-        this.components.clear();
+        //this.components.clear();
         
         MementoComposite m = (MementoComposite) memento;
         super.restore(m);
         this.restoreComponent(m);
-        
+        System.out.println(components.size());
         this.width  = m.getWidth();
         this.height = m.getHeight();
         
     }
     
     public void restoreComponent(MementoComposite memento) {
-        for (IShape shape : this.components){
-            this.add(shape);
-            shape.restore(memento.getCompositeMapMemento().get(shape));
+        for (IShape shape : (Vector<IShape>)this.components.clone()){
+            if (memento.getCompositeMapMemento().get(shape) == null) {
+                this.remove(shape);
+                return;
+            }
+            else
+                shape.restore(memento.getCompositeMapMemento().get(shape));
+            IShape newshape = shape.clone();
+            this.add(newshape);
+            this.remove(shape);
         }
     }
     
