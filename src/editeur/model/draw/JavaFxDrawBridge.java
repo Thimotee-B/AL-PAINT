@@ -95,4 +95,10 @@ public class JavaFxDrawBridge implements DrawBridge {
         map.remove(s);
     }
 
+    public void FullClearView(Object whiteboard, Object toolbar){
+        ((Pane)whiteboard).getChildren().clear();
+        ((Pane)toolbar).getChildren().clear();
+        map.clear();
+    }
+
 }

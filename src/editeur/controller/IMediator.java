@@ -15,7 +15,8 @@ public interface IMediator extends SubjectObserve {
 	void unGroup();
 	
 	void reColor();
-	
+
+	void clearView();
 
 	void move(IShape shape, int dx, int dy);
 	

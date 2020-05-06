@@ -18,4 +18,6 @@ public interface DrawBridge {
 
     void clearView(Object whiteboard, Object toolbar, IShape s);
 
+    void FullClearView(Object whiteboard, Object toolbar);
+
 }

@@ -101,7 +101,12 @@ public class Mediator implements IMediator {
 		
 	}
 
-	@Override
+    @Override
+    public void clearView() {
+        this.app.getDrawBridge().FullClearView(app.getWhiteBoard().get(), app.getToolBar().get());
+    }
+
+    @Override
 	public void ReScale(IShape shape, double factor) {
 		Command cmd = new CommandRescale(shape, factor);
 		cmd.execute();
@@ -294,6 +299,7 @@ public class Mediator implements IMediator {
 
         }
     }
+
 
 
     //Mouse events ? c'est un peu différent de java awt (la first gen javafx)
