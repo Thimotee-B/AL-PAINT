@@ -1,5 +1,6 @@
 package editeur.view;
 
+import java.time.chrono.IsoChronology;
 import java.util.Vector;
 
 import editeur.model.draw.DrawBridge;
@@ -45,6 +46,9 @@ public class GenericToolBar implements GraphicalObjectObserver {
 
     public Composite getShapeVector(){
         return shapeVector;
+    }
+    public void setShapeVector(Composite shapeVector) {
+        this.shapeVector = shapeVector;
     }
 
     public IShape getShape(Point p) {
@@ -92,4 +96,5 @@ public class GenericToolBar implements GraphicalObjectObserver {
         if(shapeVector.getComponents().size() > 0)
             shapeVector.draw(this.drawbridge, this.get());
     }
+
 }

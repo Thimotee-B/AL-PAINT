@@ -1,10 +1,13 @@
 package editeur.view;
 
 
-import java.io.File;
+import java.io.*;
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 
+import com.sun.xml.internal.bind.v2.runtime.output.StAXExStreamWriterOutput;
 import editeur.controller.Mediator;
+import editeur.model.geometry.Composite;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -14,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 
+import javax.print.attribute.standard.Media;
 
 
 public class JavaFxFactory implements GUIFactory {
@@ -93,21 +97,71 @@ public class JavaFxFactory implements GUIFactory {
     
     private void handle_save(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Please choose your saved file :");
-        fileChooser.setInitialFileName("default.ser");
+        fileChooser.setTitle("Save your art!");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("paint auber", "*.auber")
+        );
+        fileChooser.setInitialFileName("paint-ksos");
+
         File savedFile = fileChooser.showSaveDialog(null);
-        if (savedFile != null) {
-            //UNTRUC.save(savedFile.getAbsolutePath());
+        if (savedFile == null) {
+            event.consume();
+            return;
         }
+
+        ObjectOutputStream ostream;
+        try {
+            ostream = new ObjectOutputStream(new FileOutputStream(savedFile.getAbsolutePath()));
+            ostream.writeObject(tool.getShapeVector());
+            ostream.writeChar('~');
+            ostream.writeObject(wboard.getShapeVector());
+            ostream.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+//        System.out.println("ta grand mère" + savedFile.getName());
+
         event.consume();
     }
+
     private void handle_load(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Please choose a file to load :");
+        fileChooser.setTitle("Load your art!");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("paint auber", "*.auber")
+        );
         File selectedFile = fileChooser.showOpenDialog(null);
-        if (selectedFile != null) {
-            //UNTRUC.load(selectedFile.getAbsolutePath());
+        if (selectedFile == null) {
+            event.consume();
+            return;
         }
+
+        ObjectInputStream istream;
+        try {
+            istream = new ObjectInputStream(new FileInputStream(selectedFile.getAbsolutePath()));
+            // on lit la toolbar
+            try {
+                tool.setShapeVector((Composite) istream.readObject());
+            } catch (ClassNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+
+            // on console le ~
+            istream.readChar();
+
+            // on lit la whiteboard
+            try {
+                wboard.setShapeVector((Composite) istream.readObject()); // on lit la whiteboard
+            } catch (ClassNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //refresh
+        Mediator.getInstance().Notify();
+
         event.consume();
     }
     

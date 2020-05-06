@@ -30,6 +30,9 @@ public class GenericWhiteBoard implements  GraphicalObjectObserver{
     public Composite getShapeVector(){
         return shapeVector;
     }
+    public void setShapeVector(Composite shapeVector) {
+        this.shapeVector = shapeVector;
+    }
     public void addShape(IShape shape) {
         shapeVector.add(shape);
     }
