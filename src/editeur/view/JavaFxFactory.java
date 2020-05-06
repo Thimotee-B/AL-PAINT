@@ -166,8 +166,12 @@ public class JavaFxFactory implements GUIFactory {
     }
     
     private void handle_trash(ActionEvent event) {
-        //MediatorJavaFx.getInstance().erase();
-        //TODO: Penser � desactiver les boutons si action plus possible undo,redo
+        Mediator.getInstance().clearView();
+        System.out.println("traaaaash");
+//        tool.setShapeVector(new Composite(0, 0,0,0));
+        wboard.setShapeVector(new Composite(0, 0, 0, 0));
+        Mediator.getInstance().Notify();
+
         event.consume();
     }
     
