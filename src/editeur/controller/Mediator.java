@@ -248,9 +248,9 @@ public class Mediator implements IMediator {
                     Point  p     = computeNewPos(s, old, to);
                     IShape tool  = s.clone();
                     scaleTool(tool, this.app.getToolBar());
-                    tool.setPosition(p.getX(), p.getY());
+                    this.move(tool,p.getX(), p.getY());
                     //TODO: méthode intersect pour aligner les formes
-                    this.Notify();
+
                     if(app.getToolBar().inToolBar(to)) {
                         this.add(app.getToolBar().getShapeVector(), tool);
                     }

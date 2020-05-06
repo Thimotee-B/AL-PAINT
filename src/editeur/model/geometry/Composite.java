@@ -66,6 +66,8 @@ public class Composite extends Shape {
         return false;
     }
 
+
+
     @Override
     public void changeColor(int r, int g, int b) {
         super.changeColor(r, g, b);
@@ -75,7 +77,9 @@ public class Composite extends Shape {
     @Override
     public void move(int dx, int dy) {
         int pasX = 0, pasY = 0;
+
         int x = getPosition().getX(), y =getPosition().getY();
+
         for(IShape shape : components){
             int sX = shape.getPosition().getX() , sY = shape.getPosition().getY();
             pasX = dx - x;
@@ -137,7 +141,13 @@ public class Composite extends Shape {
     
     @Override
     public Shape clone() {
-        return null;
+        Composite clone = (Composite) super.clone();
+        Vector<IShape> c = new Vector<IShape>();
+        for (IShape s : components){
+            c.add(s.clone());
+        }
+        clone.components = c;
+        return clone;
     }
 
     @Override

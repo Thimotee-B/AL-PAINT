@@ -17,9 +17,8 @@ public class CommandMove extends Command {
     @Override
     public void execute(){
         super.execute();
-
         if(this.source instanceof Shape) {
-            super.execute();
+            //super.execute();
             ( (IShape) this.source).move(this.dx, this.dy);
         }
     }
