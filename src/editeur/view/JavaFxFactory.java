@@ -125,6 +125,7 @@ public class JavaFxFactory implements GUIFactory {
     }
 
     private void handle_load(ActionEvent event) {
+        Mediator.getInstance().clearView();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Load your art!");
         fileChooser.getExtensionFilters().addAll(

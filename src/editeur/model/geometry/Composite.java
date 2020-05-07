@@ -49,6 +49,7 @@ public class Composite extends Shape {
         this.height = (int) (this.height * factor);
         this.width  = (int) (this.width  * factor);
         for(IShape shape : components) shape.scale(factor);
+
     }
     
     @Override
@@ -128,21 +129,28 @@ public class Composite extends Shape {
         System.out.println(components.size());
         this.width  = m.getWidth();
         this.height = m.getHeight();
+
         
     }
     
     public void restoreComponent(MementoComposite memento) {
-        for (IShape shape : (Vector<IShape>)this.components.clone()){
+        this.components.clear();
+        for (IShape shape : memento.getCompositeMapMemento().keySet()){
+            shape.restore(memento.getCompositeMapMemento().get(shape));
+            this.add(shape);
+        }
+
+        /*for (IShape shape : (Vector<IShape>)this.components.clone()){
             if (memento.getCompositeMapMemento().get(shape) == null) {
                 this.remove(shape);
-                return;
+                continue;
             }
             else
                 shape.restore(memento.getCompositeMapMemento().get(shape));
             IShape newshape = shape.clone();
             this.add(newshape);
             this.remove(shape);
-        }
+        }*/
     }
     
     

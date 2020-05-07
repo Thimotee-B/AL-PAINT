@@ -127,6 +127,7 @@ public abstract class Shape implements IShape {
 
     public void save(MementoShape memento) {
     	memento.set(memento, position, rotationCenter, translationCenter, rotation, r, g, b, alpha);
+
     }
     
     public void restore(MementoShape memento){

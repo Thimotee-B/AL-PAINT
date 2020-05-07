@@ -217,9 +217,12 @@ public class Mediator implements IMediator {
                     int [] coord =this.AddToSelection(old, to);
                     if(selectedShapes.size() > 0) {
                         this.group(app.getWhiteBoard().getShapeVector(), coord);
-                        for (IShape delete : selectedShapes)
-                            this.delete(app.getWhiteBoard().getShapeVector(),delete);
-                        System.out.println(app.getWhiteBoard().getShapeVector().getComponents().size());
+                        for (IShape delete : selectedShapes) {
+                            app.getWhiteBoard().getShapeVector().remove(delete);
+                        }
+                        //this.clearView();
+                        //this.Notify();
+                        //System.out.println(app.getWhiteBoard().getShapeVector().getComponents().size());
                         //System.out.println(selectedShapes.size());
 
                     }
@@ -239,7 +242,8 @@ public class Mediator implements IMediator {
                     || r.getWidth() >= toolBar.getToolMaxSize() ){
 
                     double factor = (double)toolBar.getToolMaxSize() / (double) r.getWidth();
-                    this.ReScale(tool, factor);
+                    tool.scale(factor);
+                    this.Notify();
                     //TODO: choisir un alignement ou osef?
 
             }
@@ -251,7 +255,8 @@ public class Mediator implements IMediator {
                     || comp.getWidth() >= toolBar.getToolMaxSize() ){
 
                 double factor = (double)toolBar.getToolMaxSize() / (double) comp.getWidth();
-                this.ReScale(tool, factor);
+                tool.scale(factor);
+                this.Notify();
                 //TODO: choisir un alignement ou osef?
 
             }
@@ -271,7 +276,8 @@ public class Mediator implements IMediator {
                     Point  p     = computeNewPos(s, old, to);
                     IShape tool  = s.clone();
                     scaleTool(tool, this.app.getToolBar());
-                    this.move(tool, p.getX(), p.getY());
+                    tool.move(p.getX(), p.getY());
+                    this.Notify();
                     //TODO: méthode intersect pour aligner les formes
                     if(app.getToolBar().inToolBar(to)) {
                         this.add(app.getToolBar().getShapeVector(), tool);
@@ -291,7 +297,9 @@ public class Mediator implements IMediator {
                 if (s != null){
                     Point  p     = computeNewPos(s, old, to);
                     IShape tool  = s.clone();
-                    this.move(tool, p.getX(), p.getY());
+                    tool.move(p.getX(), p.getY());
+                    this.clearView();
+                    this.Notify();
                     if(app.getWhiteBoard().inWhiteBoard(p))
                         this.add(app.getWhiteBoard().getShapeVector(), tool);
                 }

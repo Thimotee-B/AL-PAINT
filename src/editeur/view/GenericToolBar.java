@@ -22,6 +22,8 @@ public class GenericToolBar implements GraphicalObjectObserver {
         this.shapeVector = new Composite(0,0,0,0);
     }
 
+
+
     public int getStartShapesIndices() {
         return startShapesIndices;
     }
