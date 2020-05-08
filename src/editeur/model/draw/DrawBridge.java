@@ -7,7 +7,9 @@ import java.awt.*;
 
 public interface DrawBridge {
 	//Draw poylgon,rectangles,lignes etc 
-    
+
+    void drawSelection(Object drawSurface, Rectangle selection);
+
     void drawRectangle(Object toDraw, Rectangle r);
     
     void fillRectangle(Object drawSurface, Rectangle r);

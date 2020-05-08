@@ -16,6 +16,20 @@ public class JavaFxDrawBridge implements DrawBridge {
     private HashMap<IShape,javafx.scene.shape.Shape> map =
             new HashMap<IShape,javafx.scene.shape.Shape>();
 
+
+    @Override
+    public void drawSelection(Object drawSurface, Rectangle selection) {
+        javafx.scene.shape.Rectangle select = new javafx.scene.shape.Rectangle(selection.getWidth(), selection.getHeight());
+        select.setX(selection.getPosition().getX());
+        select.setY(selection.getPosition().getY());
+        select.setTranslateX(selection.getPosition().getX());
+        select.setTranslateY(selection.getPosition().getY());
+        select.setStroke(Color.DARKMAGENTA);
+        select.setFill(Color.TRANSPARENT);
+        select.getStrokeDashArray().add(3.0);
+        this.update(drawSurface, select);
+    }
+
     @Override
     public void drawRectangle(Object drawSurface, Rectangle r ) {
         javafx.scene.shape.Rectangle rect = (javafx.scene.shape.Rectangle) this.map.get(r);

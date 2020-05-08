@@ -36,6 +36,7 @@ public interface IMediator extends SubjectObserve {
 	void MouseDraggedEvent(boolean fromToolbar ,int clickSide,Point old, Point to);
 	void MouseClickEventAddTool(boolean fromToolbar ,int clickSide,Point old, Point to);
 
-	void ShowDraggedShape(boolean fromToolbar, Point old, Point to);
+	boolean ShowDraggedShape(boolean fromToolbar, Point old, Point to);
+	void ShowSelection(Point p1, Point p2);
 
 }

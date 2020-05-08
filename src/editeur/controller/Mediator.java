@@ -185,7 +185,16 @@ public class Mediator implements IMediator {
         int [] tab = { (minX + maxX) / 2 , (minY + maxY) / 2 , maxX - minX , maxY - minY};
         return tab;
     }
-    
+
+    public void ShowSelection(Point p1, Point p2){
+        int minX = Math.min(p1.getX(), p2.getX());
+        int maxX = Math.max(p1.getX(), p2.getX());
+        int minY = Math.min(p1.getY(), p2.getY());
+        int maxY = Math.max(p1.getY(), p2.getY());
+        Rectangle r = new Rectangle(minX, minY, maxX - minX, maxY - minY);
+        this.app.getDrawBridge().drawSelection(this.app.getWhiteBoard().get(), r);
+    }
+
     private Point computeNewPos(IShape s, Point p1, Point p2) {
         Point oldPos = s.getPosition();
         int stepX = p1.getX() - oldPos.getX();
@@ -330,12 +339,12 @@ public class Mediator implements IMediator {
     }
 
 
-    public void ShowDraggedShape(boolean fromToolbar, Point old, Point to){
+    public boolean ShowDraggedShape(boolean fromToolbar, Point old, Point to){
         IShape s, clone;
         //Todo: Juste déterminer si whiteboard ou toolbar avec un temp sur le dragged
         if (fromToolbar) {
             s = this.app.getToolBar().getShape(old);
-            if (s == null) return;
+            if (s == null) return false;
             clone = (IShape) s.clone();
             Point p = computeNewPos(s, old, to);
             clone.move(p.getX(), p.getY());
@@ -343,14 +352,14 @@ public class Mediator implements IMediator {
         }
         else {
             s = this.app.getWhiteBoard().getShape(old);
-            if (s == null) return;
+            if (s == null) return false;
             clone = (IShape) s.clone();
             this.undoShapeAdd(s);
             Point p = computeNewPos(s, old, to);
             clone.move(p.getX(), p.getY());
             clone.draw(this.app.getDrawBridge(),this.app.getWhiteBoard().get());
         }
-
+        return true;
 
     }
 

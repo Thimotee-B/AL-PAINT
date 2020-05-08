@@ -110,25 +110,28 @@ public class ApplicationFx extends AbstractApplication {
                            p = this.getWhiteBoardPoint(e);
                        if(old == null)
                            old = new Point(p);
-                       this.mediator.ShowDraggedShape(OldinToolbar,old,p);
+                       if(!this.mediator.ShowDraggedShape(OldinToolbar,old,p))
+                           this.mediator.ShowSelection(old,p);
 
                    }
                    
                 });
         scene.setOnMouseReleased(
                 e ->{
-                   Point p = new Point((int) e.getSceneX(),(int) e.getSceneY());
-                   boolean inToolbar    = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getToolBar().get());
-                   boolean inWhiteBoard = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getWhiteBoard().get());
-                   int clickSide = (e.getButton() == MouseButton.PRIMARY) ? Mediator.LEFT : Mediator.RIGHT;
+                    this.mediator.clearView();
+                    this.mediator.Notify();
+                    Point p = new Point((int) e.getSceneX(),(int) e.getSceneY());
+                    boolean inToolbar    = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getToolBar().get());
+                    boolean inWhiteBoard = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getWhiteBoard().get());
+                    int clickSide = (e.getButton() == MouseButton.PRIMARY) ? Mediator.LEFT : Mediator.RIGHT;
 
-                   if(inToolbar && OldinWhiteBoard)
+                    if(inToolbar && OldinWhiteBoard)
                         this.mediator.MouseClickEventAddTool(false, clickSide, old, getToolBarPoint(e));
-                   if (inWhiteBoard && OldinWhiteBoard)
-                      this.mediator.MouseClickEvent(false, clickSide, old, getWhiteBoardPoint(e));
-                   if(inToolbar && OldinToolbar)
+                    if (inWhiteBoard && OldinWhiteBoard)
+                        this.mediator.MouseClickEvent(false, clickSide, old, getWhiteBoardPoint(e));
+                    if(inToolbar && OldinToolbar)
                         this.mediator.MouseClickEvent(true, clickSide, old, getToolBarPoint(e));
-                   if (inWhiteBoard &&  OldinToolbar)
+                    if (inWhiteBoard &&  OldinToolbar)
                         this.mediator.MouseDraggedEvent(true, clickSide, old, getWhiteBoardPoint(e));
                     old = null;
                 });
