@@ -24,8 +24,8 @@ public class CommandGroup extends Command {
     public void undo(){
         for (IShape s : group.getComponents()) {
             ((Composite) this.source).add(s);
-            group.remove(s);
         }
+        this.group.clear();
         super.undo();
     }
     

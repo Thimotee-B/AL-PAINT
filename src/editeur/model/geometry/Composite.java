@@ -9,6 +9,8 @@ import java.util.Vector;
 
 import editeur.model.draw.DrawBridge;
 import editeur.model.geometry.base.Point;
+import editeur.model.geometry.base.Rectangle;
+import editeur.model.geometry.base.SimplePolygon;
 import editeur.model.geometry.memento.Memento;
 import editeur.model.geometry.memento.MementoComposite;
 
@@ -48,7 +50,13 @@ public class Composite extends Shape {
     public void scale(double factor) {
         this.height = (int) (this.height * factor);
         this.width  = (int) (this.width  * factor);
-        for(IShape shape : components) shape.scale(factor);
+        for(IShape shape : components) {
+            shape.scale(factor);
+            int x = (int) ((shape.getPosition().getX() - this.getPosition().getX()) * factor);
+            int y = (int) ((shape.getPosition().getY() - this.getPosition().getY()) * factor);
+            shape.move(this.getPosition().getX() + x, this.getPosition().getY() + y);
+        }
+
 
     }
     
@@ -74,7 +82,49 @@ public class Composite extends Shape {
         super.changeColor(r, g, b);
         for(IShape shape : components) shape.changeColor(r, g, b);
     }
-    
+
+    public int [] minComponents(){
+        int min    = Integer.MAX_VALUE;
+        int width  = Integer.MAX_VALUE;
+        int min2   = Integer.MAX_VALUE;
+        int height = Integer.MAX_VALUE;
+        for (IShape s : components){
+            if (s instanceof Composite) {
+                if (min > ((Composite) s).minComponents()[0]) {
+                    min = ((Composite) s).minComponents()[0];
+                    width = ((Composite) s).minComponents()[1];
+                }
+                if (min2 > ((Composite) s).minComponents()[2]) {
+                    min2 = ((Composite) s).minComponents()[2];
+                    height = ((Composite) s).minComponents()[3];
+                }
+            }
+            if (s.getPosition().getX() < min) {
+                min = s.getPosition().getX();
+                if (s instanceof  Rectangle)
+                    width = ((Rectangle) s).getWidth();
+                if (s instanceof  Composite)
+                    width = ((Composite) s).getWidth();
+                if (s instanceof  SimplePolygon)
+                    width =  (int) ((SimplePolygon) s).getSideSize();
+            }
+
+            if (s.getPosition().getY() < min2) {
+                min2 = s.getPosition().getY();
+                if (s instanceof  Rectangle)
+                    height = ((Rectangle) s).getHeight();
+                if (s instanceof  Composite)
+                    height = ((Composite) s).getHeight();
+                if (s instanceof  SimplePolygon)
+                    height =  (int) ((SimplePolygon) s).getSideSize();
+            }
+
+        }
+        return new int[]{min, width, min2, height};
+    }
+
+
+
     @Override
     public void move(int dx, int dy) {
         int pasX = 0, pasY = 0;
@@ -104,6 +154,10 @@ public class Composite extends Shape {
     public void remove(IShape component) {
         this.components.remove(component);
         
+    }
+
+    public void clear(){
+        this.components.clear();
     }
 
     @Override

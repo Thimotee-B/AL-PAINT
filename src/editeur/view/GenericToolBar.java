@@ -13,6 +13,7 @@ public class GenericToolBar implements GraphicalObjectObserver {
     private final int width  = 150; 
     private final int height = 900;
     private final int toolMaxSize = 75;
+    private final int alignToolX  = 25;
     private Composite shapeVector;
     private DrawBridge drawbridge;
     private int startShapesIndices = 0;

@@ -226,6 +226,7 @@ public class Mediator implements IMediator {
                         //System.out.println(selectedShapes.size());
 
                     }
+
                 }
             }
 
@@ -273,10 +274,30 @@ public class Mediator implements IMediator {
                 s = this.app.getWhiteBoard().getShape(old);
                 if (s != null){
                     System.out.println("cc");
-                    Point  p     = computeNewPos(s, old, to);
                     IShape tool  = s.clone();
                     scaleTool(tool, this.app.getToolBar());
-                    tool.move(p.getX(), p.getY());
+                    Point  p     = computeNewPos(tool, old, to);
+                    int alignX = p.getX();
+                    int alignY = p.getY();
+                    tool.move(alignX, alignY);
+                    boolean mustAlign = false;
+                    if( tool instanceof  Composite){
+                        Composite c = (Composite) tool;
+                        for (IShape myShape : c.getComponents())
+                            if (!app.getToolBar().inToolBar(myShape.getPosition()))
+                                mustAlign = true;
+                        int minX      = c.minComponents()[0];
+                        int minWidth  = c.minComponents()[1];
+                        int minY      = c.minComponents()[2];
+                        int minHeight = c.minComponents()[3];
+                        if (minX < alignX)
+                            alignX = alignX - minX + minWidth/2;
+                        if (minY < alignY)
+                            alignY = minY - minHeight;
+                    //System.out.println("Align Y : " + alignY + " y : " + minY);
+                    }
+                    if (mustAlign)
+                        tool.move(alignX, alignY);
                     this.Notify();
                     //TODO: méthode intersect pour aligner les formes
                     if(app.getToolBar().inToolBar(to)) {
