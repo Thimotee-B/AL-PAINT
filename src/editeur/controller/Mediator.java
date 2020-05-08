@@ -330,6 +330,30 @@ public class Mediator implements IMediator {
     }
 
 
+    public void ShowDraggedShape(boolean fromToolbar, Point old, Point to){
+        IShape s, clone;
+        //Todo: Juste déterminer si whiteboard ou toolbar avec un temp sur le dragged
+        if (fromToolbar) {
+            s = this.app.getToolBar().getShape(old);
+            if (s == null) return;
+            clone = (IShape) s.clone();
+            Point p = computeNewPos(s, old, to);
+            clone.move(p.getX(), p.getY());
+            clone.draw(this.app.getDrawBridge(),this.app.getToolBar().get());
+        }
+        else {
+            s = this.app.getWhiteBoard().getShape(old);
+            if (s == null) return;
+            clone = (IShape) s.clone();
+            this.undoShapeAdd(s);
+            Point p = computeNewPos(s, old, to);
+            clone.move(p.getX(), p.getY());
+            clone.draw(this.app.getDrawBridge(),this.app.getWhiteBoard().get());
+        }
+
+
+    }
+
 
     //Mouse events ? c'est un peu différent de java awt (la first gen javafx)
 	//donc je sais pas si on peut hériter en javafx d'une classe mouse listener

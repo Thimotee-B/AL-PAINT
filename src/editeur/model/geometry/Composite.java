@@ -61,7 +61,7 @@ public class Composite extends Shape {
     }
     
     @Override
-    public void setAlpha(int alpha) {
+    public void setAlpha(double alpha) {
         super.setAlpha(alpha);
         for(IShape shape : components) shape.setAlpha(alpha);	
     }

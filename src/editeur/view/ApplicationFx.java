@@ -97,6 +97,8 @@ public class ApplicationFx extends AbstractApplication {
         scene.setOnMouseDragged(
                 e ->{
                    if (e.getButton() == MouseButton.PRIMARY) {
+                       this.mediator.clearView();
+                       this.mediator.Notify();
                        if(old == null) {
                            OldinToolbar = inElement((int) e.getSceneX(), (int) e.getSceneY(), (StackPane) getToolBar().get());
                            OldinWhiteBoard = inElement((int) e.getSceneX(), (int) e.getSceneY(), (StackPane) getWhiteBoard().get());
@@ -108,7 +110,7 @@ public class ApplicationFx extends AbstractApplication {
                            p = this.getWhiteBoardPoint(e);
                        if(old == null)
                            old = new Point(p);
-                       //shadow? ...
+                       this.mediator.ShowDraggedShape(OldinToolbar,old,p);
 
                    }
                    

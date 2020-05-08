@@ -102,7 +102,7 @@ public abstract class Shape implements IShape {
         return this.b;
     }
     
-    public void setAlpha(int alpha) {
+    public void setAlpha(double alpha) {
         this.alpha = alpha;
     }
 
