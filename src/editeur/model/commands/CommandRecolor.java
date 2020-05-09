@@ -10,8 +10,8 @@ public class CommandRecolor extends Command{
     public CommandRecolor(Originator source, int r, int g, int b){
         super(source);
         this.r = r;
-        this.b = b;
         this.g = g;
+        this.b = b;
     }
     
 

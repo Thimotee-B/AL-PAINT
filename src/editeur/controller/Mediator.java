@@ -10,6 +10,8 @@ import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Point;
 import editeur.model.geometry.base.Rectangle;
 import editeur.model.geometry.base.SimplePolygon;
+import editeur.model.menu.Menu;
+import editeur.model.menu.MenuBuilder;
 import editeur.view.AbstractApplication;
 
 import editeur.view.GenericToolBar;
@@ -25,6 +27,8 @@ public class Mediator implements IMediator {
     private AbstractApplication app;
     private CareTaker           careTaker;
     private Vector<IShape>     selectedShapes;
+    private IShape             clickedShape;
+    private int[]              coordinatesSelected;
     private Vector<GraphicalObjectObserver> observers;
 
 
@@ -61,7 +65,7 @@ public class Mediator implements IMediator {
     @Override
     public void start() {
         Rectangle r = new Rectangle(20,50,100,100);
-        r.changeColor(255, 165, 0);
+        r.changeColor(22, 169, 243);
         SimplePolygon p = new SimplePolygon(20,300,6,40);
         p.changeColor(50,50,0);
         SimplePolygon p2 = new SimplePolygon(20,500,5,50);
@@ -82,22 +86,32 @@ public class Mediator implements IMediator {
     }
     
 	@Override
-	public void group(IShape s, int [] coordinates) {
-		Command cmd = new CommandGroup(s, selectedShapes, coordinates);
+	public void group(IShape s) {
+		Command cmd = new CommandGroup(s, selectedShapes, coordinatesSelected);
 		cmd.execute();
 		careTaker.add(cmd);
+        for (IShape delete : selectedShapes)
+           app.getWhiteBoard().getShapeVector().remove(delete);
 		this.Notify();
 	}
 
 	@Override
-	public void unGroup() {
-		// TODO Auto-generated method stub
+	public void unGroup(IShape s, Composite group) {
+        Command cmd = new CommandUngroup(s, group);
+        cmd.execute();
+        careTaker.add(cmd);
+        /*for (IShape delete : selectedShapes)
+            app.getWhiteBoard().getShapeVector().remove(delete);*/
+        this.Notify();
 		
 	}
 
 	@Override
-	public void reColor() {
-		// TODO Auto-generated method stub
+	public void reColor(IShape toEdit,int r, int g , int b) {
+        Command cmd = new CommandRecolor(toEdit, r, g, b);
+        cmd.execute();
+        careTaker.add(cmd);
+        this.Notify();
 		
 	}
 
@@ -205,11 +219,12 @@ public class Mediator implements IMediator {
     @Override
     public void MouseClickEvent(boolean fromToolbar ,int clickSide,Point old, Point to) {
         //test x et y sont la pos des clicks
-        selectedShapes.clear();
+        //selectedShapes.clear();
         if (clickSide == LEFT && old != null){
             IShape s;
             if(fromToolbar) {
                 s = this.app.getToolBar().getShape(old);
+                this.clickedShape = s;
                 if (s != null) {
                     Point p = computeNewPos(s, old, to);
                     this.move(s, p.getX(), p.getY());
@@ -218,23 +233,24 @@ public class Mediator implements IMediator {
 
             else {
                 s = this.app.getWhiteBoard().getShape(old);
+                this.clickedShape = s;
                 if (s != null){
                     Point p = computeNewPos(s, old, to);
                     this.move(s, p.getX(), p.getY());
                 }
                 else {
-                    int [] coord =this.AddToSelection(old, to);
-                    if(selectedShapes.size() > 0) {
-                        this.group(app.getWhiteBoard().getShapeVector(), coord);
+                    this.coordinatesSelected =this.AddToSelection(old, to);
+                    /*if(selectedShapes.size() > 0) {
+                        this.group(app.getWhiteBoard().getShapeVector());
                         for (IShape delete : selectedShapes) {
                             app.getWhiteBoard().getShapeVector().remove(delete);
-                        }
+                        }*/
                         //this.clearView();
                         //this.Notify();
                         //System.out.println(app.getWhiteBoard().getShapeVector().getComponents().size());
                         //System.out.println(selectedShapes.size());
 
-                    }
+                   // }
 
                 }
             }
@@ -363,6 +379,17 @@ public class Mediator implements IMediator {
 
     }
 
+    public void setClickedShape(int x, int y){
+        IShape tmp = this.app.getWhiteBoard().getShape(new Point(x,y));
+        if (tmp != null) clickedShape  = tmp;
+    }
+
+    @Override
+    public void callMenu(MenuBuilder builder, int x, int y) {
+        Menu m = new Menu(selectedShapes, clickedShape, app.getWhiteBoard());
+        m.showMenu(builder, x, y);
+
+    }
 
     //Mouse events ? c'est un peu différent de java awt (la first gen javafx)
 	//donc je sais pas si on peut hériter en javafx d'une classe mouse listener

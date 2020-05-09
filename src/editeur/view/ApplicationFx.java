@@ -2,6 +2,8 @@ package editeur.view;
 
 import editeur.controller.Mediator;
 import editeur.model.geometry.base.Point;
+import editeur.model.menu.JavaFxMenuBuilder;
+import editeur.model.menu.MenuBuilder;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,8 +23,9 @@ public class ApplicationFx extends AbstractApplication {
     public ApplicationFx() {
         super("JAVAFX");
     }
-    
-    
+
+
+
     @Override
     public void initFactoryElements() {
         super.initFactoryElements();
@@ -93,7 +96,20 @@ public class ApplicationFx extends AbstractApplication {
 
     public void addEvents() {
         
-        
+        scene.setOnMouseClicked(
+                e ->{
+                    if (e.getButton() == MouseButton.SECONDARY){
+                        MenuBuilder builder = new JavaFxMenuBuilder();
+                        Point to = this.getWhiteBoardPoint(e);
+                        Mediator.getInstance().setClickedShape(to.getX(), to.getY());
+                        Mediator.getInstance().callMenu(builder, (int) e.getScreenX(), (int) e.getScreenY());
+                    }
+
+                });
+
+
+
+
         scene.setOnMouseDragged(
                 e ->{
                    if (e.getButton() == MouseButton.PRIMARY) {

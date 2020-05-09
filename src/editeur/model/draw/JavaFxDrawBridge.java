@@ -62,7 +62,7 @@ public class JavaFxDrawBridge implements DrawBridge {
     @Override
     public void fillRectangle(Object drawSurface, Rectangle r) {
         javafx.scene.shape.Rectangle rect = (javafx.scene.shape.Rectangle) this.map.get(r);
-        rect.setFill(Color.rgb(r.getColorB(),r.getColorG(), r.getColorR(), r.getAlpha()));
+        rect.setFill(Color.rgb(r.getColorR(),r.getColorG(), r.getColorB(), r.getAlpha()));
         this.update(drawSurface,rect);
     }
 
@@ -91,7 +91,7 @@ public class JavaFxDrawBridge implements DrawBridge {
     @Override
     public void fillPolygon(Object drawSurface, SimplePolygon p) {
         javafx.scene.shape.Polygon poly = (javafx.scene.shape.Polygon) this.map.get(p);
-        poly.setFill(Color.rgb(p.getColorB(),p.getColorG(), p.getColorR(), p.getAlpha()));
+        poly.setFill(Color.rgb(p.getColorR(),p.getColorG(), p.getColorB(), p.getAlpha()));
         this.update(drawSurface,poly);
     }
 

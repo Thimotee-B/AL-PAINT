@@ -26,6 +26,8 @@ public interface IShape extends Cloneable, Originator, Serializable, Drawable {
 
 	public void setAlpha(double alpha);
 
+	public double getAlpha();
+
 	double getRotation();
 
 	void rotate(double rotation);

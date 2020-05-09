@@ -20,10 +20,10 @@ public class CommandAdd extends Command {
     
     @Override
     public void undo(){
-        if (this.source instanceof Composite) {
+        /*if (this.source instanceof Composite) {
             ((Composite) this.source).remove(toAdd);
             Mediator.getInstance().undoShapeAdd(toAdd);
-        }
+        }*/
         super.undo();
     }
     

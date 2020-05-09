@@ -175,7 +175,7 @@ public class Composite extends Shape {
 
     @Override
     public void restore(Memento memento) {
-        //this.components.clear();
+        this.components.clear();
         
         MementoComposite m = (MementoComposite) memento;
         super.restore(m);
@@ -188,8 +188,8 @@ public class Composite extends Shape {
     }
     
     public void restoreComponent(MementoComposite memento) {
-        this.components.clear();
         for (IShape shape : memento.getCompositeMapMemento().keySet()){
+            this.remove(shape);
             shape.restore(memento.getCompositeMapMemento().get(shape));
             this.add(shape);
         }

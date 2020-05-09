@@ -16,28 +16,33 @@ public class CommandGroup extends Command {
     private int[] c;
     public CommandGroup(Originator source, Vector<IShape> selected, int[] coordinates){
         super(source);
-        this.selected    = (Vector<IShape>) selected.clone();
+        this.selected = selected;
         this.c = coordinates;
     }
     
     @Override
     public void undo(){
-        for (IShape s : group.getComponents()) {
+        super.undo();
+        ((Composite) this.source).remove(group);
+        group.clear();
+        /*for (IShape s : group.getComponents()) {
             ((Composite) this.source).add(s);
         }
+        this.selected.clear();
+        ((Composite) this.source).remove(group);
         this.group.clear();
-        super.undo();
+*/
     }
     
     @Override
     public void execute(){
-        IShape s = selected.get(0);
-        group = new Composite(c[0], c[1], c[2], c[3]);
-        for (IShape shape : selected) group.add(shape);
-        if (this.source instanceof Composite) {
-            ((Composite) this.source).add(group);
+        if(group == null) {
+            group = new Composite(c[0], c[1], c[2], c[3]);
+            for (IShape shape : selected) group.add(shape);
+            if (this.source instanceof Composite) {
+                ((Composite) this.source).add(group);
+            }
         }
-
         super.execute();
     }
 

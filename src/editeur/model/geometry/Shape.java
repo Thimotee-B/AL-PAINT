@@ -106,6 +106,7 @@ public abstract class Shape implements IShape {
         this.alpha = alpha;
     }
 
+
     @Override
     public abstract boolean isInside(Point p);
 
