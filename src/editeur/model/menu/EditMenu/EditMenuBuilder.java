@@ -8,10 +8,12 @@ public interface EditMenuBuilder {
 
     void buildColorPicker(IShape toEdit);
 
+    void buildPositionPicker(IShape toEdit);
+
     void buildDialogContent();
 
     void buildDialogButtons();
 
-    void buildResult();
+    void buildResult(IShape toEdit);
 
 }

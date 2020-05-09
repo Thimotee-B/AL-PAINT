@@ -72,9 +72,10 @@ public class JavaFxMenuBuilder implements MenuBuilder {
                 e -> {
                         builder.buildDialog();
                         builder.buildColorPicker(clickedShape);
+                        builder.buildPositionPicker(clickedShape);
                         builder.buildDialogContent();
                         builder.buildDialogButtons();
-                        builder.buildResult();
+                        builder.buildResult(clickedShape);
                         e.consume();
                     }
         );
