@@ -6,14 +6,20 @@ public interface EditMenuBuilder {
 
     void buildDialog();
 
-    void buildColorPicker(IShape toEdit);
+    void buildColorPicker();
 
-    void buildPositionPicker(IShape toEdit);
+    void buildPositionPicker();
+
+    void buildRotationPicker();
+
+    void buildScalePicker();
+
+    void buildRoundPicker();
 
     void buildDialogContent();
 
     void buildDialogButtons();
 
-    void buildResult(IShape toEdit);
+    void buildResult();
 
 }

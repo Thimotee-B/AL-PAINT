@@ -73,6 +73,7 @@ public class Rectangle extends Shape{
     @Override
     public void move(int newx, int newy){
         super.move(newx, newy);
+        super.setRotationCenter(new Point(newx + width /2 , newy + length /2));
     }
 
     @Override

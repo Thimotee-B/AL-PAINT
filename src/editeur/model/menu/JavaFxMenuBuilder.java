@@ -67,15 +67,18 @@ public class JavaFxMenuBuilder implements MenuBuilder {
     @Override
     public void buildEditItem() {
         MenuItem edit           = new MenuItem("Edit");
-        EditMenuBuilder builder = new EditMenuBuilderJavaFx();
+        EditMenuBuilder builder = new EditMenuBuilderJavaFx(whiteboard, clickedShape);
         edit.setOnAction(
                 e -> {
                         builder.buildDialog();
-                        builder.buildColorPicker(clickedShape);
-                        builder.buildPositionPicker(clickedShape);
+                        builder.buildColorPicker();
+                        builder.buildPositionPicker();
+                        builder.buildRotationPicker();
+                        builder.buildScalePicker();
+                        builder.buildRoundPicker();
                         builder.buildDialogContent();
                         builder.buildDialogButtons();
-                        builder.buildResult(clickedShape);
+                        builder.buildResult();
                         e.consume();
                     }
         );

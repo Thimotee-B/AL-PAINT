@@ -36,6 +36,8 @@ public interface IShape extends Cloneable, Originator, Serializable, Drawable {
 
 	Point getRotationCenter();
 
+	public void setRotationCenter(Point p);
+
 	public Shape clone();
 
 	public boolean isInside(Point p);

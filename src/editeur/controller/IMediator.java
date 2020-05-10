@@ -3,6 +3,7 @@ package editeur.controller;
 import editeur.model.geometry.Composite;
 import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Point;
+import editeur.model.geometry.base.Rectangle;
 import editeur.model.menu.MenuBuilder;
 import editeur.view.GraphicalObjectObserver;
 
@@ -15,6 +16,8 @@ public interface IMediator extends SubjectObserve {
     void callMenu(MenuBuilder builder, int x, int y);
 
 	void group(IShape s);
+
+	void roundBorders(Rectangle r, int roundWidth, int roundHeight);
 	
 	void unGroup(IShape s, Composite group);
 	

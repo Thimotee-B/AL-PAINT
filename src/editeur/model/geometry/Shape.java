@@ -69,7 +69,11 @@ public abstract class Shape implements IShape {
     public Point getTranslationCenter() {
         return this.translationCenter;
     }
-     
+
+    @Override
+    public void setRotationCenter(Point p){
+        this.rotationCenter = p;
+    }
     
     @Override
     public double getRotation() {

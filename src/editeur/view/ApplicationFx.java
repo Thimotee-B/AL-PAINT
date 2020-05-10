@@ -126,8 +126,9 @@ public class ApplicationFx extends AbstractApplication {
                            p = this.getWhiteBoardPoint(e);
                        if(old == null)
                            old = new Point(p);
-                       if(!this.mediator.ShowDraggedShape(OldinToolbar,old,p))
-                           this.mediator.ShowSelection(old,p);
+                       if(!this.mediator.ShowDraggedShape(OldinToolbar, old, p))
+                           if(OldinWhiteBoard)
+                               this.mediator.ShowSelection(old, p);
 
                    }
                    

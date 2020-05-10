@@ -67,6 +67,11 @@ public class Composite extends Shape {
     }
 
     @Override
+    public void setRotationCenter(Point p) {
+        //TODO: dd
+    }
+
+    @Override
     public boolean isInside(Point p) {
         for(IShape shape : components) {
             if(shape.isInside(p))

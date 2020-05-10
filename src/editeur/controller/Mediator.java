@@ -95,7 +95,15 @@ public class Mediator implements IMediator {
 		this.Notify();
 	}
 
-	@Override
+    @Override
+    public void roundBorders(Rectangle r, int roundWidth, int roundHeight) {
+        Command cmd = new CommandRoundBorders(r, roundWidth, roundHeight);
+        cmd.execute();
+        careTaker.add(cmd);
+        this.Notify();
+    }
+
+    @Override
 	public void unGroup(IShape s, Composite group) {
         Command cmd = new CommandUngroup(s, group);
         cmd.execute();
