@@ -16,7 +16,7 @@ public interface MenuBuilder {
 
     void buildEditItem();
 
-    void buildResult(int x, int y);
+    void buildResult(Vector<IShape> selectedShapes, IShape clickedShape, GenericWhiteBoard whiteBoard, int x, int y);
 
-
+    void debuild();
 }

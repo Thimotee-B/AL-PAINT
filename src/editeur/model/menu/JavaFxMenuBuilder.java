@@ -1,28 +1,32 @@
 package editeur.model.menu;
 
+import editeur.Main;
 import editeur.controller.Mediator;
 import editeur.model.geometry.Composite;
 import editeur.model.geometry.IShape;
 import editeur.model.menu.EditMenu.EditMenuBuilder;
 import editeur.model.menu.EditMenu.EditMenuBuilderJavaFx;
-import editeur.view.ApplicationFx;
 import editeur.view.GenericWhiteBoard;
 import javafx.scene.control.*;
-import javafx.scene.control.Menu;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 
-import javax.print.attribute.standard.Media;
-import java.util.Optional;
-import java.util.Stack;
 import java.util.Vector;
 
 public class JavaFxMenuBuilder implements MenuBuilder {
-
+    static MenuBuilder     instance;
     ContextMenu    MainMenu;
     GenericWhiteBoard  whiteboard;
     Vector<IShape> selectedShapes;
     IShape         clickedShape;
+    static private boolean displayed = false, builded = false;
+
+    private JavaFxMenuBuilder() {}
+
+    static public MenuBuilder getInstance() {
+        if (instance == null)
+            instance = new JavaFxMenuBuilder();
+        return instance;
+    }
 
     @Override
     public void buildMainMenu(Vector<IShape> selectedShapes,IShape clickedShape, GenericWhiteBoard whiteboard) {
@@ -66,6 +70,8 @@ public class JavaFxMenuBuilder implements MenuBuilder {
 
     @Override
     public void buildEditItem() {
+        if (clickedShape == null) return;
+
         MenuItem edit           = new MenuItem("Edit");
         EditMenuBuilder builder = new EditMenuBuilderJavaFx(whiteboard, clickedShape);
         edit.setOnAction(
@@ -88,8 +94,26 @@ public class JavaFxMenuBuilder implements MenuBuilder {
     }
 
     @Override
-    public void buildResult(int x, int y) {
-        StackPane w = (StackPane) whiteboard.get();
-        MainMenu.show(w, x, y);
+    public void buildResult(Vector<IShape> selectedShapes, IShape clickedShape, GenericWhiteBoard whiteBoard, int x, int y) {
+        if (!builded) {
+            this.buildMainMenu(selectedShapes, clickedShape, whiteBoard);
+            this.buildGroupItem();
+            this.buildUngroupItem();
+            this.buildEditItem();
+            builded = true;
+        }
+        if (!displayed) {
+            StackPane w = (StackPane) whiteboard.get();
+            MainMenu.show(w, x, y);
+            displayed = true;
+        }
+    }
+
+    @Override
+    public void debuild() {
+        //TODO: voir si faut pas foutre tout les attributs à nulle
+        MainMenu.hide();
+        displayed   = false;
+        builded     = false;
     }
 }

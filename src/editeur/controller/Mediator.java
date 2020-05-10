@@ -30,6 +30,8 @@ public class Mediator implements IMediator {
     private IShape             clickedShape;
     private int[]              coordinatesSelected;
     private Vector<GraphicalObjectObserver> observers;
+    private Menu                menu;
+    private MenuBuilder         menuBuilder;
 
 
 
@@ -427,9 +429,15 @@ public class Mediator implements IMediator {
 
     @Override
     public void callMenu(MenuBuilder builder, int x, int y) {
-        Menu m = new Menu(selectedShapes, clickedShape, app.getWhiteBoard());
-        m.showMenu(builder, x, y);
+        this.menuBuilder = builder;
+        this.menu = new Menu(selectedShapes, clickedShape, app.getWhiteBoard());
+        this.menu.showMenu(builder, x, y);
+    }
 
+    @Override
+    public void hideMenu() {
+        if (this.menu != null && this.menuBuilder != null)
+            this.menu.unshowMenu(this.menuBuilder);
     }
 
     //Mouse events ? c'est un peu différent de java awt (la first gen javafx)

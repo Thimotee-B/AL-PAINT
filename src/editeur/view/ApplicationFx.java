@@ -15,6 +15,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import javax.print.attribute.standard.Media;
+
 public class ApplicationFx extends AbstractApplication {
     private BorderPane borderpane;
     private Scene scene;
@@ -99,10 +101,13 @@ public class ApplicationFx extends AbstractApplication {
         scene.setOnMouseClicked(
                 e ->{
                     if (e.getButton() == MouseButton.SECONDARY){
-                        MenuBuilder builder = new JavaFxMenuBuilder();
+                        MenuBuilder builder = JavaFxMenuBuilder.getInstance();
                         Point to = this.getWhiteBoardPoint(e);
                         Mediator.getInstance().setClickedShape(to.getX(), to.getY());
                         Mediator.getInstance().callMenu(builder, (int) e.getScreenX(), (int) e.getScreenY());
+                    }
+                    if (e.getButton() == MouseButton.PRIMARY) {
+                        Mediator.getInstance().hideMenu();
                     }
 
                 });

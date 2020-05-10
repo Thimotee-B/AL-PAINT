@@ -14,6 +14,7 @@ public interface IMediator extends SubjectObserve {
     void start();
 
     void callMenu(MenuBuilder builder, int x, int y);
+    void hideMenu();
 
 	void group(IShape s);
 

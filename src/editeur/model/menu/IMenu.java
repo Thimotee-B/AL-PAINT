@@ -4,6 +4,6 @@ public interface IMenu {
 
     void showMenu(MenuBuilder builder, int x, int y);
 
-    void unshowMenu();
+    void unshowMenu(MenuBuilder builder);
 
 }
