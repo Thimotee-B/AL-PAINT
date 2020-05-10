@@ -223,7 +223,23 @@ public class Mediator implements IMediator {
         int stepY = p1.getY() - oldPos.getY();
         return new Point(p2.getX()-stepX, p2.getY()-stepY);
     }
-    
+
+    private void limit(IShape s, Point p, boolean toolbar, boolean addTool){
+        int width  = (toolbar) ? this.app.getToolBar().getWidth() : this.app.getWhiteBoard().getWidth();
+        int height = (toolbar) ? this.app.getToolBar().getHeight() : this.app.getWhiteBoard().getHeight();
+        if (p.getX() + s.getWidth() >= width)
+            p.setX(width - s.getWidth());
+        if ( !addTool && p.getX()<= 0)
+            p.setX(0);
+        if (p.getY() + s.getHeight() >= height)
+            p.setY(height - s.getHeight());
+        if (p.getY()<= 0)
+            p.setY(0);
+
+        if (addTool && p.getX() < - this.app.getToolBar().getWidth())
+            p.setX(- this.app.getToolBar().getWidth());
+    }
+
     @Override
     public void MouseClickEvent(boolean fromToolbar ,int clickSide,Point old, Point to) {
         //test x et y sont la pos des clicks
@@ -235,6 +251,7 @@ public class Mediator implements IMediator {
                 this.clickedShape = s;
                 if (s != null) {
                     Point p = computeNewPos(s, old, to);
+                    limit(s,p,true,false);
                     this.move(s, p.getX(), p.getY());
                 }
             }
@@ -244,6 +261,7 @@ public class Mediator implements IMediator {
                 this.clickedShape = s;
                 if (s != null){
                     Point p = computeNewPos(s, old, to);
+                    limit(s,p,false,false);
                     this.move(s, p.getX(), p.getY());
                 }
                 else {
@@ -269,32 +287,15 @@ public class Mediator implements IMediator {
     //TODO: A refactor autrement, surement avec une boite de collision dans Ishape,
     //Ou méthode getwidth getheight pour tous, ou adaptator pour polygon whatever
     private void scaleTool(IShape tool, GenericToolBar toolBar){
-        if (tool instanceof  Rectangle){
-            Rectangle r = (Rectangle) tool;
-            System.out.println(r.getWidth());
-            if (r.getWidth() > toolBar.getWidth() && toolBar.getWidth() > 0
-                    || r.getWidth() >= toolBar.getToolMaxSize() ){
+            if (tool.getWidth() > toolBar.getWidth() && toolBar.getWidth() > 0
+                    || tool.getWidth() >= toolBar.getToolMaxSize() ){
 
-                    double factor = (double)toolBar.getToolMaxSize() / (double) r.getWidth();
-                    tool.scale(factor);
-                    this.Notify();
-                    //TODO: choisir un alignement ou osef?
-
-            }
-        }
-
-        if (tool instanceof  Composite){
-            Composite comp = (Composite) tool;
-            if (comp.getWidth() > toolBar.getWidth() && toolBar.getWidth() > 0
-                    || comp.getWidth() >= toolBar.getToolMaxSize() ){
-
-                double factor = (double)toolBar.getToolMaxSize() / (double) comp.getWidth();
+                double factor = (double)toolBar.getToolMaxSize() / (double) tool.getWidth();
                 tool.scale(factor);
                 this.Notify();
-                //TODO: choisir un alignement ou osef?
 
             }
-        }
+
 
     }
 
@@ -310,8 +311,10 @@ public class Mediator implements IMediator {
                     IShape tool  = s.clone();
                     scaleTool(tool, this.app.getToolBar());
                     Point  p     = computeNewPos(tool, old, to);
+                    limit(tool,p,true,false);
                     int alignX = p.getX();
                     int alignY = p.getY();
+
                     tool.move(alignX, alignY);
                     boolean mustAlign = false;
                     if( tool instanceof  Composite){
@@ -329,8 +332,11 @@ public class Mediator implements IMediator {
                             alignY = minY - minHeight;
                     //System.out.println("Align Y : " + alignY + " y : " + minY);
                     }
-                    if (mustAlign)
-                        tool.move(alignX, alignY);
+                    if (mustAlign) {
+                        Point align = new Point(alignX,alignY);
+                        limit(tool,align,false,false);
+                        tool.move(align.getX(), align.getY());
+                    }
                     this.Notify();
                     //TODO: méthode intersect pour aligner les formes
                     if(app.getToolBar().inToolBar(to)) {
@@ -351,6 +357,7 @@ public class Mediator implements IMediator {
                 if (s != null){
                     Point  p     = computeNewPos(s, old, to);
                     IShape tool  = s.clone();
+                    limit(tool,p,false,false);
                     tool.move(p.getX(), p.getY());
                     this.clearView();
                     this.Notify();
@@ -371,6 +378,10 @@ public class Mediator implements IMediator {
             if (s == null) return false;
             clone = (IShape) s.clone();
             Point p = computeNewPos(s, old, to);
+            if (p.getX() < 0) p.setX(0);
+            if (p.getY() < 0) p.setY(0);
+            if (p.getY() + clone.getHeight() > this.app.getToolBar().getHeight())
+                p.setY(this.app.getToolBar().getHeight() - clone.getHeight());
             clone.move(p.getX(), p.getY());
             clone.draw(this.app.getDrawBridge(),this.app.getToolBar().get());
         }
@@ -380,6 +391,8 @@ public class Mediator implements IMediator {
             clone = (IShape) s.clone();
             this.undoShapeAdd(s);
             Point p = computeNewPos(s, old, to);
+            if(!(clone instanceof  Composite)) //TODO: compute bonne limite pour composite
+                limit(clone,p,false,true);
             clone.move(p.getX(), p.getY());
             clone.draw(this.app.getDrawBridge(),this.app.getWhiteBoard().get());
         }

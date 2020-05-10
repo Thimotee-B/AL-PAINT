@@ -18,6 +18,14 @@ public interface IShape extends Cloneable, Originator, Serializable, Drawable {
 	
 	Point getPosition();
 
+	public int getHeight();
+
+	public int getWidth();
+
+	public void setWidth(int width);
+
+	public void setHeight(int height);
+
 	public void move(int dx, int dy);
 
 	public void setPosition(int x, int y);

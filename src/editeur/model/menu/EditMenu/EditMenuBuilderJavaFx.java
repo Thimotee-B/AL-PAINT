@@ -293,21 +293,11 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
         }
 
         if (posX >= whiteBoard.getWidth()){
-            if (toEdit instanceof SimplePolygon)
-                posX = (int) (whiteBoard.getWidth() - ((SimplePolygon) toEdit).getSideSize() * 2);
-            if (toEdit instanceof Composite)
-                posX = whiteBoard.getWidth() - ((Composite) toEdit).getWidth();
-            if (toEdit instanceof Rectangle)
-                posX = whiteBoard.getWidth() - ((Rectangle) toEdit).getWidth();
+                posX = (whiteBoard.getWidth() - toEdit.getWidth());
         }
 
         if (posY >= whiteBoard.getHeight()){
-            if (toEdit instanceof SimplePolygon)
-                posY = (int) (whiteBoard.getHeight() - ((SimplePolygon) toEdit).getSideSize() * 2);
-            if (toEdit instanceof Composite)
-                posY = whiteBoard.getHeight() - ((Composite) toEdit).getHeight();
-            if (toEdit instanceof Rectangle)
-                posY = whiteBoard.getHeight() - ((Rectangle) toEdit).getHeight();
+             posY = (whiteBoard.getHeight() - toEdit.getHeight());
         }
     }
 }

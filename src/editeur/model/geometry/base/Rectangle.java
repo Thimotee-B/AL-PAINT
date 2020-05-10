@@ -12,18 +12,18 @@ public class Rectangle extends Shape{
 	 * 
 	 */
 	private static final long serialVersionUID = 6361385559811152501L;
-	private int length, width, roundHeight, roundWidth;
+	private int roundHeight, roundWidth;
     
     
     public Rectangle(int x, int y, int width, int length){
         super(x,
               y,
-              new Point(x + width/2, y + length/2),
-              new Point(x + width/2, y + length/2)
+              new Point((x + x+width)/2, (y + y+length)/2),
+              new Point((x + x+width)/2, (y + y+length)/2),
+              width,
+              length
             );
-        
-        this.length = length;
-        this.width  = width;
+
     }
     
 
@@ -53,40 +53,23 @@ public class Rectangle extends Shape{
         this.roundWidth = roundWidth;
     }
 
-
-    public void setHeight(int length){
-        this.length = length;
-    }
-    
-    public void setWidth(int width){
-        this.width = width;
-    }
-    
-    public int getWidth(){
-        return this.width;
-    }
-    
-    public int getHeight(){
-        return this.length;
-    }
     
     @Override
     public void move(int newx, int newy){
         super.move(newx, newy);
-        super.setRotationCenter(new Point(newx + width /2 , newy + length /2));
+        super.setRotationCenter(new Point((newx + newx + getWidth())/2 , (newy + newy + getHeight()) /2));
     }
 
     @Override
     public void scale(double factor){
-        this.length = (int) (this.length * factor);
-        this.width  = (int) (this.width  * factor);
-        return;
+        this.setHeight((int) (this.getHeight() * factor));
+        this.setWidth ((int) (this.getWidth()  * factor));
     }
 
 
     @Override
     public Memento save(){
-        MementoRectangle m = new MementoRectangle(length, width, roundHeight, roundWidth);
+        MementoRectangle m = new MementoRectangle(roundHeight, roundWidth);
         super.save(m);
         return m;
     }
@@ -102,8 +85,6 @@ public class Rectangle extends Shape{
 
     	MementoRectangle m = (MementoRectangle) mementoShape;
 
-    	this.length      = m.getLength();
-    	this.width       = m.getWidth();
     	this.roundHeight = m.getRoundHeight();
     	this.roundWidth  = m.getRoundWidth();
     }

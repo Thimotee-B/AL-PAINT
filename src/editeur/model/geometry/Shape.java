@@ -18,9 +18,10 @@ public abstract class Shape implements IShape {
     private Point translationCenter;
     private int r, g, b;
     private double alpha;
+    private int width, height;
 
 
-    public Shape(int x, int y, Point rotationCenter, Point translationCenter) {
+    public Shape(int x, int y, Point rotationCenter, Point translationCenter, int width, int height) {
         this.position          = new Point(x, y);
         this.translationCenter = translationCenter;
         this.rotationCenter    = rotationCenter;
@@ -31,6 +32,8 @@ public abstract class Shape implements IShape {
         this.g     = 0;
         this.b     = 0;
         this.alpha = 1;
+        this.width = width;
+        this.height = height;
         
     }
     
@@ -45,7 +48,27 @@ public abstract class Shape implements IShape {
     public void move(int x, int y) {
         setPosition(x, y);
     }
-    
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
     @Override
     public abstract void scale(double factor); //abstact because it has to be done for each component individually (a vérif)
     
@@ -131,7 +154,7 @@ public abstract class Shape implements IShape {
     }
 
     public void save(MementoShape memento) {
-    	memento.set(memento, position, rotationCenter, translationCenter, rotation, r, g, b, alpha);
+    	memento.set(memento, position, rotationCenter, translationCenter, rotation, r, g, b, alpha, width, height);
 
     }
     
@@ -146,6 +169,9 @@ public abstract class Shape implements IShape {
         this.g     = memento.getG();
         this.b     = memento.getB();
         this.alpha = memento.getAlpha();
+
+        this.height= memento.getHeight();
+        this.width = memento.getWidth();
 
     }
 }

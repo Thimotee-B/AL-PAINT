@@ -7,6 +7,7 @@ public class MementoSimplePolygon extends MementoShape {
 	public MementoSimplePolygon(int numberOfSides, float sideSize) {
 		this.numberOfSides = numberOfSides;
 		this.sideSize      = sideSize;
+
 	}
 
 	public int getNumberOfSides() {

@@ -68,7 +68,11 @@ public class GenericToolBar implements GraphicalObjectObserver {
     public int getWidth() {
         return width;
     }
-    
+
+    public int getHeight() {
+        return height;
+    }
+
     public Point localPoint(double boundX, double boundY, double x, double y) {
         int newX = (int)(x - boundX);
         int newY = (int)(y - boundY);

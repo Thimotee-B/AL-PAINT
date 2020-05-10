@@ -19,7 +19,7 @@ public class SimplePolygon extends Shape {
     private double[] polygonPts;
     
     public SimplePolygon(int x, int y, int numberOfSides, float sideSize){
-        super(x, y, new Point(x,y), new Point(x,y));
+        super(x, y, new Point(x,y), new Point(x,y), (int) (sideSize * 2), (int) (sideSize *2));
         
         this.numberOfSides = numberOfSides;
         this.sideSize 	   = sideSize;
@@ -105,6 +105,8 @@ public class SimplePolygon extends Shape {
     @Override
     public void scale(double factor) {
         this.sideSize *= factor;
+        setHeight((int) sideSize *2);
+        setWidth ((int) sideSize *2);
         this.polygonPts = ProcessPolygonPoints();
     }
 
@@ -117,11 +119,12 @@ public class SimplePolygon extends Shape {
 
     @Override
     public void restore(Memento memento) {
-    	MementoSimplePolygon msp = (MementoSimplePolygon) memento; 
+    	MementoSimplePolygon msp = (MementoSimplePolygon) memento;
+        this.numberOfSides  = msp.getNumberOfSides();
+        this.sideSize       = msp.getSideSize();
+        this.polygonPts     = ProcessPolygonPoints();
     	super.restore(msp);
-    	
-    	this.numberOfSides  = msp.getNumberOfSides();
-    	this.sideSize       = msp.getSideSize();
+
     }
 
 

@@ -23,33 +23,27 @@ public class Composite extends Shape {
     private static final long serialVersionUID = 7118837371818614670L;
     
     private Vector<IShape> components = new Vector<IShape>(); 
-    private int height;
-    private int width;
 
-    public Composite(int x, int y, int height, int width) {
+
+    public Composite(int x, int y, int width, int height) {
         super(x,
               y,
               new Point(x + width/2, y + height/2),
-              new Point(x + width/2, y + height/2)
+              new Point(x + width/2, y + height/2),
+              width,
+              height
               );
         
-        this.height = height;
-        this.width  = width;
+
     }
     
-    public int getWidth() {
-        return this.width;
-    }
 
-    public int getHeight() {
-        return this.height;
-    }
     
 
     @Override
     public void scale(double factor) {
-        this.height = (int) (this.height * factor);
-        this.width  = (int) (this.width  * factor);
+        this.setHeight((int) (this.getHeight() * factor));
+        this.setWidth((int) (this.getWidth()  * factor));
         for(IShape shape : components) {
             shape.scale(factor);
             int x = (int) ((shape.getPosition().getX() - this.getPosition().getX()) * factor);
@@ -106,22 +100,12 @@ public class Composite extends Shape {
             }
             if (s.getPosition().getX() < min) {
                 min = s.getPosition().getX();
-                if (s instanceof  Rectangle)
-                    width = ((Rectangle) s).getWidth();
-                if (s instanceof  Composite)
-                    width = ((Composite) s).getWidth();
-                if (s instanceof  SimplePolygon)
-                    width =  (int) ((SimplePolygon) s).getSideSize();
+                width = s.getWidth();
             }
 
             if (s.getPosition().getY() < min2) {
                 min2 = s.getPosition().getY();
-                if (s instanceof  Rectangle)
-                    height = ((Rectangle) s).getHeight();
-                if (s instanceof  Composite)
-                    height = ((Composite) s).getHeight();
-                if (s instanceof  SimplePolygon)
-                    height =  (int) ((SimplePolygon) s).getSideSize();
+                height = s.getHeight();
             }
 
         }
@@ -172,9 +156,11 @@ public class Composite extends Shape {
         
         m.setCompositeMapMemento(new HashMap<IShape,Memento>());
         m.saveCompositeComponents(components);
-        m.set(m,this.getPosition(),this.getRotationCenter(),this.getTranslationCenter(),this.getRotation(),getColorR(),getColorG(),getColorB(),getAlpha());
-        m.setHeight(this.height);
-        m.setWidth(this.width);
+        m.set(m,this.getPosition(),this.getRotationCenter(),
+                this.getTranslationCenter(),this.getRotation(),
+                getColorR(),getColorG(),getColorB(),getAlpha(),
+                getWidth(),getHeight());
+
         return m;
     }
 
@@ -186,8 +172,7 @@ public class Composite extends Shape {
         super.restore(m);
         this.restoreComponent(m);
         System.out.println(components.size());
-        this.width  = m.getWidth();
-        this.height = m.getHeight();
+
 
         
     }
