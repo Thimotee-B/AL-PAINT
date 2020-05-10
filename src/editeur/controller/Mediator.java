@@ -204,7 +204,28 @@ public class Mediator implements IMediator {
                 for (IShape s : app.getWhiteBoard().getShapeVector().getComponents())
                     if( s.isInside(new Point(x,y)) && !selectedShapes.contains(s))
                         selectedShapes.add(s);
-        int [] tab = { (minX + maxX) / 2 , (minY + maxY) / 2 , maxX - minX , maxY - minY};
+        minX = Integer.MAX_VALUE;
+        minY = Integer.MAX_VALUE;
+        //maxX = 0;
+        //maxY = 0;
+        int h = 0, w= 0;
+        for (IShape s : selectedShapes){
+            if (s.getPosition().getX() < minX)
+                minX = s.getPosition().getX();
+            //if (s.getPosition().getX() > maxX)
+             //   maxX = s.getPosition().getX();
+
+            if (s.getPosition().getY() < minY)
+                minY = s.getPosition().getY();
+            //if (s.getPosition().getY() > maxY) {
+              //  maxY = s.getPosition().getY();
+            //}
+
+        }
+
+        int [] tab = { minX , minY , maxX -minX , maxY - minY};
+        //Debug//Rectangle r = new Rectangle(minX, minY, maxX - minX, maxY - minY);
+        //Debug//this.app.getDrawBridge().drawSelection(this.app.getWhiteBoard().get(), r);
         return tab;
     }
 
@@ -391,8 +412,7 @@ public class Mediator implements IMediator {
             clone = (IShape) s.clone();
             this.undoShapeAdd(s);
             Point p = computeNewPos(s, old, to);
-            if(!(clone instanceof  Composite)) //TODO: compute bonne limite pour composite
-                limit(clone,p,false,true);
+            limit(clone,p,false,true);
             clone.move(p.getX(), p.getY());
             clone.draw(this.app.getDrawBridge(),this.app.getWhiteBoard().get());
         }
