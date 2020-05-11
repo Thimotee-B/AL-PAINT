@@ -32,6 +32,7 @@ public class Mediator implements IMediator {
     private Vector<GraphicalObjectObserver> observers;
     private Menu                menu;
     private MenuBuilder         menuBuilder;
+    public static final String DEFAULT_SAVE_NAME = "autosave.auber";
 
 
 
@@ -66,16 +67,20 @@ public class Mediator implements IMediator {
     //Override IMediator
     @Override
     public void start() {
-        Rectangle r = new Rectangle(20,50,100,100);
-        r.changeColor(22, 169, 243);
-        SimplePolygon p = new SimplePolygon(20,300,6,40);
-        p.changeColor(50,50,0);
-        SimplePolygon p2 = new SimplePolygon(20,500,5,50);
-        p.changeColor(50,150,80);
-        app.getToolBar().addShape(r);
-        app.getToolBar().addShape(p);
-        app.getToolBar().addShape(p2);
-        this.app.getToolBar().setStartShapesIndices(3);
+        if (!this.load(DEFAULT_SAVE_NAME, true)) {
+            Rectangle r = new Rectangle(20, 50, 100, 100);
+            r.changeColor(22, 169, 243);
+            SimplePolygon p = new SimplePolygon(20, 300, 6, 40);
+            p.changeColor(50, 50, 0);
+            SimplePolygon p2 = new SimplePolygon(20, 500, 5, 50);
+            p.changeColor(50, 150, 80);
+            app.getToolBar().addShape(r);
+            app.getToolBar().addShape(p);
+            app.getToolBar().addShape(p2);
+            this.save(DEFAULT_SAVE_NAME);
+        }
+        else
+            System.out.println("AutoSave Load, Congrats =)");
         this.Notify();
     }
     
@@ -459,6 +464,16 @@ public class Mediator implements IMediator {
     public void hideMenu() {
         if (this.menu != null && this.menuBuilder != null)
             this.menu.unshowMenu(this.menuBuilder);
+    }
+
+    @Override
+    public boolean save(String name){
+        return this.app.save(name);
+    }
+
+    @Override
+    public boolean load(String name, boolean onlyToolbar){
+        return this.app.load(name, onlyToolbar);
     }
 
     //Mouse events ? c'est un peu différent de java awt (la first gen javafx)

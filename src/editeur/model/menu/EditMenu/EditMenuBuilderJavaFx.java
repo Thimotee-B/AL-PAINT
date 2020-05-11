@@ -110,10 +110,10 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
         roundW = new TextField();
         roundH = new TextField();
 
-        x.setMinSize(140, 20);
-        x.setMaxSize(140, 20);
-        y.setMinSize(140, 20);
-        y.setMaxSize(140, 20);
+        roundW.setMinSize(140, 20);
+        roundW.setMaxSize(140, 20);
+        roundH.setMinSize(140, 20);
+        roundH.setMaxSize(140, 20);
     }
 
 

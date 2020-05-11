@@ -48,12 +48,20 @@ public abstract class AbstractApplication extends Application {
         this.mediator.Attach(toolBar);
         this.mediator.Attach(whiteBoard);
         this.mediator.start();
-        System.out.println(toolBar.getShape(0));
         //this.mediator.ReScale(toolBar.getShape(0), 40);
         //this.mediator.move(toolBar.getShape(0), 100, 100);
     }
+
+    public void end(){
+        this.save(Mediator.DEFAULT_SAVE_NAME);
+        System.out.println("AL-Paint is closing, thanks for your support");
+        System.out.println("Your work in progress will be saved, don't worry");
+        System.out.println("You can find in the repository of this project : autosave.auber");
+    }
     
 
+    public abstract boolean save(String name);
+    public abstract boolean load(String name, boolean onlyToolbar);
 
     /** Getters & Setters **/
     public GenericToolBar getToolBar() {

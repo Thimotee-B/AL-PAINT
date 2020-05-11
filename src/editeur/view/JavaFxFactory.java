@@ -78,13 +78,16 @@ public class JavaFxFactory implements GUIFactory {
         if (name.compareTo("trash") == 0)
             button.setStyle("-fx-background-color: transparent;");
         button.setGraphic(image);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (name.compareTo("save")==0)
-                    handle_save(event);
-                if (name.compareTo("load")==0)
-                    handle_load(event);
+        button.setOnAction(
+                event -> {
+                if (name.compareTo("save")==0) {
+                    Mediator.getInstance().save(null);
+                    event.consume();
+                }
+                if (name.compareTo("load")==0) {
+                    Mediator.getInstance().load(null, false);
+                    event.consume();
+                }
                 if (name.compareTo("undo")==0)
                     handle_undo(event);
                 if (name.compareTo("redo")==0)
@@ -92,82 +95,13 @@ public class JavaFxFactory implements GUIFactory {
                 if (name.compareTo("trash")==0)
                     handle_trash(event);
             }
-        });
+        );
         mapButton.put(name, button);
         return new GenericButton(button);
     }
     
     
-    private void handle_save(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save your art!");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("paint auber", "*.auber")
-        );
-        fileChooser.setInitialFileName("paint-ksos");
 
-        File savedFile = fileChooser.showSaveDialog(null);
-        if (savedFile == null) {
-            event.consume();
-            return;
-        }
-
-        ObjectOutputStream ostream;
-        try {
-            ostream = new ObjectOutputStream(new FileOutputStream(savedFile.getAbsolutePath()));
-            ostream.writeObject(tool.getShapeVector());
-            ostream.writeChar('~');
-            ostream.writeObject(wboard.getShapeVector());
-            ostream.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-//        System.out.println("ta grand mère" + savedFile.getName());
-
-        event.consume();
-    }
-
-    private void handle_load(ActionEvent event) {
-        Mediator.getInstance().clearView();
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Load your art!");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("paint auber", "*.auber")
-        );
-        File selectedFile = fileChooser.showOpenDialog(null);
-        if (selectedFile == null) {
-            event.consume();
-            return;
-        }
-
-        ObjectInputStream istream;
-        try {
-            istream = new ObjectInputStream(new FileInputStream(selectedFile.getAbsolutePath()));
-            // on lit la toolbar
-            try {
-                tool.setShapeVector((Composite) istream.readObject());
-            } catch (ClassNotFoundException e) {
-                System.out.println(e.getMessage());
-            }
-
-            // on console le ~
-            istream.readChar();
-
-            // on lit la whiteboard
-            try {
-                wboard.setShapeVector((Composite) istream.readObject()); // on lit la whiteboard
-            } catch (ClassNotFoundException e) {
-                System.out.println(e.getMessage());
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
-        //refresh
-        Mediator.getInstance().Notify();
-
-        event.consume();
-    }
     
     private void handle_trash(ActionEvent event) {
         //Mediator.getInstance().clearView();

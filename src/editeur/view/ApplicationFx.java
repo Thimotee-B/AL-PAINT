@@ -1,9 +1,11 @@
 package editeur.view;
 
 import editeur.controller.Mediator;
+import editeur.model.geometry.Composite;
 import editeur.model.geometry.base.Point;
 import editeur.model.menu.JavaFxMenuBuilder;
 import editeur.model.menu.MenuBuilder;
+import javafx.event.ActionEvent;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,9 +15,11 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javax.print.attribute.standard.Media;
+import java.io.*;
 
 public class ApplicationFx extends AbstractApplication {
     private BorderPane borderpane;
@@ -69,6 +73,11 @@ public class ApplicationFx extends AbstractApplication {
         primaryStage.setScene(scene);
         primaryStage.setResizable(true);
         primaryStage.show();
+    }
+
+    @Override
+    public void stop(){
+        super.end();
     }
     
     private Point getToolBarPoint(MouseEvent e) {
@@ -163,7 +172,92 @@ public class ApplicationFx extends AbstractApplication {
                     old = null;
                 });
     }
-   
+
+    @Override
+    public boolean save(String name) {
+        File savedFile = null;
+        if(name == null) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save your art!");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("paint auber", "*.auber")
+            );
+            fileChooser.setInitialFileName("paint-ksos");
+
+            savedFile = fileChooser.showSaveDialog(null);
+        }
+        else
+            savedFile = new File(name);
+
+        if (savedFile == null) {
+            return false;
+        }
+
+        ObjectOutputStream ostream;
+        try {
+            ostream = new ObjectOutputStream(new FileOutputStream(savedFile.getAbsolutePath()));
+            ostream.writeObject(getToolBar().getShapeVector());
+            ostream.writeChar('~');
+            ostream.writeObject(getWhiteBoard().getShapeVector());
+            ostream.close();
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+    @Override
+    public boolean load(String name, boolean onlyToolbar) {
+        Mediator.getInstance().clearView();
+        File selectedFile = null;
+        if (name == null) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Load your art!");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("paint auber", "*.auber")
+            );
+            selectedFile = fileChooser.showOpenDialog(null);
+        }
+        else
+            selectedFile = new File(name);
+        if (selectedFile == null) {
+            return false;
+        }
+
+        ObjectInputStream istream;
+        try {
+            istream = new ObjectInputStream(new FileInputStream(selectedFile.getAbsolutePath()));
+            // on lit la toolbar
+            try {
+                getToolBar().setShapeVector((Composite) istream.readObject());
+            } catch (ClassNotFoundException e) {
+                System.out.println(e.getMessage());
+                return false;
+            }
+            if (!onlyToolbar) {
+                // on console le ~
+                istream.readChar();
+
+                // on lit la whiteboard
+                try {
+                    getWhiteBoard().setShapeVector((Composite) istream.readObject()); // on lit la whiteboard
+                } catch (ClassNotFoundException e) {
+                    System.out.println(e.getMessage());
+                    return false;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+        //refresh
+        Mediator.getInstance().Notify();
+        return true;
+
+
+    }
     
     
     

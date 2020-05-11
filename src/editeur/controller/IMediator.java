@@ -47,4 +47,6 @@ public interface IMediator extends SubjectObserve {
 	boolean ShowDraggedShape(boolean fromToolbar, Point old, Point to);
 	void ShowSelection(Point p1, Point p2);
 
+	boolean save(String name);
+	boolean load(String name, boolean onlyToolbar);
 }
