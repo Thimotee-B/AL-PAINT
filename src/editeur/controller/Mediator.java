@@ -192,6 +192,7 @@ public class Mediator implements IMediator {
         Command cmd = new CommandDelete(shapes, toDelete);
         cmd.execute();
         careTaker.add(cmd);
+        this.undoShapeAdd(toDelete);
         this.Notify();
     }
 
@@ -392,7 +393,24 @@ public class Mediator implements IMediator {
         }
     }
 
+    @Override
+    public void MouseTrashEvent(boolean fromToolbar, int clickSide, Point old, Point to) {
+        if (clickSide == LEFT && old != null) {
+            IShape s;
+            if (fromToolbar) {
+                s = this.app.getToolBar().getShape(old);
+                if (s != null)
+                    this.delete(this.app.getToolBar().getShapeVector(), s);
+            } else {
+                s = this.app.getWhiteBoard().getShape(old);
+                if (s != null)
+                    this.delete(this.app.getWhiteBoard().getShapeVector(), s);
+            }
 
+        }
+    }
+
+    @Override
     public boolean ShowDraggedShape(boolean fromToolbar, Point old, Point to){
         IShape s, clone;
         //Todo: Juste déterminer si whiteboard ou toolbar avec un temp sur le dragged
@@ -403,8 +421,11 @@ public class Mediator implements IMediator {
             Point p = computeNewPos(s, old, to);
             if (p.getX() < 0) p.setX(0);
             if (p.getY() < 0) p.setY(0);
-            if (p.getY() + clone.getHeight() > this.app.getToolBar().getHeight())
-                p.setY(this.app.getToolBar().getHeight() - clone.getHeight());
+            if (p.getY() + clone.getHeight() > this.app.getToolBar().getHeight() + this.app.getTrashButton().getHeight()) {
+                clone.scale((float)this.app.getTrashButton().getHeight() / (float) clone.getHeight() );
+                p.setY(this.app.getToolBar().getHeight() + this.app.getTrashButton().getHeight() - clone.getHeight());
+            }
+
             clone.move(p.getX(), p.getY());
             clone.draw(this.app.getDrawBridge(),this.app.getToolBar().get());
         }

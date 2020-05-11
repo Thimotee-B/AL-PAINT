@@ -84,15 +84,15 @@ public class ApplicationFx extends AbstractApplication {
 
     private boolean inElement(int x , int y,StackPane element) {
         Bounds b = element.localToScene(element.getBoundsInLocal());
-        if ((x > b.getMinX() && x < b.getMinX() + element.getWidth())
-                && (y > b.getMinY() && y < b.getMinY() + element.getHeight())) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return ((x > b.getMinX() && x < b.getMinX() + element.getWidth())
+                && (y > b.getMinY() && y < b.getMinY() + element.getHeight()));
     }
 
+    private boolean inButton(int x , int y, Button button){
+        Bounds b = button.localToScene(button.getBoundsInLocal());
+        return ((x > b.getMinX() && x < b.getMinX() + button.getWidth())
+                && (y > b.getMinY() && y < b.getMinY() + button.getHeight()));
+    }
 
 
 
@@ -145,6 +145,7 @@ public class ApplicationFx extends AbstractApplication {
                     Point p = new Point((int) e.getSceneX(),(int) e.getSceneY());
                     boolean inToolbar    = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getToolBar().get());
                     boolean inWhiteBoard = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getWhiteBoard().get());
+                    boolean inTrash    = inButton( (int) e.getSceneX(), (int) e.getSceneY(),(Button) this.getTrashButton().get());
                     int clickSide = (e.getButton() == MouseButton.PRIMARY) ? Mediator.LEFT : Mediator.RIGHT;
 
                     if(inToolbar && OldinWhiteBoard)
@@ -155,6 +156,10 @@ public class ApplicationFx extends AbstractApplication {
                         this.mediator.MouseClickEvent(true, clickSide, old, getToolBarPoint(e));
                     if (inWhiteBoard &&  OldinToolbar)
                         this.mediator.MouseDraggedEvent(true, clickSide, old, getWhiteBoardPoint(e));
+                    if (inTrash && OldinToolbar)
+                        this.mediator.MouseTrashEvent(true, clickSide, old, getToolBarPoint(e));
+                    if (inTrash && OldinWhiteBoard)
+                        this.mediator.MouseTrashEvent(false, clickSide, old, getToolBarPoint(e));
                     old = null;
                 });
     }

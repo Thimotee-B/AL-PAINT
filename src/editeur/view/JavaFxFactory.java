@@ -59,6 +59,7 @@ public class JavaFxFactory implements GUIFactory {
         toolbarJavaFx.setMaxWidth(tool.getWidth());
         toolbarJavaFx.setMinWidth(tool.getWidth());
         toolbarJavaFx.setAlignment(Pos.TOP_LEFT);
+
     }
        
     private void setWhiteBoard() {
@@ -74,6 +75,8 @@ public class JavaFxFactory implements GUIFactory {
         ImageView image = new ImageView(getClass().getResource("/"+ name + ".png").toString());
         image.setFitWidth(20);
         image.setPreserveRatio(true);
+        if (name.compareTo("trash") == 0)
+            button.setStyle("-fx-background-color: transparent;");
         button.setGraphic(image);
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -167,12 +170,7 @@ public class JavaFxFactory implements GUIFactory {
     }
     
     private void handle_trash(ActionEvent event) {
-        Mediator.getInstance().clearView();
-        System.out.println("traaaaash");
-//        tool.setShapeVector(new Composite(0, 0,0,0));
-        wboard.setShapeVector(new Composite(0, 0, 0, 0));
-        Mediator.getInstance().Notify();
-
+        //Mediator.getInstance().clearView();
         event.consume();
     }
     
