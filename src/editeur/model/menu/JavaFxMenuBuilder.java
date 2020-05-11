@@ -44,6 +44,7 @@ public class JavaFxMenuBuilder implements MenuBuilder {
                 e -> {
                         if(selectedShapes.size() > 1)
                             Mediator.getInstance().group(whiteboard.getShapeVector());
+                        this.debuild();
                     e.consume();
                 }
         );
@@ -59,6 +60,7 @@ public class JavaFxMenuBuilder implements MenuBuilder {
                         Composite c = (Composite) clickedShape;
                         Mediator.getInstance().unGroup(whiteboard.getShapeVector(), c);
                     }
+                    this.debuild();
                     e.consume();
                 }
         );
@@ -85,6 +87,7 @@ public class JavaFxMenuBuilder implements MenuBuilder {
                         builder.buildDialogContent();
                         builder.buildDialogButtons();
                         builder.buildResult();
+                        this.debuild();
                         e.consume();
                     }
         );
@@ -115,5 +118,6 @@ public class JavaFxMenuBuilder implements MenuBuilder {
         MainMenu.hide();
         displayed   = false;
         builded     = false;
+
     }
 }

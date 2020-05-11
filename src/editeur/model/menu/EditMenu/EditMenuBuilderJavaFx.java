@@ -177,8 +177,6 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
                 for (int i = 0; i < undoCount ; i++)
                     Mediator.getInstance().undo();
             }
-
-
         });
 
 
