@@ -74,15 +74,10 @@ public class JavaFxDrawBridge implements DrawBridge {
             polygon = new javafx.scene.shape.Polygon(pts);
         }
 
-
         polygon.setTranslateX(p.getPosition().getX());
         polygon.setTranslateY(p.getPosition().getY());
 
-        Rotate rotation = new Rotate(p.getRotation(),
-                p.getRotationCenter().getX(),
-                p.getRotationCenter().getY());
-
-        polygon.getTransforms().add(rotation);
+        polygon.setRotate(p.getRotation());
 
         this.map.put(p, polygon);
         this.fillPolygon(drawSurface, p);

@@ -25,15 +25,7 @@ public class Rectangle extends Shape{
             );
 
     }
-    
 
-    public void RoundBorders(){
-        this.roundHeight = 0;
-        this.roundWidth  = 0;
-    }
-    
-    
-    
     public int getRoundHeight() {
         return roundHeight;
     }
@@ -57,7 +49,7 @@ public class Rectangle extends Shape{
     @Override
     public void move(int newx, int newy){
         super.move(newx, newy);
-        super.setRotationCenter(new Point((newx + newx + getWidth())/2 , (newy + newy + getHeight()) /2));
+        setRotationCenter(new Point((newx + newx + getWidth())/2 , (newy + newy + getHeight()) /2));
     }
 
     @Override

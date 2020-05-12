@@ -20,10 +20,38 @@ public class SimplePolygon extends Shape {
     
     public SimplePolygon(int x, int y, int numberOfSides, float sideSize){
         super(x, y, new Point(x,y), new Point(x,y), (int) (sideSize * 2), (int) (sideSize *2));
-        
         this.numberOfSides = numberOfSides;
         this.sideSize 	   = sideSize;
         this.polygonPts    = ProcessPolygonPoints();
+        this.setRotationCenter(new Point(x + getRadius(),y +  getRadius()));
+        //this.calculateRotateCentroid();
+
+    }
+
+    public void calculateRotateCentroid(){
+
+        int x = getPosition().getX();
+        int y = getPosition().getY();
+        double fx = this.polygonPts[0] + x;
+        double fy = this.polygonPts[1] + y;
+        double area = 0;
+        double x1 = 0, x2 = 0;
+        double y1 = 0, y2 = 0;
+        double newX = 0, newY = 0;
+        double f;
+        for (int i = 0, j = polygonPts.length - 2; i < polygonPts.length ; j = i,  i+=2) {
+            x1 = this.polygonPts[i] + x;
+            y1 = this.polygonPts[i + 1] + y;
+            x2 = this.polygonPts[j] + x;
+            y2 = this.polygonPts[j + 1] + y;
+            f = (x1 - fx) * (y2 - fy) - (x2 - fx) * (y1 - fy);
+            area += f;
+            newX += (x1 + x2 - 2 * fx) * f;
+            newY += (y1 + y2 - 2 * fy) * f;
+        }
+        f = area * 3;
+        
+        setRotationCenter( new Point((int) (newX / f + fx), (int)(newY / f + fy)));
     }
 
     public int getNumberOfSides() {
@@ -36,6 +64,13 @@ public class SimplePolygon extends Shape {
 
     public double[] getPolygonPoints() {
         return polygonPts;
+    }
+
+    public int getRadius(){
+        double area  = 2 * Math.sin(Math.toRadians(180.0/numberOfSides));
+        double radius = sideSize / area;
+
+        return (int) radius;
     }
 
     public double[] ProcessPolygonPoints(){
@@ -100,6 +135,8 @@ public class SimplePolygon extends Shape {
     @Override
     public void move(int dx, int dy) {
         super.move(dx,dy);
+        this.setRotationCenter(new Point(dx + getRadius(),dy +  getRadius()));
+        //this.calculateRotateCentroid();
     }
 
     @Override

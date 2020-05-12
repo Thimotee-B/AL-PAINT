@@ -140,17 +140,18 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
             g.add(new Label("Scale "), 1, 5);
             g.add(scale, 2, 5);
         }
-        if(roundW != null && toEdit instanceof Rectangle){
+        if(roundW != null && (toEdit instanceof Rectangle || isCompositeFullOfRectangle(toEdit))){
             g.add(new Label("RoundWidth "), 1, 6);
             g.add(roundW, 2, 6);
         }
-        if(roundH != null && toEdit instanceof Rectangle){
+        if(roundH != null && (toEdit instanceof Rectangle || isCompositeFullOfRectangle(toEdit))){
             g.add(new Label("RoundHeight "), 1, 7);
             g.add(roundH, 2, 7);
         }
 
         dialog.getDialogPane().setContent(g);
     }
+
 
     @Override
     public void buildDialogButtons() {
@@ -221,13 +222,13 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
         catch (NumberFormatException e) {
             return;
         }
-        if (toEdit instanceof  Rectangle) {
+        if (toEdit instanceof Rectangle || isCompositeFullOfRectangle(toEdit)) {
             if (roundheight == -1)
                 roundheight = roundwidth;
             if (roundwidth == -1)
                 roundwidth = roundheight;
             if (roundwidth != -1 && roundheight != -1) {
-                Mediator.getInstance().roundBorders((Rectangle) toEdit, roundwidth, roundheight);
+                Mediator.getInstance().roundBorders(toEdit, roundwidth, roundheight);
                 undoCount++;
             }
         }
@@ -242,7 +243,13 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
             return;
         }
         if (scaleValue != -1){
+            while (toEdit.getPosition().getX() +toEdit.getWidth() * scaleValue > whiteBoard.getWidth()
+                   || toEdit.getPosition().getY() +toEdit.getHeight() * scaleValue > whiteBoard.getHeight())
+                scaleValue--;
+
+
             Mediator.getInstance().ReScale(toEdit, scaleValue);
+            undoCount++;
         }
     }
 
@@ -297,6 +304,17 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
         if (posY >= whiteBoard.getHeight()){
              posY = (whiteBoard.getHeight() - toEdit.getHeight());
         }
+    }
+
+    private boolean isCompositeFullOfRectangle(IShape toEdit){
+        if(toEdit instanceof  Composite){
+            Composite c = (Composite) toEdit;
+            for (IShape s : c.getComponents())
+                if (!(s instanceof  Rectangle))
+                    return false;
+            return true;
+        }
+        return false;
     }
 }
 

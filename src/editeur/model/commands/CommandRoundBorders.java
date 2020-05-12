@@ -1,5 +1,6 @@
 package editeur.model.commands;
 
+import editeur.model.geometry.Composite;
 import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Rectangle;
 import editeur.model.geometry.memento.Originator;
@@ -20,6 +21,18 @@ public class CommandRoundBorders extends Command {
         if(this.source instanceof Rectangle) {
             ((Rectangle) this.source).setRoundWidth(roundWidth);
             ((Rectangle) this.source).setRoundHeight(roundHeight);
+        }
+        if(this.source instanceof Composite){
+            Composite c = (Composite) this.source;
+            System.out.println("coucou");
+            for (IShape s : c.getComponents())
+                if (!(s instanceof  Rectangle))
+                    return;
+            for (IShape s : c.getComponents()){
+                ((Rectangle) s).setRoundWidth(roundWidth);
+                ((Rectangle) s).setRoundHeight(roundHeight);
+            }
+
         }
         
     }

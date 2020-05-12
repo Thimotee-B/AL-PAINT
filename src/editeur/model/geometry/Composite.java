@@ -28,8 +28,8 @@ public class Composite extends Shape {
     public Composite(int x, int y, int width, int height) {
         super(x,
               y,
-              new Point(x + width/2, y + height/2),
-              new Point(x + width/2, y + height/2),
+              new Point((x + x + width)/2, (y + y + height)/2),
+              new Point((x + x + width)/2, (y + y + height)/2),
               width,
               height
               );
@@ -60,10 +60,7 @@ public class Composite extends Shape {
         for(IShape shape : components) shape.setAlpha(alpha);	
     }
 
-    @Override
-    public void setRotationCenter(Point p) {
-        //TODO: dd
-    }
+
 
     @Override
     public boolean isInside(Point p) {
@@ -112,7 +109,11 @@ public class Composite extends Shape {
         return new int[]{min, width, min2, height};
     }
 
-
+    @Override
+    public void rotate(double rotation) {
+        for (IShape s : components)
+            s.rotate(rotation);
+    }
 
     @Override
     public void move(int dx, int dy) {

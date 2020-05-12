@@ -18,7 +18,7 @@ public interface IMediator extends SubjectObserve {
 
 	void group(IShape s);
 
-	void roundBorders(Rectangle r, int roundWidth, int roundHeight);
+	void roundBorders(IShape r, int roundWidth, int roundHeight);
 	
 	void unGroup(IShape s, Composite group);
 	

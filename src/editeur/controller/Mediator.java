@@ -87,6 +87,7 @@ public class Mediator implements IMediator {
     @Override
     public void move(IShape shape, int dx, int dy) {
         Command cmd = new CommandMove(shape, dx, dy);
+        this.clearView();
         cmd.execute();
         careTaker.add(cmd);
         this.Notify();
@@ -95,6 +96,7 @@ public class Mediator implements IMediator {
 	@Override
 	public void group(IShape s) {
 		Command cmd = new CommandGroup(s, selectedShapes, coordinatesSelected);
+        this.clearView();
 		cmd.execute();
 		careTaker.add(cmd);
         for (IShape delete : selectedShapes)
@@ -103,8 +105,9 @@ public class Mediator implements IMediator {
 	}
 
     @Override
-    public void roundBorders(Rectangle r, int roundWidth, int roundHeight) {
+    public void roundBorders(IShape r, int roundWidth, int roundHeight) {
         Command cmd = new CommandRoundBorders(r, roundWidth, roundHeight);
+        this.clearView();
         cmd.execute();
         careTaker.add(cmd);
         this.Notify();
@@ -113,6 +116,7 @@ public class Mediator implements IMediator {
     @Override
 	public void unGroup(IShape s, Composite group) {
         Command cmd = new CommandUngroup(s, group);
+        this.clearView();
         cmd.execute();
         careTaker.add(cmd);
         /*for (IShape delete : selectedShapes)
@@ -124,6 +128,7 @@ public class Mediator implements IMediator {
 	@Override
 	public void reColor(IShape toEdit,int r, int g , int b) {
         Command cmd = new CommandRecolor(toEdit, r, g, b);
+        this.clearView();
         cmd.execute();
         careTaker.add(cmd);
         this.Notify();
@@ -138,6 +143,7 @@ public class Mediator implements IMediator {
     @Override
 	public void ReScale(IShape shape, double factor) {
 		Command cmd = new CommandRescale(shape, factor);
+        this.clearView();
 		cmd.execute();
 		careTaker.add(cmd);
         this.Notify();
@@ -146,6 +152,7 @@ public class Mediator implements IMediator {
 	@Override
 	public void rotate(IShape shape, double factor) {
 	      Command cmd = new CommandRotate(shape, factor);
+	      this.clearView();
 	      cmd.execute();
 	      careTaker.add(cmd);
 	      this.Notify();
@@ -172,6 +179,7 @@ public class Mediator implements IMediator {
 
     @Override
     public void undo() {
+        this.clearView();
         careTaker.undo();
         this.Notify();
         
@@ -179,6 +187,7 @@ public class Mediator implements IMediator {
 
     @Override
     public void redo() {
+        this.clearView();
         careTaker.redo();
         this.Notify();
         
@@ -187,6 +196,7 @@ public class Mediator implements IMediator {
     @Override
     public void add(IShape shapes, IShape toAdd) {
         Command cmd = new CommandAdd(shapes, toAdd);
+        this.clearView();
         cmd.execute();
         careTaker.add(cmd);
         this.Notify();
@@ -195,6 +205,7 @@ public class Mediator implements IMediator {
     @Override
     public void delete(IShape shapes, IShape toDelete) {
         Command cmd = new CommandDelete(shapes, toDelete);
+        this.clearView();
         cmd.execute();
         careTaker.add(cmd);
         this.undoShapeAdd(toDelete);
@@ -476,7 +487,6 @@ public class Mediator implements IMediator {
         return this.app.load(name, onlyToolbar);
     }
 
-    //Mouse events ? c'est un peu différent de java awt (la first gen javafx)
-	//donc je sais pas si on peut hériter en javafx d'une classe mouse listener
+
 
 }

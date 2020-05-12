@@ -47,6 +47,7 @@ public abstract class Shape implements IShape {
     @Override
     public void move(int x, int y) {
         setPosition(x, y);
+
     }
 
     @Override
