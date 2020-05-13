@@ -1,14 +1,14 @@
-package editeur.view;
+package editeur.view.GUIFactory.GenericViewElements;
 
-import java.util.Vector;
 
 import editeur.model.draw.DrawBridge;
 import editeur.model.geometry.Composite;
 import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Point;
+import editeur.view.GraphicalObjectObserver;
 
-public class GenericWhiteBoard implements  GraphicalObjectObserver{
-    private Object     whiteBoard;
+public class GenericWhiteBoard implements GraphicalObjectObserver {
+    private final Object     whiteBoard;
     private Composite  shapeVector;
     private DrawBridge drawbridge;
 
@@ -27,6 +27,13 @@ public class GenericWhiteBoard implements  GraphicalObjectObserver{
         this.whiteBoard  = whiteBoard;
         this.shapeVector = new Composite(0,0,0,0);
     }
+
+    @Override
+    public void update() {
+        if(shapeVector.getComponents().size() > 0)
+            shapeVector.draw(this.drawbridge, this.get());
+    }
+
     public Composite getShapeVector(){
         return shapeVector;
     }
@@ -59,9 +66,7 @@ public class GenericWhiteBoard implements  GraphicalObjectObserver{
         int newY = (int)(y - boundY);
         return new Point(newX, newY);
     }
-    public boolean inWhiteBoard(int x , int y) {
-        return width >= x && height >= y;
-    }
+
     public boolean inWhiteBoard(Point point) {
         if (point == null) return false;
         return width >= point.getX() && height >= point.getY();
@@ -76,9 +81,4 @@ public class GenericWhiteBoard implements  GraphicalObjectObserver{
     }
 
 
-    @Override
-    public void update() {
-        if(shapeVector.getComponents().size() > 0)
-            shapeVector.draw(this.drawbridge, this.get());
-    }
 }

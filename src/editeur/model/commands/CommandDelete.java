@@ -6,7 +6,7 @@ import editeur.model.geometry.memento.Originator;
 
 public class CommandDelete extends Command {
     
-    private IShape toDelete;
+    private final IShape toDelete;
     
     public CommandDelete(Originator source, IShape toDelete){
         super(source);

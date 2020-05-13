@@ -1,9 +1,11 @@
-package editeur.view;
+package editeur.view.GUIFactory.GenericViewElements;
 
 public class GenericButton {
-    private Object button;
+    private final Object button;
+
     private int width  = 20;
     private int height = 40;
+
     public GenericButton(Object button) {
         this.button = button;
     }

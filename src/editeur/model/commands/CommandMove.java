@@ -6,7 +6,8 @@ import editeur.model.geometry.memento.Originator;
 
 public class CommandMove extends Command {
     
-    private int dx, dy;
+    private final int dx;
+    private final int dy;
     
     public CommandMove(Originator source, int dx, int dy) {
         super(source);

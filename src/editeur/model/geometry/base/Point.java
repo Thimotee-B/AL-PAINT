@@ -47,10 +47,7 @@ public class Point implements Cloneable, Serializable{
         this.y = y;
     }
 
-    public boolean equals(Point p) {
-        return (this.x == p.getX() && this.y == p.getY());
-    }
-    
+
     public Point clone() {
         Point clone = null;
         try {

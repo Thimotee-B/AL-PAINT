@@ -1,9 +1,9 @@
-package editeur.view;
+package editeur.view.GUIFactory.GenericViewElements;
 
 public class GenericTopBar {
-    private Object topBar;
+    private final Object topBar;
     
-    private int width = 100;
+    private final int width = 100;
     
     public GenericTopBar(Object topBar) {
         this.topBar = topBar;

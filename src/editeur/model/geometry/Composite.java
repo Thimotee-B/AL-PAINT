@@ -3,14 +3,12 @@ package editeur.model.geometry;
 
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+
 import java.util.Vector;
 
 import editeur.model.draw.DrawBridge;
 import editeur.model.geometry.base.Point;
-import editeur.model.geometry.base.Rectangle;
-import editeur.model.geometry.base.SimplePolygon;
+
 import editeur.model.geometry.memento.Memento;
 import editeur.model.geometry.memento.MementoComposite;
 
@@ -33,7 +31,6 @@ public class Composite extends Shape {
               width,
               height
               );
-        
 
     }
     
@@ -44,6 +41,7 @@ public class Composite extends Shape {
     public void scale(double factor) {
         this.setHeight((int) (this.getHeight() * factor));
         this.setWidth((int) (this.getWidth()  * factor));
+
         for(IShape shape : components) {
             shape.scale(factor);
             int x = (int) ((shape.getPosition().getX() - this.getPosition().getX()) * factor);
@@ -79,35 +77,6 @@ public class Composite extends Shape {
         for(IShape shape : components) shape.changeColor(r, g, b);
     }
 
-    public int [] minComponents(){
-        int min    = Integer.MAX_VALUE;
-        int width  = Integer.MAX_VALUE;
-        int min2   = Integer.MAX_VALUE;
-        int height = Integer.MAX_VALUE;
-        for (IShape s : components){
-            if (s instanceof Composite) {
-                if (min > ((Composite) s).minComponents()[0]) {
-                    min = ((Composite) s).minComponents()[0];
-                    width = ((Composite) s).minComponents()[1];
-                }
-                if (min2 > ((Composite) s).minComponents()[2]) {
-                    min2 = ((Composite) s).minComponents()[2];
-                    height = ((Composite) s).minComponents()[3];
-                }
-            }
-            if (s.getPosition().getX() < min) {
-                min = s.getPosition().getX();
-                width = s.getWidth();
-            }
-
-            if (s.getPosition().getY() < min2) {
-                min2 = s.getPosition().getY();
-                height = s.getHeight();
-            }
-
-        }
-        return new int[]{min, width, min2, height};
-    }
 
     @Override
     public void rotate(double rotation) {
@@ -130,24 +99,24 @@ public class Composite extends Shape {
         super.move(dx, dy);
 
     }
-    
-    public void add(IShape component) {
-        this.components.add(component);
-        
-    }
-    
-    public Vector<IShape> getComponents(){
-        return this.components;
+
+
+    @Override
+    public Shape clone() {
+        Composite clone = (Composite) super.clone();
+        Vector<IShape> c = new Vector<IShape>();
+        for (IShape s : components){
+            c.add(s.clone());
+        }
+        clone.components = c;
+        return clone;
     }
 
-    
-    public void remove(IShape component) {
-        this.components.remove(component);
-        
-    }
+    @Override
+    public void draw(DrawBridge db, Object drawSurface) {
+        for (IShape s : components)
+            if( s != null) s.draw(db, drawSurface);
 
-    public void clear(){
-        this.components.clear();
     }
 
     @Override
@@ -184,38 +153,58 @@ public class Composite extends Shape {
             shape.restore(memento.getCompositeMapMemento().get(shape));
             this.add(shape);
         }
-
-        /*for (IShape shape : (Vector<IShape>)this.components.clone()){
-            if (memento.getCompositeMapMemento().get(shape) == null) {
-                this.remove(shape);
-                continue;
-            }
-            else
-                shape.restore(memento.getCompositeMapMemento().get(shape));
-            IShape newshape = shape.clone();
-            this.add(newshape);
-            this.remove(shape);
-        }*/
     }
-    
-    
-    @Override
-    public Shape clone() {
-        Composite clone = (Composite) super.clone();
-        Vector<IShape> c = new Vector<IShape>();
+
+    public void add(IShape component) {
+        this.components.add(component);
+
+    }
+
+    public int [] minComponents(){
+        int min    = Integer.MAX_VALUE;
+        int width  = Integer.MAX_VALUE;
+        int min2   = Integer.MAX_VALUE;
+        int height = Integer.MAX_VALUE;
         for (IShape s : components){
-            c.add(s.clone());
+            if (s instanceof Composite) {
+                if (min > ((Composite) s).minComponents()[0]) {
+                    min = ((Composite) s).minComponents()[0];
+                    width = ((Composite) s).minComponents()[1];
+                }
+                if (min2 > ((Composite) s).minComponents()[2]) {
+                    min2 = ((Composite) s).minComponents()[2];
+                    height = ((Composite) s).minComponents()[3];
+                }
+            }
+            if (s.getPosition().getX() < min) {
+                min = s.getPosition().getX();
+                width = s.getWidth();
+            }
+
+            if (s.getPosition().getY() < min2) {
+                min2 = s.getPosition().getY();
+                height = s.getHeight();
+            }
+
         }
-        clone.components = c;
-        return clone;
+        return new int[]{min, width, min2, height};
     }
 
-    @Override
-    public void draw(DrawBridge db, Object drawSurface) {
-        for (IShape s : components)
-            if( s != null) s.draw(db, drawSurface);
-        
+    public Vector<IShape> getComponents(){
+        return this.components;
     }
+
+
+    public void remove(IShape component) {
+        this.components.remove(component);
+
+    }
+
+    public void clear(){
+        this.components.clear();
+    }
+    
+
 
 
 }

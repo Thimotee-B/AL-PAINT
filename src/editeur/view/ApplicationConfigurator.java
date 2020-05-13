@@ -2,6 +2,8 @@ package editeur.view;
 
 import editeur.model.draw.DrawBridge;
 import editeur.model.draw.JavaFxDrawBridge;
+import editeur.view.GUIFactory.GUIFactory;
+import editeur.view.GUIFactory.JavaFxFactory;
 
 public class ApplicationConfigurator {
     

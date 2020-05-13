@@ -5,7 +5,7 @@ import editeur.model.geometry.memento.Originator;
 
 public class CommandRescale extends Command {
     
-    private double factor;
+    private final double factor;
 
     public CommandRescale(Originator source, double factor){
         super(source);

@@ -1,7 +1,5 @@
 package editeur.controller;
 
-import java.util.List;
-import java.util.Observable;
 import java.util.Vector;
 
 import editeur.model.commands.*;
@@ -10,26 +8,25 @@ import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Point;
 import editeur.model.geometry.base.Rectangle;
 import editeur.model.geometry.base.SimplePolygon;
+
 import editeur.model.menu.Menu;
 import editeur.model.menu.MenuBuilder;
 import editeur.view.AbstractApplication;
 
-import editeur.view.GenericToolBar;
+import editeur.view.GUIFactory.GenericViewElements.GenericToolBar;
 import editeur.view.GraphicalObjectObserver;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+
 
 
 public class Mediator implements IMediator {
 
-    
-	//On peut en faire un singleton si on veut
     private static Mediator instance;
-    private AbstractApplication app;
-    private CareTaker           careTaker;
-    private Vector<IShape>     selectedShapes;
+    private final AbstractApplication app;
+    private final CareTaker           careTaker;
+    private final Vector<IShape>     selectedShapes;
     private IShape             clickedShape;
     private int[]              coordinatesSelected;
-    private Vector<GraphicalObjectObserver> observers;
+    private final Vector<GraphicalObjectObserver> observers;
     private Menu                menu;
     private MenuBuilder         menuBuilder;
     public static final String DEFAULT_SAVE_NAME = "autosave.auber";
@@ -43,6 +40,13 @@ public class Mediator implements IMediator {
         this.observers      = new Vector<GraphicalObjectObserver>();
         instance            = this;
     }
+
+    public static Mediator getInstance() {
+        if (instance == null)
+            instance = new Mediator(null);
+        return instance;
+    }
+
 
     //Override SubjectObservee
     @Override
@@ -119,8 +123,6 @@ public class Mediator implements IMediator {
         this.clearView();
         cmd.execute();
         careTaker.add(cmd);
-        /*for (IShape delete : selectedShapes)
-            app.getWhiteBoard().getShapeVector().remove(delete);*/
         this.Notify();
 		
 	}
@@ -158,24 +160,6 @@ public class Mediator implements IMediator {
 	      this.Notify();
 	}
 	
-	public static Mediator getInstance() {
-	    return instance;
-	}
-
-	public void undoShapeAdd(IShape shape){
-        if (shape instanceof  Composite){
-            Composite c = (Composite) shape;
-            for (IShape s : c.getComponents())
-                undoShapeAdd(s);
-        }
-        else
-            this.app.getDrawBridge().clearView
-                (
-                this.app.getWhiteBoard().get()
-                , this.app.getToolBar().get()
-                , shape
-                );
-    }
 
     @Override
     public void undo() {
@@ -225,26 +209,25 @@ public class Mediator implements IMediator {
                         selectedShapes.add(s);
         minX = Integer.MAX_VALUE;
         minY = Integer.MAX_VALUE;
-        //maxX = 0;
-        //maxY = 0;
+        maxX = 0;
+        maxY = 0;
         int h = 0, w= 0;
         for (IShape s : selectedShapes){
             if (s.getPosition().getX() < minX)
                 minX = s.getPosition().getX();
-            //if (s.getPosition().getX() > maxX)
-             //   maxX = s.getPosition().getX();
+            if (s.getPosition().getX() + s.getWidth() > maxX)
+                maxX = s.getPosition().getX() + s.getWidth();
 
             if (s.getPosition().getY() < minY)
                 minY = s.getPosition().getY();
-            //if (s.getPosition().getY() > maxY) {
-              //  maxY = s.getPosition().getY();
-            //}
+            if (s.getPosition().getY() + s.getHeight() > maxY) {
+                maxY = s.getPosition().getY() + s.getHeight();
+            }
 
         }
 
         int [] tab = { minX , minY , maxX -minX , maxY - minY};
-        //Debug//Rectangle r = new Rectangle(minX, minY, maxX - minX, maxY - minY);
-        //Debug//this.app.getDrawBridge().drawSelection(this.app.getWhiteBoard().get(), r);
+
         return tab;
     }
 
@@ -282,8 +265,6 @@ public class Mediator implements IMediator {
 
     @Override
     public void MouseClickEvent(boolean fromToolbar ,int clickSide,Point old, Point to) {
-        //test x et y sont la pos des clicks
-        //selectedShapes.clear();
         if (clickSide == LEFT && old != null){
             IShape s;
             if(fromToolbar) {
@@ -306,26 +287,13 @@ public class Mediator implements IMediator {
                 }
                 else {
                     this.coordinatesSelected =this.AddToSelection(old, to);
-                    /*if(selectedShapes.size() > 0) {
-                        this.group(app.getWhiteBoard().getShapeVector());
-                        for (IShape delete : selectedShapes) {
-                            app.getWhiteBoard().getShapeVector().remove(delete);
-                        }*/
-                        //this.clearView();
-                        //this.Notify();
-                        //System.out.println(app.getWhiteBoard().getShapeVector().getComponents().size());
-                        //System.out.println(selectedShapes.size());
-
-                   // }
-
                 }
             }
 
         }
         
     }
-    //TODO: A refactor autrement, surement avec une boite de collision dans Ishape,
-    //Ou méthode getwidth getheight pour tous, ou adaptator pour polygon whatever
+
     private void scaleTool(IShape tool, GenericToolBar toolBar){
             if (tool.getWidth() > toolBar.getWidth() && toolBar.getWidth() > 0
                     || tool.getWidth() >= toolBar.getToolMaxSize() ){
@@ -347,7 +315,6 @@ public class Mediator implements IMediator {
             if(!fromToolbar) {
                 s = this.app.getWhiteBoard().getShape(old);
                 if (s != null){
-                    System.out.println("cc");
                     IShape tool  = s.clone();
                     scaleTool(tool, this.app.getToolBar());
                     Point  p     = computeNewPos(tool, old, to);
@@ -370,7 +337,6 @@ public class Mediator implements IMediator {
                             alignX = alignX - minX + minWidth/2;
                         if (minY < alignY)
                             alignY = minY - minHeight;
-                    //System.out.println("Align Y : " + alignY + " y : " + minY);
                     }
                     if (mustAlign) {
                         Point align = new Point(alignX,alignY);
@@ -378,7 +344,6 @@ public class Mediator implements IMediator {
                         tool.move(align.getX(), align.getY());
                     }
                     this.Notify();
-                    //TODO: méthode intersect pour aligner les formes
                     if(app.getToolBar().inToolBar(to)) {
                         this.add(app.getToolBar().getShapeVector(), tool);
                     }
@@ -429,16 +394,17 @@ public class Mediator implements IMediator {
     @Override
     public boolean ShowDraggedShape(boolean fromToolbar, Point old, Point to){
         IShape s, clone;
-        //Todo: Juste déterminer si whiteboard ou toolbar avec un temp sur le dragged
         if (fromToolbar) {
             s = this.app.getToolBar().getShape(old);
             if (s == null) return false;
-            clone = (IShape) s.clone();
+
+            clone = s.clone();
             Point p = computeNewPos(s, old, to);
+
             if (p.getX() < 0) p.setX(0);
             if (p.getY() < 0) p.setY(0);
             if (p.getY() + clone.getHeight() > this.app.getToolBar().getHeight() + this.app.getTrashButton().getHeight()) {
-                clone.scale((float)this.app.getTrashButton().getHeight() / (float) clone.getHeight() );
+                clone.scale( (float)this.app.getTrashButton().getHeight() / (float) clone.getHeight() );
                 p.setY(this.app.getToolBar().getHeight() + this.app.getTrashButton().getHeight() - clone.getHeight());
             }
 
@@ -448,20 +414,17 @@ public class Mediator implements IMediator {
         else {
             s = this.app.getWhiteBoard().getShape(old);
             if (s == null) return false;
-            clone = (IShape) s.clone();
+
+            clone = s.clone();
             this.undoShapeAdd(s);
             Point p = computeNewPos(s, old, to);
             limit(clone,p,false,true);
+
             clone.move(p.getX(), p.getY());
             clone.draw(this.app.getDrawBridge(),this.app.getWhiteBoard().get());
         }
         return true;
 
-    }
-
-    public void setClickedShape(int x, int y){
-        IShape tmp = this.app.getWhiteBoard().getShape(new Point(x,y));
-        if (tmp != null) clickedShape  = tmp;
     }
 
     @Override
@@ -485,6 +448,28 @@ public class Mediator implements IMediator {
     @Override
     public boolean load(String name, boolean onlyToolbar){
         return this.app.load(name, onlyToolbar);
+    }
+
+    public void setClickedShape(int x, int y){
+        IShape tmp = this.app.getWhiteBoard().getShape(new Point(x,y));
+        if (tmp != null) clickedShape  = tmp;
+    }
+
+
+
+    public void undoShapeAdd(IShape shape){
+        if (shape instanceof  Composite){
+            Composite c = (Composite) shape;
+            for (IShape s : c.getComponents())
+                undoShapeAdd(s);
+        }
+        else
+            this.app.getDrawBridge().clearView
+                    (
+                            this.app.getWhiteBoard().get()
+                            , this.app.getToolBar().get()
+                            , shape
+                    );
     }
 
 

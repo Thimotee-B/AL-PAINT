@@ -5,7 +5,7 @@ import editeur.model.geometry.memento.Originator;
 
 public class CommandRotate extends Command {
 
-    private double factor;
+    private final double factor;
 
     public CommandRotate(Originator source, double factor) {
         super(source);

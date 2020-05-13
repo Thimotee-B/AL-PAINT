@@ -1,23 +1,21 @@
-package editeur.view;
+package editeur.view.GUIFactory;
 
-
-import java.io.*;
-import java.nio.ByteBuffer;
 import java.util.HashMap;
 
-import com.sun.xml.internal.bind.v2.runtime.output.StAXExStreamWriterOutput;
 import editeur.controller.Mediator;
-import editeur.model.geometry.Composite;
+
+import editeur.view.GUIFactory.GenericViewElements.GenericButton;
+import editeur.view.GUIFactory.GenericViewElements.GenericToolBar;
+import editeur.view.GUIFactory.GenericViewElements.GenericTopBar;
+import editeur.view.GUIFactory.GenericViewElements.GenericWhiteBoard;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.stage.FileChooser;
 
-import javax.print.attribute.standard.Media;
 
 
 public class JavaFxFactory implements GUIFactory {
@@ -25,10 +23,10 @@ public class JavaFxFactory implements GUIFactory {
     private StackPane toolbarJavaFx;
     private ToolBar topbarJavaFx;
     
-    private GenericTopBar  top;
+    private GenericTopBar top;
     private GenericToolBar tool;
     private GenericWhiteBoard wboard;
-    private HashMap<String,Button> mapButton = new HashMap();
+    private final HashMap<String,Button> mapButton = new HashMap();
     
     @Override
     public GenericWhiteBoard createWhiteBoard() {
@@ -71,12 +69,15 @@ public class JavaFxFactory implements GUIFactory {
 
     @Override
     public GenericButton createButton(String name) {
-        Button button = new Button(name);
+        Button button   = new Button(name);
         ImageView image = new ImageView(getClass().getResource("/"+ name + ".png").toString());
+
         image.setFitWidth(20);
         image.setPreserveRatio(true);
+
         if (name.compareTo("trash") == 0)
             button.setStyle("-fx-background-color: transparent;");
+
         button.setGraphic(image);
         button.setOnAction(
                 event -> {
@@ -100,23 +101,18 @@ public class JavaFxFactory implements GUIFactory {
         return new GenericButton(button);
     }
     
-    
 
-    
     private void handle_trash(ActionEvent event) {
-        //Mediator.getInstance().clearView();
         event.consume();
     }
     
     private void handle_undo(ActionEvent event) {
         Mediator.getInstance().undo();
-        //TODO: Penser � desactiver les boutons si action plus possible undo,redo
         event.consume();
     }
     
     private void handle_redo(ActionEvent event) {
         Mediator.getInstance().redo();
-        //TODO: Penser � desactiver les boutons si action plus possible undo,redo
         event.consume();
     }
     

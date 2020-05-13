@@ -7,7 +7,8 @@ import editeur.model.geometry.memento.Originator;
 
 public class CommandRoundBorders extends Command {
 
-    private int roundWidth, roundHeight;
+    private final int roundWidth;
+    private final int roundHeight;
 
     public CommandRoundBorders(Originator source, int roundWidth, int roundHeight){
         super(source);
@@ -24,10 +25,11 @@ public class CommandRoundBorders extends Command {
         }
         if(this.source instanceof Composite){
             Composite c = (Composite) this.source;
-            System.out.println("coucou");
+
             for (IShape s : c.getComponents())
                 if (!(s instanceof  Rectangle))
                     return;
+
             for (IShape s : c.getComponents()){
                 ((Rectangle) s).setRoundWidth(roundWidth);
                 ((Rectangle) s).setRoundHeight(roundHeight);

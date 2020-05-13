@@ -1,7 +1,8 @@
 package editeur.model.geometry.memento;
 
 public class MementoRectangle extends MementoShape {
-	private int roundHeight, roundWidth;
+	private final int roundHeight;
+    private final int roundWidth;
 	
 	public MementoRectangle(int roundHeight, int roundWidth) {
 		this.roundHeight  = roundHeight;

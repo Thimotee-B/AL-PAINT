@@ -8,33 +8,33 @@ import editeur.model.geometry.memento.Originator;
 
 public interface IShape extends Cloneable, Originator, Serializable, Drawable {
 	
-	public int getColorR();
+	int getColorR();
 
-	public int getColorG();
+	int getColorG();
 
-	public int getColorB();
+	int getColorB();
 
-	public void changeColor(int r, int g, int b);
+	void changeColor(int r, int g, int b);
 	
 	Point getPosition();
 
-	public int getHeight();
+	int getHeight();
 
-	public int getWidth();
+	int getWidth();
 
-	public void setWidth(int width);
+	void setWidth(int width);
 
-	public void setHeight(int height);
+	void setHeight(int height);
 
-	public void move(int dx, int dy);
+	void move(int dx, int dy);
 
-	public void setPosition(int x, int y);
+	void setPosition(int x, int y);
 	
-	public void scale(double factor);
+	void scale(double factor);
 
-	public void setAlpha(double alpha);
+	void setAlpha(double alpha);
 
-	public double getAlpha();
+	double getAlpha();
 
 	double getRotation();
 
@@ -44,11 +44,11 @@ public interface IShape extends Cloneable, Originator, Serializable, Drawable {
 
 	Point getRotationCenter();
 
-	public void setRotationCenter(Point p);
+	void setRotationCenter(Point p);
 
-	public Shape clone();
+	Shape clone();
 
-	public boolean isInside(Point p);
+	boolean isInside(Point p);
 
 }
 

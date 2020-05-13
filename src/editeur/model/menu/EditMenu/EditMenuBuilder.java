@@ -1,7 +1,5 @@
 package editeur.model.menu.EditMenu;
 
-import editeur.model.geometry.IShape;
-
 public interface EditMenuBuilder {
 
     void buildDialog();

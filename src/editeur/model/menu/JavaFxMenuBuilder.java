@@ -1,12 +1,11 @@
 package editeur.model.menu;
 
-import editeur.Main;
 import editeur.controller.Mediator;
 import editeur.model.geometry.Composite;
 import editeur.model.geometry.IShape;
 import editeur.model.menu.EditMenu.EditMenuBuilder;
 import editeur.model.menu.EditMenu.EditMenuBuilderJavaFx;
-import editeur.view.GenericWhiteBoard;
+import editeur.view.GUIFactory.GenericViewElements.GenericWhiteBoard;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 
@@ -114,7 +113,6 @@ public class JavaFxMenuBuilder implements MenuBuilder {
 
     @Override
     public void debuild() {
-        //TODO: voir si faut pas foutre tout les attributs à nulle
         MainMenu.hide();
         displayed   = false;
         builded     = false;

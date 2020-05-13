@@ -1,8 +1,8 @@
 package editeur.model.geometry.memento;
 
 public class MementoSimplePolygon extends MementoShape {
-	private int numberOfSides;
-	private float sideSize;
+	private final int numberOfSides;
+	private final float sideSize;
 	
 	public MementoSimplePolygon(int numberOfSides, float sideSize) {
 		this.numberOfSides = numberOfSides;

@@ -4,14 +4,12 @@ import editeur.controller.Mediator;
 import editeur.model.geometry.Composite;
 import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Rectangle;
-import editeur.model.geometry.base.SimplePolygon;
-import editeur.view.GenericWhiteBoard;
-import javafx.event.ActionEvent;
+import editeur.view.GUIFactory.GenericViewElements.GenericWhiteBoard;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-import javax.print.attribute.standard.Media;
+
 
 
 public class EditMenuBuilderJavaFx implements EditMenuBuilder {
@@ -155,9 +153,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
 
     @Override
     public void buildDialogButtons() {
-        apply = new ButtonType("Apply", ButtonBar.ButtonData.APPLY);
+        apply  = new ButtonType("Apply", ButtonBar.ButtonData.APPLY);
         cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        ok = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        ok     = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(apply, ok, cancel);
 
 

@@ -3,20 +3,24 @@ package editeur.view;
 import editeur.controller.IMediator;
 import editeur.controller.Mediator;
 import editeur.model.draw.DrawBridge;
-import editeur.model.geometry.base.Rectangle;
+import editeur.view.GUIFactory.*;
+import editeur.view.GUIFactory.GenericViewElements.GenericButton;
+import editeur.view.GUIFactory.GenericViewElements.GenericToolBar;
+import editeur.view.GUIFactory.GenericViewElements.GenericTopBar;
+import editeur.view.GUIFactory.GenericViewElements.GenericWhiteBoard;
 import javafx.application.Application;
 
 public abstract class AbstractApplication extends Application {
     
     private static volatile AbstractApplication instance = null;
-    private   GUIFactory        guiFactory;
-    private   GenericToolBar    toolBar;
-    private   GenericTopBar     topBar;
-    private   GenericWhiteBoard whiteBoard;
-    private   GenericButton     saveButton, loadButton, undoButton, redoButton, trashButton;
-    private   GenericTopBar    trashBar;
-    private   DrawBridge drawbridge;
-    protected IMediator   mediator;
+    private GUIFactory guiFactory;
+    private GenericToolBar toolBar;
+    private GenericTopBar topBar;
+    private GenericWhiteBoard whiteBoard;
+    private GenericButton saveButton, loadButton, undoButton, redoButton, trashButton;
+    private   GenericTopBar     trashBar;
+    private   DrawBridge        drawbridge;
+    protected IMediator         mediator;
     
     public AbstractApplication(String Gui) {
         synchronized(AbstractApplication.class) {
@@ -45,11 +49,10 @@ public abstract class AbstractApplication extends Application {
     public void start(){
         toolBar.setDrawBridge(drawbridge);
         whiteBoard.setDrawBridge(drawbridge);
+
         this.mediator.Attach(toolBar);
         this.mediator.Attach(whiteBoard);
         this.mediator.start();
-        //this.mediator.ReScale(toolBar.getShape(0), 40);
-        //this.mediator.move(toolBar.getShape(0), 100, 100);
     }
 
     public void end(){

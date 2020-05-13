@@ -1,36 +1,30 @@
-package editeur.view;
-
-import java.time.chrono.IsoChronology;
-import java.util.Vector;
+package editeur.view.GUIFactory.GenericViewElements;
 
 import editeur.model.draw.DrawBridge;
 import editeur.model.geometry.Composite;
 import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Point;
+import editeur.view.GraphicalObjectObserver;
 
 public class GenericToolBar implements GraphicalObjectObserver {
-    private Object toolBar;
-    private final int width  = 150; 
+    private final int width  = 150;
     private final int height = 900;
     private final int toolMaxSize = 75;
-    private final int alignToolX  = 25;
+
+    private final Object toolBar;
     private Composite shapeVector;
     private DrawBridge drawbridge;
-    private int startShapesIndices = 0;
+
 
     public GenericToolBar(Object toolBar) {
         this.toolBar = toolBar;
         this.shapeVector = new Composite(0,0,0,0);
     }
 
-
-
-    public int getStartShapesIndices() {
-        return startShapesIndices;
-    }
-
-    public void setStartShapesIndices(int startShapesIndices) {
-        this.startShapesIndices = startShapesIndices;
+    @Override
+    public void update() {
+        if(shapeVector.getComponents().size() > 0)
+            shapeVector.draw(this.drawbridge, this.get());
     }
 
     public void addShape(IShape shape) {
@@ -78,12 +72,6 @@ public class GenericToolBar implements GraphicalObjectObserver {
         int newY = (int)(y - boundY);
         return new Point(newX, newY);
     }
-    
-    public boolean inToolBar(int x , int y) {
-       return width >= x && height >= y;
-    }
-
-
 
     public boolean inToolBar(Point p) {
         if (p == null) return false;
@@ -98,10 +86,5 @@ public class GenericToolBar implements GraphicalObjectObserver {
         return toolMaxSize;
     }
 
-    @Override
-    public void update() {
-        if(shapeVector.getComponents().size() > 0)
-            shapeVector.draw(this.drawbridge, this.get());
-    }
 
 }

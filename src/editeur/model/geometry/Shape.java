@@ -71,7 +71,7 @@ public abstract class Shape implements IShape {
     }
 
     @Override
-    public abstract void scale(double factor); //abstact because it has to be done for each component individually (a vérif)
+    public abstract void scale(double factor);
     
     @Override
     public Point getPosition() {
@@ -82,13 +82,7 @@ public abstract class Shape implements IShape {
     public void setPosition(int x, int y) {
         this.position = new Point(x,y);
     }
-    
-    public void translate(int dx, int dy) {
-        this.position          = new Point(position.getX() + dx, position.getY() + dy);
-        this.rotationCenter    = new Point(this.rotationCenter.getX() + dx, this.rotationCenter.getY() + dy);
-        this.translationCenter = new Point(this.translationCenter.getX() + dx, this.translationCenter.getY() + dy);
-    }
-    
+
     @Override
     public Point getTranslationCenter() {
         return this.translationCenter;
@@ -174,5 +168,11 @@ public abstract class Shape implements IShape {
         this.height= memento.getHeight();
         this.width = memento.getWidth();
 
+    }
+
+    public void translate(int dx, int dy) {
+        this.position          = new Point(position.getX() + dx, position.getY() + dy);
+        this.rotationCenter    = new Point(this.rotationCenter.getX() + dx, this.rotationCenter.getY() + dy);
+        this.translationCenter = new Point(this.translationCenter.getX() + dx, this.translationCenter.getY() + dy);
     }
 }

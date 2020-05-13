@@ -18,10 +18,6 @@ public abstract class Command implements ICommand{
 
     @Override
     public void undo() {
-        /*if (this.source instanceof Composite)
-            for (IShape s : ((Composite)source).getComponents()) {
-                Mediator.getInstance().undoShapeAdd((IShape) s);
-            }*/
         this.source.restore(this.memento);
         Mediator.getInstance().clearView();
         Mediator.getInstance().Notify();

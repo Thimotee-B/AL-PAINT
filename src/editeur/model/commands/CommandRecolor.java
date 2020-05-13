@@ -5,7 +5,9 @@ import editeur.model.geometry.memento.Originator;
 
 public class CommandRecolor extends Command{
     
-    private int r, g, b;
+    private final int r;
+    private final int g;
+    private final int b;
 
     public CommandRecolor(Originator source, int r, int g, int b){
         super(source);

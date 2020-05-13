@@ -24,119 +24,13 @@ public class SimplePolygon extends Shape {
         this.sideSize 	   = sideSize;
         this.polygonPts    = ProcessPolygonPoints();
         this.setRotationCenter(new Point(x + getRadius(),y +  getRadius()));
-        //this.calculateRotateCentroid();
 
-    }
-
-    public void calculateRotateCentroid(){
-
-        int x = getPosition().getX();
-        int y = getPosition().getY();
-        double fx = this.polygonPts[0] + x;
-        double fy = this.polygonPts[1] + y;
-        double area = 0;
-        double x1 = 0, x2 = 0;
-        double y1 = 0, y2 = 0;
-        double newX = 0, newY = 0;
-        double f;
-        for (int i = 0, j = polygonPts.length - 2; i < polygonPts.length ; j = i,  i+=2) {
-            x1 = this.polygonPts[i] + x;
-            y1 = this.polygonPts[i + 1] + y;
-            x2 = this.polygonPts[j] + x;
-            y2 = this.polygonPts[j + 1] + y;
-            f = (x1 - fx) * (y2 - fy) - (x2 - fx) * (y1 - fy);
-            area += f;
-            newX += (x1 + x2 - 2 * fx) * f;
-            newY += (y1 + y2 - 2 * fy) * f;
-        }
-        f = area * 3;
-        
-        setRotationCenter( new Point((int) (newX / f + fx), (int)(newY / f + fy)));
-    }
-
-    public int getNumberOfSides() {
-        return numberOfSides;
-    }
-
-    public float getSideSize() {
-        return sideSize;
-    }
-
-    public double[] getPolygonPoints() {
-        return polygonPts;
-    }
-
-    public int getRadius(){
-        double area  = 2 * Math.sin(Math.toRadians(180.0/numberOfSides));
-        double radius = sideSize / area;
-
-        return (int) radius;
-    }
-
-    public double[] ProcessPolygonPoints(){
-        double pts[] = new double[numberOfSides * 2];
-        double area  = 2 * Math.sin(Math.toRadians(180.0/numberOfSides));
-        double radius = sideSize / area;
-        double a = this.getRotation();
-
-        for (int i = 0; i < 2 * numberOfSides; i++)
-            pts[i] = radius;
-
-        for (int i = 0; i < numberOfSides ; i++) {
-            pts[2*i]   *= Math.cos(Math.toRadians(a));
-            pts[2*i]   += radius;
-            pts[2*i+1] *= Math.sin(Math.toRadians(a));
-            pts[2*i+1] += radius;
-            a += 360.0/numberOfSides;
-        }
-        return pts;
-
-    }
-
-    public void setNumberOfSides(int numberOfSides){
-        this.numberOfSides = numberOfSides;
-    }
-    
-    public void setSideSize(float sideSize) {
-        this.sideSize = sideSize;
-    }
-    
-    public void setAlpha(int alpha) {
-        super.setAlpha(alpha);
-    }
-
-    @Override
-    public boolean isInside(Point p) {
-        double pts[] = polygonPts;
-        Point pos = getPosition();
-        int x = pos.getX();
-        int y = pos.getY();
-
-        int px = p.getX();
-        int py = p.getY();
-        boolean check = false;
-        int i ,j;
-        for (i  = 0, j = pts.length - 2;  i < pts.length; j = i,  i+=2)
-        {
-
-            int newX  =(int) pts[i] + x;
-            int newY  =(int) pts[i+1] + y;
-            int newX2 =(int) pts[j] + x;
-            int newY2 =(int) pts[j+1] + y;
-
-            if ((newY >= py) != (newY2 >= py))
-                if( px <= (newX2 - newX) * (py - newY ) / (newY2 - newY) + newX) {
-                    check = !check;
-                }
-            }
-        return check;
     }
 
     @Override
     public void move(int dx, int dy) {
         super.move(dx,dy);
         this.setRotationCenter(new Point(dx + getRadius(),dy +  getRadius()));
-        //this.calculateRotateCentroid();
     }
 
     @Override
@@ -175,6 +69,113 @@ public class SimplePolygon extends Shape {
 		db.drawPolygon(drawSurface, this);
 		
 	}
+
+    @Override
+    public boolean isInside(Point p) {
+        double[] pts = polygonPts;
+        Point pos = getPosition();
+        int x = pos.getX();
+        int y = pos.getY();
+
+        int px = p.getX();
+        int py = p.getY();
+        boolean check = false;
+        int i ,j;
+        for (i  = 0, j = pts.length - 2;  i < pts.length; j = i,  i+=2)
+        {
+
+            int newX  =(int) pts[i] + x;
+            int newY  =(int) pts[i+1] + y;
+            int newX2 =(int) pts[j] + x;
+            int newY2 =(int) pts[j+1] + y;
+
+            if ((newY >= py) != (newY2 >= py))
+                if( px <= (newX2 - newX) * (py - newY ) / (newY2 - newY) + newX) {
+                    check = !check;
+                }
+        }
+        return check;
+    }
+
+    public void calculateRotateCentroid(){
+
+        int x = getPosition().getX();
+        int y = getPosition().getY();
+        double fx = this.polygonPts[0] + x;
+        double fy = this.polygonPts[1] + y;
+        double area = 0;
+        double x1 = 0, x2 = 0;
+        double y1 = 0, y2 = 0;
+        double newX = 0, newY = 0;
+        double f;
+        for (int i = 0, j = polygonPts.length - 2; i < polygonPts.length ; j = i,  i+=2) {
+            x1 = this.polygonPts[i] + x;
+            y1 = this.polygonPts[i + 1] + y;
+            x2 = this.polygonPts[j] + x;
+            y2 = this.polygonPts[j + 1] + y;
+            f = (x1 - fx) * (y2 - fy) - (x2 - fx) * (y1 - fy);
+            area += f;
+            newX += (x1 + x2 - 2 * fx) * f;
+            newY += (y1 + y2 - 2 * fy) * f;
+        }
+        f = area * 3;
+
+        setRotationCenter( new Point((int) (newX / f + fx), (int)(newY / f + fy)));
+    }
+
+    public double[] ProcessPolygonPoints(){
+        double[] pts = new double[numberOfSides * 2];
+        double area  = 2 * Math.sin(Math.toRadians(180.0/numberOfSides));
+        double radius = sideSize / area;
+        double a = this.getRotation();
+
+        for (int i = 0; i < 2 * numberOfSides; i++)
+            pts[i] = radius;
+
+        for (int i = 0; i < numberOfSides ; i++) {
+            pts[2*i]   *= Math.cos(Math.toRadians(a));
+            pts[2*i]   += radius;
+            pts[2*i+1] *= Math.sin(Math.toRadians(a));
+            pts[2*i+1] += radius;
+            a += 360.0/numberOfSides;
+        }
+        return pts;
+
+    }
+
+
+    public int getNumberOfSides() {
+        return numberOfSides;
+    }
+
+    public float getSideSize() {
+        return sideSize;
+    }
+
+    public double[] getPolygonPoints() {
+        return polygonPts;
+    }
+
+    public int getRadius(){
+        double area  = 2 * Math.sin(Math.toRadians(180.0/numberOfSides));
+        double radius = sideSize / area;
+
+        return (int) radius;
+    }
+
+    public void setNumberOfSides(int numberOfSides){
+        this.numberOfSides = numberOfSides;
+    }
+
+    public void setSideSize(float sideSize) {
+        this.sideSize = sideSize;
+    }
+
+    public void setAlpha(int alpha) {
+        super.setAlpha(alpha);
+    }
+
+
 
 
 }

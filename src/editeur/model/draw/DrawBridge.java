@@ -3,10 +3,10 @@ import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Rectangle;
 import editeur.model.geometry.base.SimplePolygon;
 
-import java.awt.*;
+
 
 public interface DrawBridge {
-	//Draw poylgon,rectangles,lignes etc 
+
 
     void drawSelection(Object drawSurface, Rectangle selection);
 

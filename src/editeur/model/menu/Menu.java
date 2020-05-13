@@ -1,22 +1,19 @@
 package editeur.model.menu;
 
-import editeur.controller.Mediator;
 import editeur.model.geometry.IShape;
-import editeur.view.GenericWhiteBoard;
-import javafx.scene.control.ContextMenu;
-
+import editeur.view.GUIFactory.GenericViewElements.GenericWhiteBoard;
 import java.util.Vector;
 
 public class Menu implements IMenu{
-    Vector<IShape> selectedShapes;
-    IShape         clickedShape;
+    Vector<IShape>    selectedShapes;
+    IShape            clickedShape;
     GenericWhiteBoard whiteBoard;
-    ContextMenu         contextMenu;
+
 
     public Menu(Vector<IShape> selectedShapes, IShape clickedShape, GenericWhiteBoard whiteBoard){
         this.selectedShapes = selectedShapes;
-        this.whiteBoard =  whiteBoard;
-        this.clickedShape = clickedShape;
+        this.whiteBoard     =  whiteBoard;
+        this.clickedShape   = clickedShape;
     }
 
     @Override

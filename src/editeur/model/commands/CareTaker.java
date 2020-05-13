@@ -4,7 +4,8 @@ import java.util.Vector;
 
 public class CareTaker{
     
-    private Vector<ICommand> undo, redo;
+    private final Vector<ICommand> undo;
+    private final Vector<ICommand> redo;
     
     public CareTaker() {
         undo = new Vector<ICommand>();

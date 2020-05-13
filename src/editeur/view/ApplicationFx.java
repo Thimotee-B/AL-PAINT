@@ -5,7 +5,7 @@ import editeur.model.geometry.Composite;
 import editeur.model.geometry.base.Point;
 import editeur.model.menu.JavaFxMenuBuilder;
 import editeur.model.menu.MenuBuilder;
-import javafx.event.ActionEvent;
+
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,7 +18,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.print.attribute.standard.Media;
 import java.io.*;
 
 public class ApplicationFx extends AbstractApplication {
@@ -26,11 +25,10 @@ public class ApplicationFx extends AbstractApplication {
     private Scene scene;
     private Point old;
     private boolean OldinToolbar, OldinWhiteBoard;
+
     public ApplicationFx() {
         super("JAVAFX");
     }
-
-
 
     @Override
     public void initFactoryElements() {
@@ -49,12 +47,12 @@ public class ApplicationFx extends AbstractApplication {
         
         this.borderpane       = new BorderPane();
         this.scene            = new Scene(borderpane);
+
         borderpane.setLeft(toolbar);
         borderpane.setCenter(whiteboard);
         borderpane.setTop(topbar);
         borderpane.setBottom((Button)this.getTrashButton().get());
-        //toolbar.setAlignment((Button)this.trashButton.get(), Pos.BOTTOM_CENTER);
-        //toolbar.getChildren().add((Button)this.trashButton.get());
+
         topbar.getItems().addAll(new Separator(),
                 (Button)this.getSaveButton().get(), (Button)this.getLoadButton().get() ,
                 new Separator(),
@@ -78,99 +76,6 @@ public class ApplicationFx extends AbstractApplication {
     @Override
     public void stop(){
         super.end();
-    }
-    
-    private Point getToolBarPoint(MouseEvent e) {
-        StackPane toolbar  = (StackPane)this.getToolBar().get();
-        Bounds b = toolbar.localToScene(toolbar.getBoundsInLocal());
-        return this.getToolBar().localPoint(b.getMinX(), b.getMinY(),e.getSceneX(), e.getSceneY());
-    }
-    private Point getWhiteBoardPoint(MouseEvent e) {
-        StackPane whiteboard  = (StackPane)this.getWhiteBoard().get();
-        Bounds b = whiteboard.localToScene(whiteboard.getBoundsInLocal());
-        return this.getWhiteBoard().localPoint(b.getMinX(), b.getMinY(),e.getSceneX(), e.getSceneY());
-    }
-
-    private boolean inElement(int x , int y,StackPane element) {
-        Bounds b = element.localToScene(element.getBoundsInLocal());
-        return ((x > b.getMinX() && x < b.getMinX() + element.getWidth())
-                && (y > b.getMinY() && y < b.getMinY() + element.getHeight()));
-    }
-
-    private boolean inButton(int x , int y, Button button){
-        Bounds b = button.localToScene(button.getBoundsInLocal());
-        return ((x > b.getMinX() && x < b.getMinX() + button.getWidth())
-                && (y > b.getMinY() && y < b.getMinY() + button.getHeight()));
-    }
-
-
-
-    public void addEvents() {
-        
-        scene.setOnMouseClicked(
-                e ->{
-                    if (e.getButton() == MouseButton.SECONDARY){
-                        MenuBuilder builder = JavaFxMenuBuilder.getInstance();
-                        Point to = this.getWhiteBoardPoint(e);
-                        Mediator.getInstance().setClickedShape(to.getX(), to.getY());
-                        Mediator.getInstance().callMenu(builder, (int) e.getScreenX(), (int) e.getScreenY());
-                    }
-                    if (e.getButton() == MouseButton.PRIMARY) {
-                        Mediator.getInstance().hideMenu();
-                    }
-
-                });
-
-
-
-
-        scene.setOnMouseDragged(
-                e ->{
-                   if (e.getButton() == MouseButton.PRIMARY) {
-                       this.mediator.clearView();
-                       this.mediator.Notify();
-                       if(old == null) {
-                           OldinToolbar = inElement((int) e.getSceneX(), (int) e.getSceneY(), (StackPane) getToolBar().get());
-                           OldinWhiteBoard = inElement((int) e.getSceneX(), (int) e.getSceneY(), (StackPane) getWhiteBoard().get());
-                       }
-                       Point p = null;
-                       if(OldinToolbar)
-                           p = this.getToolBarPoint(e);
-                       else if (OldinWhiteBoard)
-                           p = this.getWhiteBoardPoint(e);
-                       if(old == null)
-                           old = new Point(p);
-                       if(!this.mediator.ShowDraggedShape(OldinToolbar, old, p))
-                           if(OldinWhiteBoard)
-                               this.mediator.ShowSelection(old, p);
-
-                   }
-                   
-                });
-        scene.setOnMouseReleased(
-                e ->{
-                    this.mediator.clearView();
-                    this.mediator.Notify();
-                    Point p = new Point((int) e.getSceneX(),(int) e.getSceneY());
-                    boolean inToolbar    = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getToolBar().get());
-                    boolean inWhiteBoard = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getWhiteBoard().get());
-                    boolean inTrash    = inButton( (int) e.getSceneX(), (int) e.getSceneY(),(Button) this.getTrashButton().get());
-                    int clickSide = (e.getButton() == MouseButton.PRIMARY) ? Mediator.LEFT : Mediator.RIGHT;
-
-                    if(inToolbar && OldinWhiteBoard)
-                        this.mediator.MouseClickEventAddTool(false, clickSide, old, getToolBarPoint(e));
-                    if (inWhiteBoard && OldinWhiteBoard)
-                        this.mediator.MouseClickEvent(false, clickSide, old, getWhiteBoardPoint(e));
-                    if(inToolbar && OldinToolbar)
-                        this.mediator.MouseClickEvent(true, clickSide, old, getToolBarPoint(e));
-                    if (inWhiteBoard &&  OldinToolbar)
-                        this.mediator.MouseDraggedEvent(true, clickSide, old, getWhiteBoardPoint(e));
-                    if (inTrash && OldinToolbar)
-                        this.mediator.MouseTrashEvent(true, clickSide, old, getToolBarPoint(e));
-                    if (inTrash && OldinWhiteBoard)
-                        this.mediator.MouseTrashEvent(false, clickSide, old, getToolBarPoint(e));
-                    old = null;
-                });
     }
 
     @Override
@@ -258,8 +163,99 @@ public class ApplicationFx extends AbstractApplication {
 
 
     }
-    
-    
-    
+
+
+    public void addEvents() {
+
+        scene.setOnMouseClicked(
+                e ->{
+                    if (e.getButton() == MouseButton.SECONDARY){
+                        MenuBuilder builder = JavaFxMenuBuilder.getInstance();
+                        Point to = this.getWhiteBoardPoint(e);
+                        Mediator.getInstance().setClickedShape(to.getX(), to.getY());
+                        Mediator.getInstance().callMenu(builder, (int) e.getScreenX(), (int) e.getScreenY());
+                    }
+                    if (e.getButton() == MouseButton.PRIMARY) {
+                        Mediator.getInstance().hideMenu();
+                    }
+
+                });
+
+
+
+
+        scene.setOnMouseDragged(
+                e ->{
+                    if (e.getButton() == MouseButton.PRIMARY) {
+                        this.mediator.clearView();
+                        this.mediator.Notify();
+                        if(old == null) {
+                            OldinToolbar = inElement((int) e.getSceneX(), (int) e.getSceneY(), (StackPane) getToolBar().get());
+                            OldinWhiteBoard = inElement((int) e.getSceneX(), (int) e.getSceneY(), (StackPane) getWhiteBoard().get());
+                        }
+                        Point p = null;
+                        if(OldinToolbar)
+                            p = this.getToolBarPoint(e);
+                        else if (OldinWhiteBoard)
+                            p = this.getWhiteBoardPoint(e);
+                        if(old == null)
+                            old = new Point(p);
+                        if(!this.mediator.ShowDraggedShape(OldinToolbar, old, p))
+                            if(OldinWhiteBoard)
+                                this.mediator.ShowSelection(old, p);
+
+                    }
+
+                });
+        scene.setOnMouseReleased(
+                e ->{
+                    this.mediator.clearView();
+                    this.mediator.Notify();
+                    Point p = new Point((int) e.getSceneX(),(int) e.getSceneY());
+                    boolean inToolbar    = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getToolBar().get());
+                    boolean inWhiteBoard = inElement( (int) e.getSceneX(), (int) e.getSceneY(),(StackPane) getWhiteBoard().get());
+                    boolean inTrash    = inButton( (int) e.getSceneX(), (int) e.getSceneY(),(Button) this.getTrashButton().get());
+                    int clickSide = (e.getButton() == MouseButton.PRIMARY) ? Mediator.LEFT : Mediator.RIGHT;
+
+                    if(inToolbar && OldinWhiteBoard)
+                        this.mediator.MouseClickEventAddTool(false, clickSide, old, getToolBarPoint(e));
+                    if (inWhiteBoard && OldinWhiteBoard)
+                        this.mediator.MouseClickEvent(false, clickSide, old, getWhiteBoardPoint(e));
+                    if(inToolbar && OldinToolbar)
+                        this.mediator.MouseClickEvent(true, clickSide, old, getToolBarPoint(e));
+                    if (inWhiteBoard &&  OldinToolbar)
+                        this.mediator.MouseDraggedEvent(true, clickSide, old, getWhiteBoardPoint(e));
+                    if (inTrash && OldinToolbar)
+                        this.mediator.MouseTrashEvent(true, clickSide, old, getToolBarPoint(e));
+                    if (inTrash && OldinWhiteBoard)
+                        this.mediator.MouseTrashEvent(false, clickSide, old, getToolBarPoint(e));
+                    old = null;
+                });
+    }
+
+
+    private Point getToolBarPoint(MouseEvent e) {
+        StackPane toolbar  = (StackPane)this.getToolBar().get();
+        Bounds b = toolbar.localToScene(toolbar.getBoundsInLocal());
+        return this.getToolBar().localPoint(b.getMinX(), b.getMinY(),e.getSceneX(), e.getSceneY());
+    }
+    private Point getWhiteBoardPoint(MouseEvent e) {
+        StackPane whiteboard  = (StackPane)this.getWhiteBoard().get();
+        Bounds b = whiteboard.localToScene(whiteboard.getBoundsInLocal());
+        return this.getWhiteBoard().localPoint(b.getMinX(), b.getMinY(),e.getSceneX(), e.getSceneY());
+    }
+
+    private boolean inElement(int x , int y,StackPane element) {
+        Bounds b = element.localToScene(element.getBoundsInLocal());
+        return ((x > b.getMinX() && x < b.getMinX() + element.getWidth())
+                && (y > b.getMinY() && y < b.getMinY() + element.getHeight()));
+    }
+
+    private boolean inButton(int x , int y, Button button){
+        Bounds b = button.localToScene(button.getBoundsInLocal());
+        return ((x > b.getMinX() && x < b.getMinX() + button.getWidth())
+                && (y > b.getMinY() && y < b.getMinY() + button.getHeight()));
+    }
+
 }
 

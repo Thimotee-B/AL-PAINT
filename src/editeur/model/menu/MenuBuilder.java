@@ -1,9 +1,7 @@
 package editeur.model.menu;
 
 import editeur.model.geometry.IShape;
-import editeur.view.GenericWhiteBoard;
-
-
+import editeur.view.GUIFactory.GenericViewElements.GenericWhiteBoard;
 import java.util.Vector;
 
 public interface MenuBuilder {

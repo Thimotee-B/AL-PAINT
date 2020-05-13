@@ -1,10 +1,10 @@
 package editeur.model.draw;
-import java.awt.*;
+
 import java.util.HashMap;
-import java.util.Vector;
+
 
 import editeur.model.geometry.IShape;
-import editeur.model.geometry.base.Point;
+
 import editeur.model.geometry.base.Rectangle;
 import editeur.model.geometry.base.SimplePolygon;
 import javafx.scene.layout.Pane;
@@ -13,7 +13,7 @@ import javafx.scene.transform.Rotate;
 
 public class JavaFxDrawBridge implements DrawBridge {
 
-    private HashMap<IShape,javafx.scene.shape.Shape> map =
+    private final HashMap<IShape,javafx.scene.shape.Shape> map =
             new HashMap<IShape,javafx.scene.shape.Shape>();
 
 
@@ -22,11 +22,14 @@ public class JavaFxDrawBridge implements DrawBridge {
         javafx.scene.shape.Rectangle select = new javafx.scene.shape.Rectangle(selection.getWidth(), selection.getHeight());
         select.setX(selection.getPosition().getX());
         select.setY(selection.getPosition().getY());
+
         select.setTranslateX(selection.getPosition().getX());
         select.setTranslateY(selection.getPosition().getY());
+
         select.setStroke(Color.DARKMAGENTA);
         select.setFill(Color.TRANSPARENT);
         select.getStrokeDashArray().add(3.0);
+
         this.update(drawSurface, select);
     }
 
