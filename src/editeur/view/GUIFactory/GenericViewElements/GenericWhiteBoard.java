@@ -7,18 +7,18 @@ import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Point;
 import editeur.view.GraphicalObjectObserver;
 
-public class GenericWhiteBoard implements GraphicalObjectObserver {
+public class GenericWhiteBoard implements GraphicalObjectObserver, IGeneric {
     private final Object     whiteBoard;
     private Composite  shapeVector;
     private DrawBridge drawbridge;
 
     private final int width  = 1000;
     private final int height = 900;
-
+    @Override
     public int getWidth() {
         return width;
     }
-
+    @Override
     public int getHeight() {
         return height;
     }
@@ -71,7 +71,7 @@ public class GenericWhiteBoard implements GraphicalObjectObserver {
         if (point == null) return false;
         return width >= point.getX() && height >= point.getY();
     }
-
+    @Override
     public Object get() {
         return whiteBoard;
     }

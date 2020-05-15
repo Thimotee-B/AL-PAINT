@@ -10,7 +10,7 @@ import editeur.view.GUIFactory.GenericViewElements.GenericTopBar;
 import editeur.view.GUIFactory.GenericViewElements.GenericWhiteBoard;
 import javafx.application.Application;
 
-public abstract class AbstractApplication extends Application {
+public abstract class AbstractApplication extends Application implements IApplication {
     
     private static volatile AbstractApplication instance = null;
     private GUIFactory guiFactory;
@@ -34,7 +34,7 @@ public abstract class AbstractApplication extends Application {
                 
         }
     }
-    
+    @Override
     public void initFactoryElements() {
         this.toolBar     = guiFactory.createToolBar();
         this.topBar      = guiFactory.createTopBar();
@@ -45,7 +45,8 @@ public abstract class AbstractApplication extends Application {
         this.redoButton  = guiFactory.createButton("redo");
         this.trashButton = guiFactory.createButton("trash");
     }
-    
+
+    @Override
     public void start(){
         toolBar.setDrawBridge(drawbridge);
         whiteBoard.setDrawBridge(drawbridge);
@@ -54,16 +55,18 @@ public abstract class AbstractApplication extends Application {
         this.mediator.Attach(whiteBoard);
         this.mediator.start();
     }
-
+    @Override
     public void end(){
         this.save(Mediator.DEFAULT_SAVE_NAME);
         System.out.println("AL-Paint is closing, thanks for your support");
         System.out.println("Your work in progress will be saved, don't worry");
         System.out.println("You can find in the repository of this project : autosave.auber");
     }
-    
 
+    @Override
     public abstract boolean save(String name);
+
+    @Override
     public abstract boolean load(String name, boolean onlyToolbar);
 
     /** Getters & Setters **/

@@ -1,6 +1,6 @@
 package editeur.view.GUIFactory.GenericViewElements;
 
-public class GenericButton {
+public class GenericButton implements IGeneric {
     private final Object button;
 
     private int width  = 20;
@@ -9,11 +9,11 @@ public class GenericButton {
     public GenericButton(Object button) {
         this.button = button;
     }
-
+    @Override
     public Object get() {
         return button;
     }
-
+    @Override
     public int getWidth() {
         return width;
     }
@@ -21,7 +21,7 @@ public class GenericButton {
     public void setWidth(int width) {
         this.width = width;
     }
-
+    @Override
     public int getHeight() {
         return height;
     }

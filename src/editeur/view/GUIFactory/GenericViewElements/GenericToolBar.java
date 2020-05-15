@@ -6,7 +6,7 @@ import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Point;
 import editeur.view.GraphicalObjectObserver;
 
-public class GenericToolBar implements GraphicalObjectObserver {
+public class GenericToolBar implements GraphicalObjectObserver, IGeneric {
     private final int width  = 150;
     private final int height = 900;
     private final int toolMaxSize = 75;
@@ -54,15 +54,15 @@ public class GenericToolBar implements GraphicalObjectObserver {
                 return s;
         return null;
     }
-    
+    @Override
     public Object get() {
         return toolBar;
     }
-
+    @Override
     public int getWidth() {
         return width;
     }
-
+    @Override
     public int getHeight() {
         return height;
     }
