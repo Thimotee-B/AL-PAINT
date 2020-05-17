@@ -43,7 +43,7 @@ public class JavaFxMenuBuilder implements MenuBuilder {
         group.setOnAction(
                 e -> {
                         if(selectedShapes.size() > 1)
-                            Mediator.getInstance().group(whiteboard.getShapeVector());
+                            Mediator.getInstance().group(whiteboard.getComposite());
                         this.debuild();
                     e.consume();
                 }
@@ -58,7 +58,7 @@ public class JavaFxMenuBuilder implements MenuBuilder {
                 e -> {
                     if (clickedShape instanceof Composite) {
                         Composite c = (Composite) clickedShape;
-                        Mediator.getInstance().unGroup(whiteboard.getShapeVector(), c);
+                        Mediator.getInstance().unGroup(whiteboard.getComposite(), c);
                     }
                     this.debuild();
                     e.consume();

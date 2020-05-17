@@ -101,9 +101,9 @@ public class ApplicationFx extends AbstractApplication {
         ObjectOutputStream ostream;
         try {
             ostream = new ObjectOutputStream(new FileOutputStream(savedFile.getAbsolutePath()));
-            ostream.writeObject(getToolBar().getShapeVector());
+            ostream.writeObject(getToolBar().getComposite());
             ostream.writeChar('~');
-            ostream.writeObject(getWhiteBoard().getShapeVector());
+            ostream.writeObject(getWhiteBoard().getComposite());
             ostream.close();
 
         } catch (IOException e) {
@@ -135,7 +135,7 @@ public class ApplicationFx extends AbstractApplication {
             istream = new ObjectInputStream(new FileInputStream(selectedFile.getAbsolutePath()));
             // on lit la toolbar
             try {
-                getToolBar().setShapeVector((Composite) istream.readObject());
+                getToolBar().setComposite((Composite) istream.readObject());
             } catch (ClassNotFoundException e) {
                 System.out.println(e.getMessage());
                 return false;
@@ -146,7 +146,7 @@ public class ApplicationFx extends AbstractApplication {
 
                 // on lit la whiteboard
                 try {
-                    getWhiteBoard().setShapeVector((Composite) istream.readObject()); // on lit la whiteboard
+                    getWhiteBoard().setComposite((Composite) istream.readObject()); // on lit la whiteboard
                 } catch (ClassNotFoundException e) {
                     System.out.println(e.getMessage());
                     return false;

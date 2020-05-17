@@ -6,6 +6,8 @@ import editeur.model.geometry.base.Point;
 import editeur.model.geometry.memento.Memento;
 import editeur.model.geometry.memento.MementoShape;
 
+import java.util.Objects;
+
 public abstract class Shape implements IShape {
 
     /**
@@ -174,5 +176,27 @@ public abstract class Shape implements IShape {
         this.position          = new Point(position.getX() + dx, position.getY() + dy);
         this.rotationCenter    = new Point(this.rotationCenter.getX() + dx, this.rotationCenter.getY() + dy);
         this.translationCenter = new Point(this.translationCenter.getX() + dx, this.translationCenter.getY() + dy);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Shape shape = (Shape) o;
+        return Double.compare(shape.rotation, rotation) == 0 &&
+                r == shape.r &&
+                g == shape.g &&
+                b == shape.b &&
+                Double.compare(shape.alpha, alpha) == 0 &&
+                width == shape.width &&
+                height == shape.height &&
+                position.equals(shape.position) &&
+                rotationCenter.equals(shape.rotationCenter) &&
+                translationCenter.equals(shape.translationCenter);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(position, rotation, rotationCenter, translationCenter, r, g, b, alpha, width, height);
     }
 }

@@ -12,44 +12,44 @@ public class GenericToolBar implements GraphicalObjectObserver, IGeneric {
     private final int toolMaxSize = 75;
 
     private final Object toolBar;
-    private Composite shapeVector;
+    private Composite composite;
     private DrawBridge drawbridge;
 
 
     public GenericToolBar(Object toolBar) {
         this.toolBar = toolBar;
-        this.shapeVector = new Composite(0,0,0,0);
+        this.composite = new Composite(0,0,0,0);
     }
 
     @Override
     public void update() {
-        if(shapeVector.getComponents().size() > 0)
-            shapeVector.draw(this.drawbridge, this.get());
+        if(composite.getComponents().size() > 0)
+            composite.draw(this.drawbridge, this.get());
     }
 
     public void addShape(IShape shape) {
-        shapeVector.add(shape);
+        composite.add(shape);
     }
     
     public void removeShape(IShape shape) {
-        shapeVector.remove(shape);
+        composite.remove(shape);
     }
     
     public IShape getShape(int index) {
         if(index>=0)
-            return shapeVector.getComponents().get(index);
+            return composite.getComponents().get(index);
         return null;
     }
 
-    public Composite getShapeVector(){
-        return shapeVector;
+    public Composite getComposite(){
+        return composite;
     }
-    public void setShapeVector(Composite shapeVector) {
-        this.shapeVector = shapeVector;
+    public void setComposite(Composite composite) {
+        this.composite = composite;
     }
 
     public IShape getShape(Point p) {
-        for (IShape s : shapeVector.getComponents())
+        for (IShape s : composite.getComponents())
             if (s.isInside(p))
                 return s;
         return null;

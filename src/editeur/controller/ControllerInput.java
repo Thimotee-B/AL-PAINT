@@ -87,7 +87,7 @@ public class ControllerInput implements  IControllerInput {
                     }
                     Mediator.getInstance().Notify();
                     if(app.getToolBar().inToolBar(to)) {
-                        Mediator.getInstance().add(app.getToolBar().getShapeVector(), tool);
+                        Mediator.getInstance().add(app.getToolBar().getComposite(), tool);
                     }
                 }
             }
@@ -109,7 +109,7 @@ public class ControllerInput implements  IControllerInput {
                     Mediator.getInstance().clearView();
                     Mediator.getInstance().Notify();
                     if(app.getWhiteBoard().inWhiteBoard(p))
-                        Mediator.getInstance().add(app.getWhiteBoard().getShapeVector(), tool);
+                        Mediator.getInstance().add(app.getWhiteBoard().getComposite(), tool);
                 }
             }
 
@@ -123,11 +123,11 @@ public class ControllerInput implements  IControllerInput {
             if (fromToolbar) {
                 s = this.app.getToolBar().getShape(old);
                 if (s != null)
-                    Mediator.getInstance().delete(this.app.getToolBar().getShapeVector(), s);
+                    Mediator.getInstance().delete(this.app.getToolBar().getComposite(), s);
             } else {
                 s = this.app.getWhiteBoard().getShape(old);
                 if (s != null)
-                    Mediator.getInstance().delete(this.app.getWhiteBoard().getShapeVector(), s);
+                    Mediator.getInstance().delete(this.app.getWhiteBoard().getComposite(), s);
             }
 
         }
@@ -183,7 +183,7 @@ public class ControllerInput implements  IControllerInput {
         int maxY = Math.max(p1.getY(), p2.getY());
         for (int x = minX; x <= maxX ; x++)
             for (int y = minY ; y <= maxY ; y++)
-                for (IShape s : app.getWhiteBoard().getShapeVector().getComponents())
+                for (IShape s : app.getWhiteBoard().getComposite().getComponents())
                     if( s.isInside(new Point(x,y)) && !selectedShapes.contains(s))
                         selectedShapes.add(s);
         minX = Integer.MAX_VALUE;

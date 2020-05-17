@@ -106,7 +106,7 @@ public class Mediator implements IMediator {
 		cmd.execute();
 		careTaker.add(cmd);
         for (IShape delete : selectedShapes)
-           app.getWhiteBoard().getShapeVector().remove(delete);
+           app.getWhiteBoard().getComposite().remove(delete);
 		this.Notify();
 	}
 
