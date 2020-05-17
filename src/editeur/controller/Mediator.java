@@ -9,25 +9,26 @@ import editeur.model.geometry.base.Point;
 import editeur.model.geometry.base.Rectangle;
 import editeur.model.geometry.base.SimplePolygon;
 
+import editeur.model.menu.IMenu;
 import editeur.model.menu.Menu;
 import editeur.model.menu.MenuBuilder;
 import editeur.view.AbstractApplication;
 
 import editeur.view.GraphicalObjectObserver;
-
+import editeur.view.IApplication;
 
 
 public class Mediator implements IMediator {
 
     private static Mediator instance;
-    private final ControllerInput controllerInput;
-    private final AbstractApplication app;
+    private final IControllerInput controllerInput;
+    private final IApplication app;
     private final CareTaker           careTaker;
     private Vector<IShape>     selectedShapes;
     private IShape             clickedShape;
     private int[]              coordinatesSelected;
     private final Vector<GraphicalObjectObserver> observers;
-    private Menu                menu;
+    private IMenu menu;
     private MenuBuilder         menuBuilder;
     public static final String DEFAULT_SAVE_NAME = "autosave.auber";
 

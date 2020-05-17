@@ -14,6 +14,7 @@ import java.util.Vector;
 public class JavaFxMenuBuilder implements MenuBuilder {
     static MenuBuilder     instance;
     ContextMenu    MainMenu;
+    EditMenuBuilder builder;
     GenericWhiteBoard  whiteboard;
     Vector<IShape> selectedShapes;
     IShape         clickedShape;
@@ -74,7 +75,7 @@ public class JavaFxMenuBuilder implements MenuBuilder {
         if (clickedShape == null) return;
 
         MenuItem edit           = new MenuItem("Edit");
-        EditMenuBuilder builder = new EditMenuBuilderJavaFx(whiteboard, clickedShape);
+        builder = new EditMenuBuilderJavaFx(whiteboard, clickedShape);
         edit.setOnAction(
                 e -> {
                         builder.buildDialog();
