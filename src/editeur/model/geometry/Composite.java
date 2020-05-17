@@ -141,7 +141,6 @@ public class Composite extends Shape {
         MementoComposite m = (MementoComposite) memento;
         super.restore(m);
         this.restoreComponent(m);
-        System.out.println(components.size());
 
 
         
