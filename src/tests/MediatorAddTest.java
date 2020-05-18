@@ -42,6 +42,6 @@ public class MediatorAddTest {
         Mediator.getInstance().add(app.getWhiteBoard().getComposite(),clone);
 
         int size = app.getWhiteBoard().getComposite().getComponents().size();
-        assertEquals("Size test", size, 2);
+        assertEquals("Size test", 2, size);
     }
 }

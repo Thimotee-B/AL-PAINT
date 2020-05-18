@@ -3,19 +3,21 @@ package tests;
 import editeur.controller.Mediator;
 import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Rectangle;
+import editeur.model.geometry.base.SimplePolygon;
 import editeur.view.ApplicationFx;
 import editeur.view.IApplication;
 import javafx.embed.swing.JFXPanel;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import javax.print.attribute.standard.Media;
 import javax.swing.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
-public class MediatorAddTest {
+public class MediatorClearViewTest {
     IApplication app;
     @BeforeClass
     public static void initToolkit()
@@ -34,14 +36,17 @@ public class MediatorAddTest {
     }
 
     @Test
-    public void mediatorAdd() {
+    public void mediatorClearView() {
         app = new ApplicationFx();
         IShape shape = new Rectangle(10,10,20,20);
-        IShape clone = shape.clone();
+        IShape poly  = new SimplePolygon(90, 10, 8, 10);
         Mediator.getInstance().add(app.getWhiteBoard().getComposite(),shape);
-        Mediator.getInstance().add(app.getWhiteBoard().getComposite(),clone);
+        Mediator.getInstance().add(app.getWhiteBoard().getComposite(),poly);
+
+        Mediator.getInstance().delete(app.getWhiteBoard().getComposite(), shape);
+        Mediator.getInstance().delete(app.getWhiteBoard().getComposite(), poly);
 
         int size = app.getWhiteBoard().getComposite().getComponents().size();
-        assertEquals("Size test", size, 2);
+        assertEquals("Size test", 0, size);
     }
 }
