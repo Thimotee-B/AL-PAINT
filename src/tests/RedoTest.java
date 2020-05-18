@@ -1,16 +1,15 @@
 package tests;
 
-import editeur.controller.IMediator;
 import editeur.controller.Mediator;
 import editeur.model.geometry.IShape;
 import editeur.model.geometry.base.Rectangle;
 import editeur.view.ApplicationFx;
 import editeur.view.IApplication;
 import javafx.embed.swing.JFXPanel;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import javax.print.attribute.standard.Media;
 import javax.swing.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class UndoTest {
+public class RedoTest {
     IApplication app;
     @BeforeClass
     public static void initToolkit()
@@ -37,25 +36,37 @@ public class UndoTest {
     }
 
     @Test
-    public void undoAdd() {
+    public void redoAdd() {
         app = new ApplicationFx();
         IShape shape = new Rectangle(10,10,20,20);
+        IShape clone = shape.clone();
         Mediator.getInstance().add(app.getWhiteBoard().getComposite(),shape);
+        Mediator.getInstance().add(app.getWhiteBoard().getComposite(),clone);
 
         int size = app.getWhiteBoard().getComposite().getComponents().size();
         Mediator.getInstance().undo();
+        Mediator.getInstance().redo();
         int aftersize = app.getWhiteBoard().getComposite().getComponents().size();
-        assertTrue("ADD test", size - 1 == aftersize);
+        assertEquals("Size test", size, aftersize);
 
         Mediator.getInstance().add(app.getWhiteBoard().getComposite(),shape);
-        IShape clone = shape.clone();
-        Mediator.getInstance().move(shape,50,50);
+        Mediator.getInstance().add(app.getWhiteBoard().getComposite(),clone);
+        Mediator.getInstance().move(shape,150,150);
+        Mediator.getInstance().move(clone,150,150);
         Mediator.getInstance().undo();
+        Mediator.getInstance().undo();
+        Mediator.getInstance().redo();
+        Mediator.getInstance().redo();
         assertEquals("Move test",shape,clone);
 
         Mediator.getInstance().add(app.getWhiteBoard().getComposite(),shape);
+        Mediator.getInstance().add(app.getWhiteBoard().getComposite(),clone);
         Mediator.getInstance().reColor(shape,50,50,50);
+        Mediator.getInstance().reColor(clone,50,50,50);
         Mediator.getInstance().undo();
+        Mediator.getInstance().undo();
+        Mediator.getInstance().redo();
+        Mediator.getInstance().redo();
         assertEquals("RecolorUndo test",shape,clone);
     }
 }
