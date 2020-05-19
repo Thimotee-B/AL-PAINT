@@ -13,11 +13,21 @@ import java.util.Vector;
 public class ControllerInput implements  IControllerInput {
     private final AbstractApplication app;
 
+    /**
+     *
+     * @param app
+     */
     public ControllerInput(AbstractApplication app) {
         this.app = app;
     }
 
-
+    /**
+     *
+     * @param fromToolbar
+     * @param clickSide
+     * @param old
+     * @param to
+     */
     @Override
     public void MouseClickEvent(boolean fromToolbar ,int clickSide,Point old, Point to) {
         if (clickSide == Mediator.LEFT && old != null){
@@ -50,6 +60,13 @@ public class ControllerInput implements  IControllerInput {
 
     }
 
+    /**
+     *
+     * @param fromToolbar
+     * @param clickSide
+     * @param old
+     * @param to
+     */
     @Override
     public void MouseClickEventAddTool(boolean fromToolbar ,int clickSide,Point old, Point to) {
         if (clickSide == Mediator.LEFT && old != null){
@@ -95,6 +112,13 @@ public class ControllerInput implements  IControllerInput {
         }
     }
 
+    /**
+     *
+     * @param fromToolbar
+     * @param clickSide
+     * @param old
+     * @param to
+     */
     @Override
     public void MouseDraggedEvent(boolean fromToolbar ,int clickSide,Point old, Point to) {
         if (clickSide == Mediator.LEFT && old != null){
@@ -116,6 +140,13 @@ public class ControllerInput implements  IControllerInput {
         }
     }
 
+    /**
+     *
+     * @param fromToolbar
+     * @param clickSide
+     * @param old
+     * @param to
+     */
     @Override
     public void MouseTrashEvent(boolean fromToolbar, int clickSide, Point old, Point to) {
         if (clickSide == Mediator.LEFT && old != null) {
@@ -133,6 +164,13 @@ public class ControllerInput implements  IControllerInput {
         }
     }
 
+    /**
+     *
+     * @param fromToolbar
+     * @param old
+     * @param to
+     * @return
+     */
     @Override
     public boolean ShowDraggedShape(boolean fromToolbar, Point old, Point to){
         IShape s, clone;
@@ -174,7 +212,13 @@ public class ControllerInput implements  IControllerInput {
 
     }
 
-
+    /**
+     *
+     * @param selectedShapes
+     * @param p1
+     * @param p2
+     * @return
+     */
     private int[] AddToSelection(Vector<IShape> selectedShapes, Point p1 , Point p2){
         selectedShapes.removeAllElements();
         int minX = Math.min(p1.getX(), p2.getX());
@@ -210,6 +254,11 @@ public class ControllerInput implements  IControllerInput {
         return tab;
     }
 
+    /**
+     *
+     * @param tool
+     * @param toolBar
+     */
     private void scaleTool(IShape tool, GenericToolBar toolBar){
         if (tool.getWidth() > toolBar.getWidth() && toolBar.getWidth() > 0
                 || tool.getWidth() >= toolBar.getToolMaxSize() ){
@@ -219,10 +268,15 @@ public class ControllerInput implements  IControllerInput {
             Mediator.getInstance().Notify();
 
         }
-
-
     }
 
+    /**
+     *
+     * @param s
+     * @param p1
+     * @param p2
+     * @return
+     */
     private Point computeNewPos(IShape s, Point p1, Point p2) {
         Point oldPos = s.getPosition();
         int stepX = p1.getX() - oldPos.getX();
@@ -230,6 +284,13 @@ public class ControllerInput implements  IControllerInput {
         return new Point(p2.getX()-stepX, p2.getY()-stepY);
     }
 
+    /**
+     *
+     * @param s
+     * @param p
+     * @param toolbar
+     * @param addTool
+     */
     private void limit(IShape s, Point p, boolean toolbar, boolean addTool){
         int width  = (toolbar) ? this.app.getToolBar().getWidth() : this.app.getWhiteBoard().getWidth();
         int height = (toolbar) ? this.app.getToolBar().getHeight() : this.app.getWhiteBoard().getHeight();

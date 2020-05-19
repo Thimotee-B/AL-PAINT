@@ -1,0 +1,13 @@
+editeur
+editeur.controller
+editeur.model.commands
+editeur.model.draw
+editeur.model.geometry
+editeur.model.geometry.base
+editeur.model.geometry.memento
+editeur.model.menu
+editeur.model.menu.EditMenu
+editeur.view
+editeur.view.GUIFactory
+editeur.view.GUIFactory.GenericViewElements
+tests

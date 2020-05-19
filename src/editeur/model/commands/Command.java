@@ -11,18 +11,28 @@ public abstract class Command implements ICommand{
     
     protected  Memento memento;
     protected Originator source;
-    
+
+    /**
+     *
+     * @param source
+     */
     public Command(Originator source){
         this.source = source;
     }
 
+    /**
+     *
+     */
     @Override
     public void undo() {
         this.source.restore(this.memento);
         Mediator.getInstance().clearView();
         Mediator.getInstance().Notify();
     }
-    
+
+    /**
+     * 
+     */
     @Override
     public void execute(){
         this.memento = this.source.save();

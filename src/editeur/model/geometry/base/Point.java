@@ -4,29 +4,44 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Point implements Cloneable, Serializable{
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 7069840385821410448L;
     private int x, y;
-    
-    
+
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
-    
+
+    /**
+     *
+     * @param p
+     */
     public Point(Point p) {
         this.x = p.getX();
         this.y = p.getY();
     }
-    
-    
+
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public void move(int x, int y) {
         this.x = x;
         this.y = y;
     }
-    
+
+    /**
+     *
+     * @param dx
+     * @param dy
+     */
     public void translate(int dx, int dy) {
         this.x += dx;
         this.y += dy;

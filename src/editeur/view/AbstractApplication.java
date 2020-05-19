@@ -10,6 +10,9 @@ import editeur.view.GUIFactory.GenericViewElements.GenericTopBar;
 import editeur.view.GUIFactory.GenericViewElements.GenericWhiteBoard;
 import javafx.application.Application;
 
+/**
+ *
+ */
 public abstract class AbstractApplication extends Application implements IApplication {
     
     private static volatile AbstractApplication instance = null;
@@ -69,7 +72,7 @@ public abstract class AbstractApplication extends Application implements IApplic
     @Override
     public abstract boolean load(String name, boolean onlyToolbar);
 
-    /** Getters & Setters **/
+    // Getters & Setters
     public GenericToolBar getToolBar() {
         return toolBar;
     }
@@ -94,10 +97,14 @@ public abstract class AbstractApplication extends Application implements IApplic
         this.whiteBoard = whiteBoard;
     }
 
+
     public GenericButton getSaveButton() {
         return saveButton;
     }
 
+    /**
+     * @param saveButton
+     */
     public void setSaveButton(GenericButton saveButton) {
         this.saveButton = saveButton;
     }
