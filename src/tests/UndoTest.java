@@ -18,8 +18,20 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * The type UndoTest.
+ */
 public class UndoTest {
+    /**
+     * The App.
+     */
     IApplication app;
+
+    /**
+     * Init toolkit.
+     *
+     * @throws InterruptedException the interrupted exception
+     */
     @BeforeClass
     public static void initToolkit()
             throws InterruptedException
@@ -36,6 +48,9 @@ public class UndoTest {
             throw new ExceptionInInitializerError();
     }
 
+    /**
+     * Undo add.
+     */
     @Test
     public void undoAdd() {
         app = new ApplicationFx();

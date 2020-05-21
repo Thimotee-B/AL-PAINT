@@ -17,8 +17,20 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * The type RedoTest.
+ */
 public class RedoTest {
+    /**
+     * The App.
+     */
     IApplication app;
+
+    /**
+     * Init toolkit.
+     *
+     * @throws InterruptedException the interrupted exception
+     */
     @BeforeClass
     public static void initToolkit()
             throws InterruptedException
@@ -35,6 +47,9 @@ public class RedoTest {
             throw new ExceptionInInitializerError();
     }
 
+    /**
+     * Redo add.
+     */
     @Test
     public void redoAdd() {
         app = new ApplicationFx();

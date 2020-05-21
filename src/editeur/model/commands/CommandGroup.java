@@ -7,17 +7,40 @@ import editeur.model.geometry.memento.Originator;
 
 import java.util.Vector;
 
+/**
+ * The type CommandGroup : can group into a composite and be undone.
+ */
 public class CommandGroup extends Command {
 
+    /**
+     * The composite group.
+     */
     private Composite group;
+    /**
+     * The Selected shapes in a vector.
+     */
     private final Vector<IShape> selected;
+    /**
+     * The Coordinates of selection.
+     */
     private final int[] c;
+
+    /**
+     * Instantiates a new Command group.
+     *
+     * @param source      the source
+     * @param selected    the selected
+     * @param coordinates the coordinates
+     */
     public CommandGroup(Originator source, Vector<IShape> selected, int[] coordinates){
         super(source);
         this.selected = selected;
         this.c = coordinates;
     }
-    
+
+    /**
+     * Undo the command and restore the source to his previous state with memento.
+     */
     @Override
     public void undo(){
         super.undo();
@@ -25,7 +48,10 @@ public class CommandGroup extends Command {
             ((Composite) this.source).remove(group);
         group.clear();
     }
-    
+
+    /**
+     * Execute the command : add the selected shapes and in a composite and add it to source and save the current state of source in memento.
+     */
     @Override
     public void execute(){
         if(group == null) {

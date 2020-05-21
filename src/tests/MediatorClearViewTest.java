@@ -17,8 +17,20 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * The type MediatorClearViewTest.
+ */
 public class MediatorClearViewTest {
+    /**
+     * The App.
+     */
     IApplication app;
+
+    /**
+     * Init toolkit.
+     *
+     * @throws InterruptedException the interrupted exception
+     */
     @BeforeClass
     public static void initToolkit()
             throws InterruptedException
@@ -35,6 +47,9 @@ public class MediatorClearViewTest {
             throw new ExceptionInInitializerError();
     }
 
+    /**
+     * Mediator clear view.
+     */
     @Test
     public void mediatorClearView() {
         app = new ApplicationFx();

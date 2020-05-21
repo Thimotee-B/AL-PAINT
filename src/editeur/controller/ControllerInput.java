@@ -10,23 +10,33 @@ import editeur.view.GUIFactory.GenericViewElements.GenericToolBar;
 
 import java.util.Vector;
 
+/**
+ * The class ControllerInput implements IControllerInput.
+ * The role of this class is to manage the different mouse or keyboard specifics control on this app.
+ * Like moving a shape with the mouse, adding it to the toolbar ...
+ * Works with the Mediator.
+ */
 public class ControllerInput implements  IControllerInput {
     private final AbstractApplication app;
 
     /**
+     * Instantiates a new Controller input.
      *
-     * @param app
+     * @param app the application.
      */
     public ControllerInput(AbstractApplication app) {
         this.app = app;
     }
 
     /**
+     * Mouse click event: manage the current mouseEvent.
+     * Move the shape pointed by old point to to position.
+     * Else select the shapes contains in a rectangle from old to to position.
      *
-     * @param fromToolbar
-     * @param clickSide
-     * @param old
-     * @param to
+     * @param fromToolbar the boolean from toolbar indicates if the point is from toolbar.
+     * @param clickSide   the click side
+     * @param old         the old position
+     * @param to          the to position
      */
     @Override
     public void MouseClickEvent(boolean fromToolbar ,int clickSide,Point old, Point to) {
@@ -61,11 +71,13 @@ public class ControllerInput implements  IControllerInput {
     }
 
     /**
-     *
-     * @param fromToolbar
-     * @param clickSide
-     * @param old
-     * @param to
+     * Mouse click event for adding a tool ( a shape in the toolbar.)
+     * Simply clone and add the cloned shape at old position if exists and add it to the to position.
+     * Does nothing if from toolbar
+     * @param fromToolbar the boolean from toolbar indicates if the point is from toolbar.
+     * @param clickSide   the click side
+     * @param old         the old position
+     * @param to          the to position
      */
     @Override
     public void MouseClickEventAddTool(boolean fromToolbar ,int clickSide,Point old, Point to) {
@@ -113,11 +125,12 @@ public class ControllerInput implements  IControllerInput {
     }
 
     /**
-     *
-     * @param fromToolbar
-     * @param clickSide
-     * @param old
-     * @param to
+     * Mouse dragged event: Simply drag a shape from toolbar at old position and clone it to to position
+     * in whiteboard.
+     * @param fromToolbar the boolean from toolbar indicates if the point is from toolbar.
+     * @param clickSide   the click side
+     * @param old         the old position
+     * @param to          the to position
      */
     @Override
     public void MouseDraggedEvent(boolean fromToolbar ,int clickSide,Point old, Point to) {
@@ -141,11 +154,12 @@ public class ControllerInput implements  IControllerInput {
     }
 
     /**
+     * Mouse trash event : Handle the deletion of shape at old position put in trash
      *
-     * @param fromToolbar
-     * @param clickSide
-     * @param old
-     * @param to
+     * @param fromToolbar the boolean from toolbar indicates if the point is from toolbar.
+     * @param clickSide   the click side
+     * @param old         the old position
+     * @param to          the to position
      */
     @Override
     public void MouseTrashEvent(boolean fromToolbar, int clickSide, Point old, Point to) {
@@ -165,11 +179,13 @@ public class ControllerInput implements  IControllerInput {
     }
 
     /**
+     * Show dragged shape boolean : Draw the current dragged shape, disclaimer, a temporary clone is moved until we
+     * reach destination.
      *
-     * @param fromToolbar
-     * @param old
-     * @param to
-     * @return
+     * @param fromToolbar the boolean from toolbar indicates if the point is from toolbar.
+     * @param old         the old position
+     * @param to          the to position
+     * @return the boolean : false if we dragged nothing.
      */
     @Override
     public boolean ShowDraggedShape(boolean fromToolbar, Point old, Point to){
@@ -213,11 +229,12 @@ public class ControllerInput implements  IControllerInput {
     }
 
     /**
+     * Add to selection int [ ] : Add the shapes contains in current selection in selected shapes.
      *
-     * @param selectedShapes
-     * @param p1
-     * @param p2
-     * @return
+     * @param selectedShapes the selected shapes
+     * @param p1             the p 1
+     * @param p2             the p 2
+     * @return the int [ ]
      */
     private int[] AddToSelection(Vector<IShape> selectedShapes, Point p1 , Point p2){
         selectedShapes.removeAllElements();
@@ -255,9 +272,10 @@ public class ControllerInput implements  IControllerInput {
     }
 
     /**
+     * Scale a tool if can't be contains in the toolbar.
      *
-     * @param tool
-     * @param toolBar
+     * @param tool    the tool
+     * @param toolBar the tool bar
      */
     private void scaleTool(IShape tool, GenericToolBar toolBar){
         if (tool.getWidth() > toolBar.getWidth() && toolBar.getWidth() > 0
@@ -271,11 +289,12 @@ public class ControllerInput implements  IControllerInput {
     }
 
     /**
+     * Compute new pos point.
      *
-     * @param s
-     * @param p1
-     * @param p2
-     * @return
+     * @param s  the s
+     * @param p1 the p 1
+     * @param p2 the p 2
+     * @return the point
      */
     private Point computeNewPos(IShape s, Point p1, Point p2) {
         Point oldPos = s.getPosition();
@@ -285,11 +304,12 @@ public class ControllerInput implements  IControllerInput {
     }
 
     /**
+     * Limits the different object for not being able to goes out from dimension of application.
      *
-     * @param s
-     * @param p
-     * @param toolbar
-     * @param addTool
+     * @param s       the s
+     * @param p       the p
+     * @param toolbar the toolbar
+     * @param addTool the add tool
      */
     private void limit(IShape s, Point p, boolean toolbar, boolean addTool){
         int width  = (toolbar) ? this.app.getToolBar().getWidth() : this.app.getWhiteBoard().getWidth();

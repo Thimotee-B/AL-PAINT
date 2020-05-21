@@ -15,8 +15,20 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * The type MediatorAddTest.
+ */
 public class MediatorAddTest {
+    /**
+     * The App.
+     */
     IApplication app;
+
+    /**
+     * Init toolkit.
+     *
+     * @throws InterruptedException the interrupted exception
+     */
     @BeforeClass
     public static void initToolkit()
             throws InterruptedException
@@ -33,6 +45,9 @@ public class MediatorAddTest {
             throw new ExceptionInInitializerError();
     }
 
+    /**
+     * Mediator add.
+     */
     @Test
     public void mediatorAdd() {
         app = new ApplicationFx();

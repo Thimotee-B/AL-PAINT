@@ -7,17 +7,24 @@ import editeur.model.geometry.memento.MementoSimplePolygon;
 
 import java.util.Vector;
 
+/**
+ * The type SimplePolygon.
+ */
 public class SimplePolygon extends Shape {
 
-    
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7570243485311308601L;
-	private int numberOfSides;
+    private static final long serialVersionUID = 7570243485311308601L;
+    private int numberOfSides;
     private float sideSize;
     private double[] polygonPts;
-    
+
+    /**
+     * Instantiates a new Simple polygon.
+     *
+     * @param x             the x
+     * @param y             the y
+     * @param numberOfSides the number of sides
+     * @param sideSize      the side size
+     */
     public SimplePolygon(int x, int y, int numberOfSides, float sideSize){
         super(x, y, new Point(x,y), new Point(x,y), (int) (sideSize * 2), (int) (sideSize *2));
         this.numberOfSides = numberOfSides;
@@ -27,12 +34,23 @@ public class SimplePolygon extends Shape {
 
     }
 
+    /**
+     * Move the polygon at dx, dy position.
+     *
+     * @param dx the dx
+     * @param dy the dy
+     */
     @Override
     public void move(int dx, int dy) {
         super.move(dx,dy);
         this.setRotationCenter(new Point(dx + getRadius(),dy +  getRadius()));
     }
 
+    /**
+     * Scale the polygon of factor times.
+     * Reprocess the polygon points since they have changed.
+     * @param factor the factor
+     */
     @Override
     public void scale(double factor) {
         this.sideSize *= factor;
@@ -41,6 +59,11 @@ public class SimplePolygon extends Shape {
         this.polygonPts = ProcessPolygonPoints();
     }
 
+    /**
+     * Save the current state in memento.
+     *
+     * @return the memento
+     */
     @Override
     public Memento save() {
         MementoSimplePolygon m = new MementoSimplePolygon(numberOfSides, sideSize);
@@ -48,6 +71,11 @@ public class SimplePolygon extends Shape {
         return m;
     }
 
+    /**
+     * Restore the saved state from memento.
+     *
+     * @param memento the memento
+     */
     @Override
     public void restore(Memento memento) {
     	MementoSimplePolygon msp = (MementoSimplePolygon) memento;
@@ -59,17 +87,34 @@ public class SimplePolygon extends Shape {
     }
 
 
+    /**
+     * Clone shape.
+     *
+     * @return the shape
+     */
     @Override
     public Shape clone() {
         return super.clone();
     }
 
-	@Override
+    /**
+     * Draw the polygon on drawsurface.
+     *
+     * @param db          the db
+     * @param drawSurface the draw surface
+     */
+    @Override
 	public void draw(DrawBridge db, Object drawSurface) {
 		db.drawPolygon(drawSurface, this);
 		
 	}
 
+    /**
+     * Tell if point is inside the polygon.
+     *
+     * @param p the p
+     * @return the boolean
+     */
     @Override
     public boolean isInside(Point p) {
         double[] pts = polygonPts;
@@ -97,6 +142,9 @@ public class SimplePolygon extends Shape {
         return check;
     }
 
+    /**
+     * Calculate rotate centroid.
+     */
     public void calculateRotateCentroid(){
 
         int x = getPosition().getX();
@@ -123,6 +171,11 @@ public class SimplePolygon extends Shape {
         setRotationCenter( new Point((int) (newX / f + fx), (int)(newY / f + fy)));
     }
 
+    /**
+     * Process polygon points, we do not add the current x,y position.
+     *
+     * @return the double [ ]
+     */
     public double[] ProcessPolygonPoints(){
         double[] pts = new double[numberOfSides * 2];
         double area  = 2 * Math.sin(Math.toRadians(180.0/numberOfSides));
@@ -144,18 +197,38 @@ public class SimplePolygon extends Shape {
     }
 
 
+    /**
+     * Gets number of sides.
+     *
+     * @return the number of sides
+     */
     public int getNumberOfSides() {
         return numberOfSides;
     }
 
+    /**
+     * Gets side size.
+     *
+     * @return the side size
+     */
     public float getSideSize() {
         return sideSize;
     }
 
+    /**
+     * Get polygon points double [ ].
+     *
+     * @return the double [ ]
+     */
     public double[] getPolygonPoints() {
         return polygonPts;
     }
 
+    /**
+     * Get radius int.
+     *
+     * @return the int
+     */
     public int getRadius(){
         double area  = 2 * Math.sin(Math.toRadians(180.0/numberOfSides));
         double radius = sideSize / area;
@@ -163,14 +236,29 @@ public class SimplePolygon extends Shape {
         return (int) radius;
     }
 
+    /**
+     * Set number of sides.
+     *
+     * @param numberOfSides the number of sides
+     */
     public void setNumberOfSides(int numberOfSides){
         this.numberOfSides = numberOfSides;
     }
 
+    /**
+     * Sets side size.
+     *
+     * @param sideSize the side size
+     */
     public void setSideSize(float sideSize) {
         this.sideSize = sideSize;
     }
 
+    /**
+     * Sets alpha.
+     *
+     * @param alpha the alpha
+     */
     public void setAlpha(int alpha) {
         super.setAlpha(alpha);
     }

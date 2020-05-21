@@ -6,49 +6,164 @@ import editeur.model.draw.Drawable;
 import editeur.model.geometry.base.Point;
 import editeur.model.geometry.memento.Originator;
 
+/**
+ * The interface IShape is cloneable and represent the abstraction of a shape.
+ * Can be saved and restore with Memento Pattern (Originator).
+ * Is Drawable .
+ */
 public interface IShape extends Cloneable, Originator, Serializable, Drawable {
-	
-	int getColorR();
 
-	int getColorG();
+    /**
+     * Gets color r.
+     *
+     * @return the color r
+     */
+    int getColorR();
 
-	int getColorB();
+    /**
+     * Gets color g.
+     *
+     * @return the color g
+     */
+    int getColorG();
 
-	void changeColor(int r, int g, int b);
-	
-	Point getPosition();
+    /**
+     * Gets color b.
+     *
+     * @return the color b
+     */
+    int getColorB();
 
-	int getHeight();
+    /**
+     * Change color.
+     *
+     * @param r the r
+     * @param g the g
+     * @param b the b
+     */
+    void changeColor(int r, int g, int b);
 
-	int getWidth();
+    /**
+     * Gets position.
+     *
+     * @return the position
+     */
+    Point getPosition();
 
-	void setWidth(int width);
+    /**
+     * Gets height.
+     *
+     * @return the height
+     */
+    int getHeight();
 
-	void setHeight(int height);
+    /**
+     * Gets width.
+     *
+     * @return the width
+     */
+    int getWidth();
 
-	void move(int dx, int dy);
+    /**
+     * Sets width.
+     *
+     * @param width the width
+     */
+    void setWidth(int width);
 
-	void setPosition(int x, int y);
-	
-	void scale(double factor);
+    /**
+     * Sets height.
+     *
+     * @param height the height
+     */
+    void setHeight(int height);
 
-	void setAlpha(double alpha);
+    /**
+     * Move to dx,dy position.
+     *
+     * @param dx the dx
+     * @param dy the dy
+     */
+    void move(int dx, int dy);
 
-	double getAlpha();
+    /**
+     * Sets position.
+     *
+     * @param x the x
+     * @param y the y
+     */
+    void setPosition(int x, int y);
 
-	double getRotation();
+    /**
+     * Scale.
+     *
+     * @param factor the factor
+     */
+    void scale(double factor);
 
-	void rotate(double rotation);
-	
-	Point getTranslationCenter();
+    /**
+     * Sets alpha.
+     *
+     * @param alpha the alpha
+     */
+    void setAlpha(double alpha);
 
-	Point getRotationCenter();
+    /**
+     * Gets alpha.
+     *
+     * @return the alpha
+     */
+    double getAlpha();
 
-	void setRotationCenter(Point p);
+    /**
+     * Gets rotation.
+     *
+     * @return the rotation
+     */
+    double getRotation();
 
-	Shape clone();
+    /**
+     * Rotate.
+     *
+     * @param rotation the rotation
+     */
+    void rotate(double rotation);
 
-	boolean isInside(Point p);
+    /**
+     * Gets translation center.
+     *
+     * @return the translation center
+     */
+    Point getTranslationCenter();
+
+    /**
+     * Gets rotation center.
+     *
+     * @return the rotation center
+     */
+    Point getRotationCenter();
+
+    /**
+     * Sets rotation center.
+     *
+     * @param p the p
+     */
+    void setRotationCenter(Point p);
+
+    /**
+     * Clone shape.
+     *
+     * @return the shape
+     */
+    Shape clone();
+
+    /**
+     * Tell if point is inside this IShape .
+     *
+     * @param p the p
+     * @return the boolean
+     */
+    boolean isInside(Point p);
 
 }
 

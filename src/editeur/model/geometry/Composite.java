@@ -13,16 +13,28 @@ import editeur.model.geometry.memento.Memento;
 import editeur.model.geometry.memento.MementoComposite;
 
 
+/**
+ * The type Composite is Composite Pattern.
+ * This class let us make group and treat as an individual.
+ * We can perform Group of IShape, and Composite can group others Composite.
+ */
 public class Composite extends Shape {
-    
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7118837371818614670L;
-    
-    private Vector<IShape> components = new Vector<IShape>(); 
+
+    /**
+     * The Components IShape of this composite
+     */
+    private Vector<IShape> components = new Vector<IShape>();
 
 
+    /**
+     * Instantiates a new Composite.
+     *
+     * @param x      the x
+     * @param y      the y
+     * @param width  the width
+     * @param height the height
+     */
     public Composite(int x, int y, int width, int height) {
         super(x,
               y,
@@ -33,10 +45,13 @@ public class Composite extends Shape {
               );
 
     }
-    
 
-    
 
+    /**
+     * Scale the composite and each of his components.
+     *
+     * @param factor the factor
+     */
     @Override
     public void scale(double factor) {
         this.setHeight((int) (this.getHeight() * factor));
@@ -51,7 +66,12 @@ public class Composite extends Shape {
 
 
     }
-    
+
+    /**
+     * Sets alpha for composite and each of his components.
+     *
+     * @param alpha the alpha
+     */
     @Override
     public void setAlpha(double alpha) {
         super.setAlpha(alpha);
@@ -59,7 +79,12 @@ public class Composite extends Shape {
     }
 
 
-
+    /**
+     * Tell if Point Is inside the composite .
+     *
+     * @param p the p
+     * @return the boolean
+     */
     @Override
     public boolean isInside(Point p) {
         for(IShape shape : components) {
@@ -70,7 +95,13 @@ public class Composite extends Shape {
     }
 
 
-
+    /**
+     * Change the current Color of Composite, and so of all his components.
+     *
+     * @param r the r
+     * @param g the g
+     * @param b the b
+     */
     @Override
     public void changeColor(int r, int g, int b) {
         super.changeColor(r, g, b);
@@ -78,12 +109,23 @@ public class Composite extends Shape {
     }
 
 
+    /**
+     * Rotate the composite and so of all his components.
+     *
+     * @param rotation the rotation
+     */
     @Override
     public void rotate(double rotation) {
         for (IShape s : components)
             s.rotate(rotation);
     }
 
+    /**
+     * Move the composite and all his components.
+     *
+     * @param dx the dx
+     * @param dy the dy
+     */
     @Override
     public void move(int dx, int dy) {
         int pasX = 0, pasY = 0;
@@ -101,6 +143,11 @@ public class Composite extends Shape {
     }
 
 
+    /**
+     * Clone the composite, each components is also cloned.
+     *
+     * @return the shape
+     */
     @Override
     public Shape clone() {
         Composite clone = (Composite) super.clone();
@@ -112,6 +159,12 @@ public class Composite extends Shape {
         return clone;
     }
 
+    /**
+     * Draw the composite on the draw surface.
+     *
+     * @param db          the db
+     * @param drawSurface the draw surface
+     */
     @Override
     public void draw(DrawBridge db, Object drawSurface) {
         for (IShape s : components)
@@ -119,6 +172,11 @@ public class Composite extends Shape {
 
     }
 
+    /**
+     * Save the current state of Composite in a Memento .
+     *
+     * @return the memento
+     */
     @Override
     public Memento save() {
         MementoComposite m = new MementoComposite();
@@ -134,6 +192,11 @@ public class Composite extends Shape {
         return m;
     }
 
+    /**
+     * Restore the previous saved state from Memento.
+     *
+     * @param memento the memento
+     */
     @Override
     public void restore(Memento memento) {
         this.components.clear();
@@ -145,7 +208,12 @@ public class Composite extends Shape {
 
         
     }
-    
+
+    /**
+     * Restore previous saved state of Components with their corresponding Memento.
+     *
+     * @param memento the memento
+     */
     public void restoreComponent(MementoComposite memento) {
         for (IShape shape : memento.getCompositeMapMemento().keySet()){
             this.remove(shape);
@@ -154,11 +222,21 @@ public class Composite extends Shape {
         }
     }
 
+    /**
+     * Add a new component to composite.
+     *
+     * @param component the component
+     */
     public void add(IShape component) {
         this.components.add(component);
 
     }
 
+    /**
+     * Minimal values (x,y,width,height) of Composite's components .
+     *
+     * @return the int [ ]
+     */
     public int [] minComponents(){
         int min    = Integer.MAX_VALUE;
         int width  = Integer.MAX_VALUE;
@@ -189,16 +267,29 @@ public class Composite extends Shape {
         return new int[]{min, width, min2, height};
     }
 
+    /**
+     * Get components vector.
+     *
+     * @return the vector
+     */
     public Vector<IShape> getComponents(){
         return this.components;
     }
 
 
+    /**
+     * Remove the component from this Composite.
+     *
+     * @param component the component
+     */
     public void remove(IShape component) {
         this.components.remove(component);
 
     }
 
+    /**
+     * Clear the composite : size will be 0.
+     */
     public void clear(){
         this.components.clear();
     }

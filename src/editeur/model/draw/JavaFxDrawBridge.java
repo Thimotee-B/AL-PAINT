@@ -11,12 +11,25 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 
+/**
+ * The type JavaFxDrawBridge is the concrete implementation of DrawBridge, which can draw on JavaFx objects.
+ * Only utilisable with JavaFx.
+ */
 public class JavaFxDrawBridge implements DrawBridge {
 
+    /**
+     * The Map to store the shapes until clear.
+     */
     private final HashMap<IShape,javafx.scene.shape.Shape> map =
             new HashMap<IShape,javafx.scene.shape.Shape>();
 
 
+    /**
+     * Draw the current selection on drawSurface javaFX.
+     *
+     * @param drawSurface the draw surface
+     * @param selection   the selection
+     */
     @Override
     public void drawSelection(Object drawSurface, Rectangle selection) {
         javafx.scene.shape.Rectangle select = new javafx.scene.shape.Rectangle(selection.getWidth(), selection.getHeight());
@@ -33,6 +46,13 @@ public class JavaFxDrawBridge implements DrawBridge {
         this.update(drawSurface, select);
     }
 
+    /**
+     * Simply Draw a rectangle on the drawSurface JavaFX if possible.
+     *
+     * @param drawSurface the draw surface.
+     * @param r      the r
+     *
+     */
     @Override
     public void drawRectangle(Object drawSurface, Rectangle r ) {
         javafx.scene.shape.Rectangle rect = (javafx.scene.shape.Rectangle) this.map.get(r);
@@ -61,7 +81,13 @@ public class JavaFxDrawBridge implements DrawBridge {
         this.fillRectangle(drawSurface, r);
         
     }
-    
+
+    /**
+     * Fill the rectangle on drawSurface JavaFx.
+     *
+     * @param drawSurface the draw surface
+     * @param r           the r
+     */
     @Override
     public void fillRectangle(Object drawSurface, Rectangle r) {
         javafx.scene.shape.Rectangle rect = (javafx.scene.shape.Rectangle) this.map.get(r);
@@ -69,6 +95,12 @@ public class JavaFxDrawBridge implements DrawBridge {
         this.update(drawSurface,rect);
     }
 
+    /**
+     * Simpy Draw a polygon on the draw surface JavaFx if possible.
+     *
+     * @param drawSurface the draw surface
+     * @param p      the p
+     */
     @Override
     public void drawPolygon(Object drawSurface, SimplePolygon p) {
         javafx.scene.shape.Polygon polygon = (javafx.scene.shape.Polygon) this.map.get(p);
@@ -86,6 +118,12 @@ public class JavaFxDrawBridge implements DrawBridge {
         this.fillPolygon(drawSurface, p);
     }
 
+    /**
+     * Fill polygon on drawSurface JavaFx
+     *
+     * @param drawSurface the draw surface
+     * @param p           the p
+     */
     @Override
     public void fillPolygon(Object drawSurface, SimplePolygon p) {
         javafx.scene.shape.Polygon poly = (javafx.scene.shape.Polygon) this.map.get(p);
@@ -93,11 +131,24 @@ public class JavaFxDrawBridge implements DrawBridge {
         this.update(drawSurface,poly);
     }
 
+    /**
+     * Update the javaFx Shape contains in drawSurface.
+     *
+     * @param drawSurface the draw surface
+     * @param shape       the shape
+     */
     private void update(Object drawSurface, javafx.scene.shape.Shape shape) {
         ((Pane)drawSurface).getChildren().remove(shape);
         ((Pane)drawSurface).getChildren().add(shape);
     }
 
+    /**
+     * Clear view of the IShape object.
+     *
+     * @param whiteboard the whiteboard
+     * @param toolbar    the toolbar
+     * @param s          the s
+     */
     public void clearView(Object whiteboard, Object toolbar, IShape s){
         javafx.scene.shape.Shape shape = map.get(s);
 
@@ -107,6 +158,12 @@ public class JavaFxDrawBridge implements DrawBridge {
         map.remove(s);
     }
 
+    /**
+     * Full clear view.
+     *
+     * @param whiteboard the whiteboard
+     * @param toolbar    the toolbar
+     */
     public void FullClearView(Object whiteboard, Object toolbar){
         ((Pane)whiteboard).getChildren().clear();
         ((Pane)toolbar).getChildren().clear();

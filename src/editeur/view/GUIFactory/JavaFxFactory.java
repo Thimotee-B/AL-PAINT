@@ -17,17 +17,23 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 
-
+/**
+ * Implements the GuiFactory methods with javafx Style.
+ */
 public class JavaFxFactory implements GUIFactory {
     private StackPane whiteBoardJavaFx;
     private StackPane toolbarJavaFx;
     private ToolBar topbarJavaFx;
-    
     private GenericTopBar top;
     private GenericToolBar tool;
     private GenericWhiteBoard wboard;
     private final HashMap<String,Button> mapButton = new HashMap();
-    
+
+    /**
+     * Create GenericWhiteBoard who contains javafx stackPane.
+     *
+     * @return the generic white board
+     */
     @Override
     public GenericWhiteBoard createWhiteBoard() {
         whiteBoardJavaFx = new StackPane();
@@ -36,6 +42,11 @@ public class JavaFxFactory implements GUIFactory {
         return wboard;
     }
 
+    /**
+     * Create GenericToolbar who contains javafx StackPane.
+     *
+     * @return the generic tool bar
+     */
     @Override
     public GenericToolBar createToolBar() {
         toolbarJavaFx = new StackPane();
@@ -43,15 +54,23 @@ public class JavaFxFactory implements GUIFactory {
         setToolBar();
         return tool;
     }
-    
 
+
+    /**
+     * Create GenericTopBar who contains javafx Toolbar.
+     *
+     * @return the generic top bar
+     */
     @Override
     public GenericTopBar createTopBar() {
         topbarJavaFx = new ToolBar();
         top = new GenericTopBar(topbarJavaFx);
         return top;
     }
-    
+
+    /**
+     * Sets tool bar.
+     */
     private void setToolBar() {
         toolbarJavaFx.setStyle("-fx-border-color: black;");
         toolbarJavaFx.setMaxWidth(tool.getWidth());
@@ -59,7 +78,10 @@ public class JavaFxFactory implements GUIFactory {
         toolbarJavaFx.setAlignment(Pos.TOP_LEFT);
 
     }
-       
+
+    /**
+     * Sets white board.
+     */
     private void setWhiteBoard() {
         whiteBoardJavaFx.setStyle("-fx-border-color: black;");
         whiteBoardJavaFx.setPrefSize(wboard.getWidth(), wboard.getHeight());
@@ -67,6 +89,12 @@ public class JavaFxFactory implements GUIFactory {
         whiteBoardJavaFx.setAlignment(Pos.TOP_LEFT);
     }
 
+    /**
+     * Create GenericButton who contains javafxButton.
+     *
+     * @param name the name
+     * @return the generic button
+     */
     @Override
     public GenericButton createButton(String name) {
         Button button   = new Button(name);
@@ -100,17 +128,32 @@ public class JavaFxFactory implements GUIFactory {
         mapButton.put(name, button);
         return new GenericButton(button);
     }
-    
 
+
+    /**
+     * Handle trash.
+     *
+     * @param event the event
+     */
     private void handle_trash(ActionEvent event) {
         event.consume();
     }
-    
+
+    /**
+     * Handle undo.
+     *
+     * @param event the event
+     */
     private void handle_undo(ActionEvent event) {
         Mediator.getInstance().undo();
         event.consume();
     }
-    
+
+    /**
+     * Handle redo.
+     *
+     * @param event the event
+     */
     private void handle_redo(ActionEvent event) {
         Mediator.getInstance().redo();
         event.consume();

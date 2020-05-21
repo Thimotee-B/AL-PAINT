@@ -10,16 +10,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 
-
-
+/**
+ * The type EditMenuBuilderJavaFx implements MenuBuilder,
+ * And build an editionMenu in JavaFx style.
+ */
 public class EditMenuBuilderJavaFx implements EditMenuBuilder {
 
     GenericWhiteBoard whiteBoard;
     IShape toEdit;
-
     ColorPicker chooser = null;
     Dialog<ButtonType> dialog;
-
     TextField x      = null;
     TextField y      = null;
     TextField rotate = null;
@@ -27,28 +27,33 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
     TextField roundW = null;
     TextField roundH = null;
     ButtonType apply, cancel, ok;
-
     int undoCount = 0;
-
     int r = -1;
     int g = -1;
     int b = -1;
-
     int posX = -1;
     int posY = -1;
-
     double rotateValue = -1;
     double scaleValue  = -1;
     int    roundwidth  = -1;
     int    roundheight = -1;
 
 
+    /**
+     * Instantiates a new Edit menu builder java fx.
+     *
+     * @param whiteBoard the white board
+     * @param toEdit     the to edit
+     */
     public EditMenuBuilderJavaFx(GenericWhiteBoard whiteBoard, IShape toEdit){
         this.whiteBoard = whiteBoard;
         this.toEdit     = toEdit;
     }
 
 
+    /**
+     * Build dialog with javaFx style.
+     */
     @Override
     public void buildDialog() {
         dialog = new Dialog<>();
@@ -58,6 +63,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
 
     }
 
+    /**
+     * Build color picker : use javaFX colorPicker.
+     */
     @Override
     public void buildColorPicker() {
         chooser = new ColorPicker(
@@ -77,6 +85,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
         );
     }
 
+    /**
+     * Build position picker in javafx Style.
+     */
     @Override
     public void buildPositionPicker() {
         x = new TextField();
@@ -89,6 +100,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
 
     }
 
+    /**
+     * Build rotation picker  in javafx Style.
+     */
     @Override
     public void buildRotationPicker() {
         rotate = new TextField();
@@ -96,6 +110,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
         rotate.setMaxSize(140, 20);
     }
 
+    /**
+     * Build scale picker  in javafx Style.
+     */
     @Override
     public void buildScalePicker() {
         scale = new TextField();
@@ -103,6 +120,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
         scale.setMaxSize(140, 20);
     }
 
+    /**
+     * Build round picker in javafx Style.
+     */
     @Override
     public void buildRoundPicker() {
         roundW = new TextField();
@@ -115,6 +135,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
     }
 
 
+    /**
+     * Build dialog content in javafx Style.
+     */
     @Override
     public void buildDialogContent() {
         GridPane g = new GridPane();
@@ -151,6 +174,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
     }
 
 
+    /**
+     * Build dialog buttons in javafx Style.
+     */
     @Override
     public void buildDialogButtons() {
         apply  = new ButtonType("Apply", ButtonBar.ButtonData.APPLY);
@@ -161,6 +187,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
 
     }
 
+    /**
+     * Build result in javafx Style.
+     */
     public void buildResult() {
 
         dialog.showAndWait().ifPresent(response -> {
@@ -181,6 +210,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
 
     }
 
+    /**
+     * Apply all the modifications asked and close dialog if ok.
+     */
     private void applyOrOk(){
         if (r != -1 || g != -1 || b != -1) {
             Mediator.getInstance().reColor(toEdit, r, g, b);
@@ -194,6 +226,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
         Mediator.getInstance().Notify();
     }
 
+    /**
+     * Modify rotate if needed.
+     */
     private void modifyRotateIfNeeded(){
         try {
             rotateValue = (rotate.getText().compareTo("") == 0) ? -1 : Double.parseDouble(rotate.getText());
@@ -207,6 +242,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
         }
     }
 
+    /**
+     * Modify round if needed.
+     */
     private void modifyRoundIfNeeded(){
         try {
             roundwidth = (roundW.getText().compareTo("") == 0) ? -1 : Integer.parseInt(roundW.getText());
@@ -233,6 +271,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
 
     }
 
+    /**
+     * Modify scale if needed.
+     */
     private void modifyScaleIfNeeded(){
         try {
             scaleValue = (scale.getText().compareTo("") == 0) ? -1 : Double.parseDouble(scale.getText());
@@ -251,6 +292,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
         }
     }
 
+    /**
+     * Modify position if needed.
+     */
     private void modifyPositionIfNeeded(){
         undoCount++;
         boolean modifyX = true, modifyY = true;
@@ -287,6 +331,9 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
           undoCount--;
     }
 
+    /**
+     * Check limits.
+     */
     private void checkLimits(){
 
         if (toEdit instanceof  Composite){
@@ -304,6 +351,12 @@ public class EditMenuBuilderJavaFx implements EditMenuBuilder {
         }
     }
 
+    /**
+     * Is composite full of rectangle boolean.
+     *
+     * @param toEdit the to edit
+     * @return the boolean
+     */
     private boolean isCompositeFullOfRectangle(IShape toEdit){
         if(toEdit instanceof  Composite){
             Composite c = (Composite) toEdit;

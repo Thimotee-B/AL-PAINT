@@ -5,8 +5,17 @@ import editeur.model.draw.JavaFxDrawBridge;
 import editeur.view.GUIFactory.GUIFactory;
 import editeur.view.GUIFactory.JavaFxFactory;
 
+/**
+ * The type ApplicationConfigurator simply selects bridge and factory with config asked.
+ */
 public class ApplicationConfigurator {
-    
+
+    /**
+     * Select the guifactory implementation.
+     *
+     * @param config the config
+     * @return the gui factory
+     */
     public static GUIFactory selectFactory(String config) {
         if (config.compareToIgnoreCase("JavaFx") == 0)
             return new JavaFxFactory();
@@ -15,7 +24,13 @@ public class ApplicationConfigurator {
         
         return null;
     }
-    
+
+    /**
+     * Select the draw bridge implementation.
+     *
+     * @param config the config
+     * @return the draw bridge
+     */
     public static DrawBridge selectDrawBridgeImpl(String config) {
         if (config.compareToIgnoreCase("JavaFx") == 0)
             return new JavaFxDrawBridge();

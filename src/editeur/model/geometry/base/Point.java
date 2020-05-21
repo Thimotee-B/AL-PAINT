@@ -3,15 +3,19 @@ package editeur.model.geometry.base;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * The type Point.
+ */
 public class Point implements Cloneable, Serializable{
 
     private static final long serialVersionUID = 7069840385821410448L;
     private int x, y;
 
     /**
+     * Instantiates a new Point.
      *
-     * @param x
-     * @param y
+     * @param x the x
+     * @param y the y
      */
     public Point(int x, int y) {
         this.x = x;
@@ -19,8 +23,9 @@ public class Point implements Cloneable, Serializable{
     }
 
     /**
+     * Instantiates a new Point.
      *
-     * @param p
+     * @param p the p
      */
     public Point(Point p) {
         this.x = p.getX();
@@ -28,9 +33,10 @@ public class Point implements Cloneable, Serializable{
     }
 
     /**
+     * Move.
      *
-     * @param x
-     * @param y
+     * @param x the x
+     * @param y the y
      */
     public void move(int x, int y) {
         this.x = x;
@@ -38,32 +44,58 @@ public class Point implements Cloneable, Serializable{
     }
 
     /**
+     * Translate.
      *
-     * @param dx
-     * @param dy
+     * @param dx the dx
+     * @param dy the dy
      */
     public void translate(int dx, int dy) {
         this.x += dx;
         this.y += dy;
     }
-    
+
+    /**
+     * Gets x.
+     *
+     * @return the x
+     */
     public int getX() {
         return this.x;
     }
-    
+
+    /**
+     * Gets y.
+     *
+     * @return the y
+     */
     public int getY() {
         return this.y;
     }
 
+    /**
+     * Sets x.
+     *
+     * @param x the x
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     * Sets y.
+     *
+     * @param y the y
+     */
     public void setY(int y) {
         this.y = y;
     }
 
 
+    /**
+     * Clone point.
+     *
+     * @return the point
+     */
     public Point clone() {
         Point clone = null;
         try {
@@ -74,6 +106,12 @@ public class Point implements Cloneable, Serializable{
         return clone;
     }
 
+    /**
+     * Equals boolean.
+     *
+     * @param o the o
+     * @return the boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -83,6 +121,11 @@ public class Point implements Cloneable, Serializable{
                 y == point.y;
     }
 
+    /**
+     * Hash code int.
+     *
+     * @return the int
+     */
     @Override
     public int hashCode() {
         return Objects.hash(x, y);

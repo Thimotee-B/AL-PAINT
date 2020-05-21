@@ -11,6 +11,9 @@ import javafx.scene.layout.StackPane;
 
 import java.util.Vector;
 
+/**
+ * The type JavaFxMenuBuilder.
+ */
 public class JavaFxMenuBuilder implements MenuBuilder {
     static MenuBuilder     instance;
     ContextMenu    MainMenu;
@@ -20,14 +23,29 @@ public class JavaFxMenuBuilder implements MenuBuilder {
     IShape         clickedShape;
     static private boolean displayed = false, builded = false;
 
+    /**
+     * Instantiates a new Java fx menu builder.
+     */
     private JavaFxMenuBuilder() {}
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     static public MenuBuilder getInstance() {
         if (instance == null)
             instance = new JavaFxMenuBuilder();
         return instance;
     }
 
+    /**
+     * Build main menu.
+     *
+     * @param selectedShapes the selected shapes
+     * @param clickedShape   the clicked shape
+     * @param whiteboard     the whiteboard
+     */
     @Override
     public void buildMainMenu(Vector<IShape> selectedShapes,IShape clickedShape, GenericWhiteBoard whiteboard) {
         this.MainMenu            = new ContextMenu();
@@ -37,6 +55,9 @@ public class JavaFxMenuBuilder implements MenuBuilder {
     }
 
 
+    /**
+     * Build group item.
+     */
     @Override
     public void buildGroupItem() {
         MenuItem group = new MenuItem("Group");
@@ -51,6 +72,9 @@ public class JavaFxMenuBuilder implements MenuBuilder {
         this.MainMenu.getItems().add(group);
     }
 
+    /**
+     * Build ungroup item.
+     */
     @Override
     public void buildUngroupItem() {
         MenuItem ungroup = new MenuItem("Ungroup");
@@ -68,8 +92,9 @@ public class JavaFxMenuBuilder implements MenuBuilder {
     }
 
 
-
-
+    /**
+     * Build edit item.
+     */
     @Override
     public void buildEditItem() {
         if (clickedShape == null) return;
@@ -96,6 +121,15 @@ public class JavaFxMenuBuilder implements MenuBuilder {
 
     }
 
+    /**
+     * Build result menu.
+     *
+     * @param selectedShapes the selected shapes
+     * @param clickedShape   the clicked shape
+     * @param whiteBoard     the white board
+     * @param x              the x
+     * @param y              the y
+     */
     @Override
     public void buildResult(Vector<IShape> selectedShapes, IShape clickedShape, GenericWhiteBoard whiteBoard, int x, int y) {
         if (!builded) {
@@ -112,6 +146,9 @@ public class JavaFxMenuBuilder implements MenuBuilder {
         }
     }
 
+    /**
+     * Debuild.
+     */
     @Override
     public void debuild() {
         MainMenu.hide();

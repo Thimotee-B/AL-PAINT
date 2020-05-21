@@ -20,25 +20,43 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
+/**
+ * The type ApplicationFx extends Abstract Application in order to set javafx components we need, and
+ * to create the start point of the javafx native Application.
+ */
 public class ApplicationFx extends AbstractApplication {
     private BorderPane borderpane;
     private Scene scene;
     private Point old;
     private boolean OldinToolbar, OldinWhiteBoard;
 
+    /**
+     * Instantiates a new Application fx.
+     */
     public ApplicationFx() {
         super("JAVAFX");
     }
 
+    /**
+     * Init factory elements.
+     */
     @Override
     public void initFactoryElements() {
         super.initFactoryElements();
     }
 
+    /**
+     * Start.
+     */
     public void start() {
         super.start();
     }
 
+    /**
+     * Init.
+     *
+     * @throws Exception the exception
+     */
     @Override
     public void init() throws Exception {
         StackPane    toolbar  = (StackPane)   this.getToolBar().get();
@@ -65,6 +83,12 @@ public class ApplicationFx extends AbstractApplication {
         
     }
 
+    /**
+     * Start.
+     *
+     * @param primaryStage the primary stage
+     * @throws Exception the exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Al-Paint");
@@ -73,11 +97,20 @@ public class ApplicationFx extends AbstractApplication {
         primaryStage.show();
     }
 
+    /**
+     * Stop.
+     */
     @Override
     public void stop(){
         super.end();
     }
 
+    /**
+     * Save boolean.
+     *
+     * @param name the name
+     * @return the boolean
+     */
     @Override
     public boolean save(String name) {
         File savedFile = null;
@@ -112,6 +145,14 @@ public class ApplicationFx extends AbstractApplication {
         }
         return true;
     }
+
+    /**
+     * Load boolean.
+     *
+     * @param name        the name
+     * @param onlyToolbar the only toolbar
+     * @return the boolean
+     */
     @Override
     public boolean load(String name, boolean onlyToolbar) {
         Mediator.getInstance().clearView();
@@ -165,6 +206,9 @@ public class ApplicationFx extends AbstractApplication {
     }
 
 
+    /**
+     * Add events.
+     */
     public void addEvents() {
 
         scene.setOnMouseClicked(
@@ -234,23 +278,52 @@ public class ApplicationFx extends AbstractApplication {
     }
 
 
+    /**
+     * Gets tool bar point.
+     *
+     * @param e the e
+     * @return the tool bar point
+     */
     private Point getToolBarPoint(MouseEvent e) {
         StackPane toolbar  = (StackPane)this.getToolBar().get();
         Bounds b = toolbar.localToScene(toolbar.getBoundsInLocal());
         return this.getToolBar().localPoint(b.getMinX(), b.getMinY(),e.getSceneX(), e.getSceneY());
     }
+
+    /**
+     * Gets white board point.
+     *
+     * @param e the e
+     * @return the white board point
+     */
     private Point getWhiteBoardPoint(MouseEvent e) {
         StackPane whiteboard  = (StackPane)this.getWhiteBoard().get();
         Bounds b = whiteboard.localToScene(whiteboard.getBoundsInLocal());
         return this.getWhiteBoard().localPoint(b.getMinX(), b.getMinY(),e.getSceneX(), e.getSceneY());
     }
 
+    /**
+     * In element boolean.
+     *
+     * @param x       the x
+     * @param y       the y
+     * @param element the element
+     * @return the boolean
+     */
     private boolean inElement(int x , int y,StackPane element) {
         Bounds b = element.localToScene(element.getBoundsInLocal());
         return ((x > b.getMinX() && x < b.getMinX() + element.getWidth())
                 && (y > b.getMinY() && y < b.getMinY() + element.getHeight()));
     }
 
+    /**
+     * In button boolean.
+     *
+     * @param x      the x
+     * @param y      the y
+     * @param button the button
+     * @return the boolean
+     */
     private boolean inButton(int x , int y, Button button){
         Bounds b = button.localToScene(button.getBoundsInLocal());
         return ((x > b.getMinX() && x < b.getMinX() + button.getWidth())
