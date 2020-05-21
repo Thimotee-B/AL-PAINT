@@ -320,7 +320,7 @@ public abstract class Shape implements IShape {
      * @param o the o
      * @return the boolean
      */
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -336,14 +336,14 @@ public abstract class Shape implements IShape {
                 rotationCenter.equals(shape.rotationCenter) &&
                 translationCenter.equals(shape.translationCenter);
     }
-
+*/
     /**
      * Hash code int.
      *
      * @return the int
      */
-    @Override
+  /*  @Override
     public int hashCode() {
         return Objects.hash(position, rotation, rotationCenter, translationCenter, r, g, b, alpha, width, height);
-    }
+    }*/
 }

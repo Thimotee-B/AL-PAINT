@@ -219,6 +219,7 @@ public class Composite extends Shape {
             this.remove(shape);
             shape.restore(memento.getCompositeMapMemento().get(shape));
             this.add(shape);
+
         }
     }
 

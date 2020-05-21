@@ -112,22 +112,22 @@ public class Point implements Cloneable, Serializable{
      * @param o the o
      * @return the boolean
      */
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Point point = (Point) o;
         return x == point.x &&
                 y == point.y;
-    }
+    }*/
 
     /**
      * Hash code int.
      *
      * @return the int
      */
-    @Override
+    /*@Override
     public int hashCode() {
         return Objects.hash(x, y);
-    }
+    }*/
 }
