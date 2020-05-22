@@ -28,8 +28,6 @@ public class CommandDelete extends Command {
     @Override
     public void undo(){
         super.undo();
-        if (this.source instanceof Composite) 
-            ((Composite) this.source).add(toDelete);
     }
 
     /**

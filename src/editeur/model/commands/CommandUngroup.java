@@ -29,9 +29,6 @@ public class CommandUngroup extends Command {
      */
     @Override
     public void undo(){
-        if (this.source instanceof Composite)
-            ((Composite) this.source).add(group);
-
         super.undo();
     }
 

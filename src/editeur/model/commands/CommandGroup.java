@@ -44,8 +44,6 @@ public class CommandGroup extends Command {
     @Override
     public void undo(){
         super.undo();
-        if (this.source instanceof Composite)
-            ((Composite) this.source).remove(group);
         group.clear();
     }
 
