@@ -45,6 +45,7 @@ public class CommandGroup extends Command {
     public void undo(){
         super.undo();
         group.clear();
+        group = null;
     }
 
     /**
@@ -52,14 +53,18 @@ public class CommandGroup extends Command {
      */
     @Override
     public void execute(){
+        super.execute();
         if(group == null) {
             group = new Composite(c[0], c[1], c[2], c[3]);
             for (IShape shape : selected)
                 group.add(shape);
-            if (this.source instanceof Composite)
+            if (this.source instanceof Composite) {
                 ((Composite) this.source).add(group);
+                for (IShape s : group.getComponents())
+                    ((Composite) this.source).remove(s);
+
+            }
         }
-        super.execute();
     }
 
 }
