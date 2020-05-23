@@ -320,8 +320,8 @@ public abstract class Shape implements IShape {
      * @param o the o
      * @return the boolean
      */
-    /*@Override
-    public boolean equals(Object o) {
+
+    public boolean myequals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Shape shape = (Shape) o;
@@ -332,18 +332,9 @@ public abstract class Shape implements IShape {
                 Double.compare(shape.alpha, alpha) == 0 &&
                 width == shape.width &&
                 height == shape.height &&
-                position.equals(shape.position) &&
-                rotationCenter.equals(shape.rotationCenter) &&
-                translationCenter.equals(shape.translationCenter);
+                position.myequals(shape.position) &&
+                rotationCenter.myequals(shape.rotationCenter) &&
+                translationCenter.myequals(shape.translationCenter);
     }
-*/
-    /**
-     * Hash code int.
-     *
-     * @return the int
-     */
-  /*  @Override
-    public int hashCode() {
-        return Objects.hash(position, rotation, rotationCenter, translationCenter, r, g, b, alpha, width, height);
-    }*/
+
 }

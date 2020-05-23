@@ -165,5 +165,13 @@ public interface IShape extends Cloneable, Originator, Serializable, Drawable {
      */
     boolean isInside(Point p);
 
+    /**
+     * Equals boolean.
+     *
+     * @param o the o
+     * @return the boolean
+     */
+
+    boolean myequals(Object o);
 }
 

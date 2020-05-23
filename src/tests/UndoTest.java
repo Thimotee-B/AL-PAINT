@@ -66,11 +66,11 @@ public class UndoTest {
         IShape clone = shape.clone();
         Mediator.getInstance().move(shape,50,50);
         Mediator.getInstance().undo();
-        assertEquals("Move test",shape,clone);
+        assertTrue("Move test",shape.myequals(clone));
 
         Mediator.getInstance().add(app.getWhiteBoard().getComposite(),shape);
         Mediator.getInstance().reColor(shape,50,50,50);
         Mediator.getInstance().undo();
-        assertEquals("RecolorUndo test",shape,clone);
+        assertTrue("RecolorUndo test",shape.myequals(clone));
     }
 }

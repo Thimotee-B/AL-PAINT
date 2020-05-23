@@ -72,7 +72,7 @@ public class RedoTest {
         Mediator.getInstance().undo();
         Mediator.getInstance().redo();
         Mediator.getInstance().redo();
-        assertEquals("Move test",shape,clone);
+        assertTrue("Move test",shape.myequals(clone));
 
         Mediator.getInstance().add(app.getWhiteBoard().getComposite(),shape);
         Mediator.getInstance().add(app.getWhiteBoard().getComposite(),clone);
@@ -82,6 +82,6 @@ public class RedoTest {
         Mediator.getInstance().undo();
         Mediator.getInstance().redo();
         Mediator.getInstance().redo();
-        assertEquals("RecolorUndo test",shape,clone);
+        assertTrue("RecolorUndo test",shape.myequals(clone));
     }
 }
