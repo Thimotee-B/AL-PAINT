@@ -97,7 +97,7 @@ public class Mediator implements IMediator {
 
 //Override IMediator interface.
     /**
-     * Define the start behavior. Auto load the old toolbar if exists else init it with 3 shapes.
+     * Define the start behavior. Auto load the old toolbar if exists else init it with 4 shapes.
      */
     @Override
     public void start() {
