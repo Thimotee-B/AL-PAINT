@@ -15,12 +15,12 @@ import java.util.Vector;
  * The type JavaFxMenuBuilder.
  */
 public class JavaFxMenuBuilder implements MenuBuilder {
-    static MenuBuilder     instance;
-    ContextMenu    MainMenu;
-    EditMenuBuilder builder;
+    static MenuBuilder instance;
+    ContextMenu        MainMenu;
+    EditMenuBuilder    builder;
     GenericWhiteBoard  whiteboard;
-    Vector<IShape> selectedShapes;
-    IShape         clickedShape;
+    Vector<IShape>     selectedShapes;
+    IShape             clickedShape;
     static private boolean displayed = false, builded = false;
 
     /**
@@ -48,10 +48,10 @@ public class JavaFxMenuBuilder implements MenuBuilder {
      */
     @Override
     public void buildMainMenu(Vector<IShape> selectedShapes,IShape clickedShape, GenericWhiteBoard whiteboard) {
-        this.MainMenu            = new ContextMenu();
-        this.selectedShapes       = selectedShapes;
-        this.whiteboard = whiteboard;
-        this.clickedShape = clickedShape;
+        this.MainMenu        = new ContextMenu();
+        this.selectedShapes  = selectedShapes;
+        this.whiteboard      = whiteboard;
+        this.clickedShape    = clickedShape;
     }
 
 

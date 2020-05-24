@@ -104,11 +104,14 @@ public class Mediator implements IMediator {
         if (!this.load(DEFAULT_SAVE_NAME, true)) {
             Rectangle r = new Rectangle(20, 50, 100, 100);
             r.changeColor(22, 169, 243);
+            Rectangle r2 = new Rectangle(20, 220, 80, 20);
+            r2.changeColor(222, 169, 243);
             SimplePolygon p = new SimplePolygon(20, 300, 6, 40);
             p.changeColor(50, 50, 0);
             SimplePolygon p2 = new SimplePolygon(20, 500, 5, 50);
             p.changeColor(50, 150, 80);
             app.getToolBar().addShape(r);
+            app.getToolBar().addShape(r2);
             app.getToolBar().addShape(p);
             app.getToolBar().addShape(p2);
             this.save(DEFAULT_SAVE_NAME);
